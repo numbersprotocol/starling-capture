@@ -4,6 +4,8 @@ import android.text.TextUtils
 import android.util.Patterns
 import java.util.regex.Pattern
 
+fun CharSequence.isInt() = toString().toIntOrNull() != null
+
 fun CharSequence.isPositiveInteger(): Boolean {
     val integer = toString().toIntOrNull() ?: return false
     return integer > 0
