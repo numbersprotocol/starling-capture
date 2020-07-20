@@ -8,14 +8,12 @@ import io.numbersprotocol.starlingcapture.data.caption.Caption
 import io.numbersprotocol.starlingcapture.data.caption.CaptionRepository
 import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import io.numbersprotocol.starlingcapture.data.proof.Proof
-import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import io.numbersprotocol.starlingcapture.data.signature.SignatureRepository
 import io.numbersprotocol.starlingcapture.util.Event
 import io.numbersprotocol.starlingcapture.util.MimeType
 import kotlinx.coroutines.launch
 
 class ProofViewModel(
-    private val proofRepository: ProofRepository,
     private val informationRepository: InformationRepository,
     private val signatureRepository: SignatureRepository,
     private val captionRepository: CaptionRepository

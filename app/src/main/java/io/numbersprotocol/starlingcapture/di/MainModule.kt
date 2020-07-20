@@ -94,7 +94,7 @@ val mainModule = module {
     viewModel { (handle: SavedStateHandle) -> StorageViewModel(handle, get(), get()) }
     fragment { StorageFragment(get()) }
 
-    viewModel { ProofViewModel(get(), get(), get(), get()) }
+    viewModel { ProofViewModel(get(), get(), get()) }
     fragment { ProofFragment(get(), get(), get()) }
 
     fragment { SettingFragment() }

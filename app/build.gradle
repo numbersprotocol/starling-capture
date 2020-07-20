@@ -84,8 +84,8 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.8"
 
     implementation "androidx.core:core-ktx:1.3.0"
     implementation "androidx.appcompat:appcompat:1.1.0"
@@ -105,9 +105,9 @@ dependencies {
 
     implementation "com.google.android.material:material:1.3.0-alpha01"
 
-    implementation "org.koin:koin-core:2.1.5"
+    implementation "org.koin:koin-core:2.1.6"
     implementation "org.koin:koin-core-ext:2.1.5"
-    implementation "org.koin:koin-androidx-viewmodel:2.1.5"
+    implementation "org.koin:koin-androidx-viewmodel:2.1.6"
     implementation "org.koin:koin-androidx-fragment:2.1.5"
     testImplementation "org.koin:koin-test:2.1.5"
 
@@ -122,13 +122,13 @@ dependencies {
     implementation "com.afollestad.material-dialogs:core:3.3.0"
     implementation "com.afollestad.material-dialogs:lifecycle:3.3.0"
     implementation "com.afollestad.material-dialogs:input:3.3.0"
-    implementation "com.afollestad.material-dialogs:bottomsheets:3.2.1"
+    implementation "com.afollestad.material-dialogs:bottomsheets:3.3.0"
 
     implementation "io.coil-kt:coil:0.11.0"
     implementation "io.coil-kt:coil-video:0.11.0"
 
     implementation "com.jakewharton.timber:timber:4.7.1"
-    implementation 'com.karumi:dexter:6.2.0'
+    implementation 'com.karumi:dexter:6.2.1'
     implementation "com.github.stfalcon:stfalcon-imageviewer:1.0.1"
     implementation "com.github.numbersprotocol:android-info-snapshot:0.4.1"
     implementation files("libs/zkma-3.4.6.aar")
@@ -139,7 +139,7 @@ dependencies {
     numbersImplementation "com.google.firebase:firebase-crashlytics:17.1.1"
 
     testImplementation "junit:junit:4.13"
-    testImplementation "org.mockito:mockito-core:3.3.3"
+    testImplementation "org.mockito:mockito-core:3.4.4"
 
     androidTestImplementation "androidx.test.ext:junit:1.1.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"

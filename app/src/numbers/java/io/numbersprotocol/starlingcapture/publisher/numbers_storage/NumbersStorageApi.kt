@@ -7,13 +7,13 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.util.isEmail
+import io.numbersprotocol.starlingcapture.util.isInt
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import org.json.JSONException
 import org.json.JSONObject
-import org.koin.ext.isInt
 import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit

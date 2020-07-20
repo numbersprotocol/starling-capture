@@ -28,7 +28,7 @@ class InternalCameraProvider(
     private val savedStateHandle: SavedStateHandle
 ) {
 
-    var currentCachedMediaFile: MediaFile? = savedStateHandle.run {
+    private var currentCachedMediaFile: MediaFile? = savedStateHandle.run {
         if (contains(CURRENT_CACHED_MEDIA_FILE)) get(CURRENT_CACHED_MEDIA_FILE)
         else null
     }
