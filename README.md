@@ -1,5 +1,7 @@
 # Starling Capture
 
+[![build](https://github.com/numbersprotocol/starling-capture/workflows/build/badge.svg)](https://github.com/numbersprotocol/starling-capture/actions?query=workflow%3Abuild)
+
 ## Highlight Features
 
 * Generate digital proof on media assets created.
