@@ -128,7 +128,7 @@ dependencies {
     implementation "io.coil-kt:coil-video:0.11.0"
 
     implementation "com.jakewharton.timber:timber:4.7.1"
-    implementation 'com.karumi:dexter:6.2.0'
+    implementation 'com.karumi:dexter:6.2.1'
     implementation "com.github.stfalcon:stfalcon-imageviewer:1.0.1"
     implementation "com.github.numbersprotocol:android-info-snapshot:0.4.1"
     implementation files("libs/zkma-3.4.6.aar")
