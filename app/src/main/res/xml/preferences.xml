@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/appearance">
+        <ListPreference
+            app:defaultValue="-1"
+            app:entries="@array/entries_dark_mode"
+            app:entryValues="@array/entry_values_dark_mode"
+            app:icon="@drawable/ic_moon"
+            app:key="@string/key_dark_mode"
+            app:title="@string/dark_mode"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/signature">
+        <EditTextPreference
+            app:icon="@drawable/ic_lock_open"
+            app:key="@string/key_default_public_key"
+            app:title="@string/default_public_key" />
+        <EditTextPreference
+            app:icon="@drawable/ic_key"
+            app:key="@string/key_default_private_key"
+            app:title="@string/default_private_key" />
+        <Preference
+            app:icon="@drawable/ic_zion"
+            app:key="@string/key_sign_with_zion"
+            app:title="@string/sign_with_zion" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/publication">
+        <Preference
+            app:icon="@drawable/ic_publish"
+            app:key="@string/key_publisher"
+            app:title="@string/publisher" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/about">
+        <Preference
+            app:icon="@drawable/ic_info"
+            app:key="@string/key_version"
+            app:selectable="false"
+            app:title="@string/version" />
+    </PreferenceCategory>
+</PreferenceScreen>

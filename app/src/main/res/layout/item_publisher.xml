@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="publisher"
+            type="io.numbersprotocol.starlingcapture.publisher.PublisherConfig" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/keyline_3"
+            app:imageResource="@{publisher.icon}"
+            tools:srcCompat="@drawable/ic_publish" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="@{publisher.name}"
+            android:textAppearance="?attr/textAppearanceListItem"
+            tools:text="@tools:sample/lorem" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/keyline_3"
+            android:src="@{publisher.isEnabled ? @drawable/ic_toggle_on : @drawable/ic_toggle_off}"
+            tools:srcCompat="@drawable/ic_toggle_off" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

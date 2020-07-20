@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.MyApp" parent="Base.Theme.MyApp" />
+
+    <style name="Base.Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!--Material color attributes (light theme) -->
+        <!--Platform attributes-->
+        <item name="android:navigationBarColor">@color/immersive_sys_ui</item>
+        <item name="android:statusBarColor">@color/immersive_sys_ui</item>
+        <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
+        <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
+        <!--selection controls.-->
+        <item name="colorPrimary">@color/cyan_500</item>
+        <item name="colorPrimaryVariant">@color/cyan_700</item>
+        <item name="colorSecondary">@color/cyan_600</item>
+        <item name="colorSecondaryVariant">@color/cyan_800</item>
+        <!--colorBackground appears behind scrollable content and is used for the default window-->
+        <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
+        <!--and menus. colorError is used to indicate an error state for components such as-->
+        <!--text fields.-->
+        <item name="android:colorBackground">@color/white_50</item>
+        <item name="colorSurface">@color/white_50</item>
+        <item name="colorError">@color/red_600</item>
+        <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
+        <!--on which they appear.-->
+        <item name="colorOnPrimary">@color/white_50</item>
+        <item name="colorOnSecondary">@color/white_50</item>
+        <item name="colorOnBackground">@color/black_900</item>
+        <item name="colorOnSurface">@color/black_900</item>
+        <item name="colorOnError">@color/white_50</item>
+        <!--Material type attributes-->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.MyTheme.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.MyTheme.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.MyTheme.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.MyTheme.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.MyTheme.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MyTheme.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.MyTheme.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.MyTheme.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MyTheme.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.MyTheme.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.MyTheme.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.MyTheme.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.MyTheme.Overline</item>
+        <!--Material shape attributes-->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MyTheme.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.MyTheme.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.MyTheme.LargeComponent
+        </item>
+        <!--Component styles-->
+        <item name="appBarLayoutStyle">@style/Widget.MyTheme.AppBarLayout</item>
+        <item name="materialCardViewStyle">@style/Widget.MyTheme.CardView</item>
+        <!--Action Mode-->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/Widget.MyTheme.ActionMode</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_close</item>
+    </style>
+</resources>

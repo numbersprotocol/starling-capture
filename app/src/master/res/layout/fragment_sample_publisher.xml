@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".publisher.sample.SamplePublisherFragment">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.numbersprotocol.starlingcapture.publisher.sample.SamplePublisherViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:paddingEndSystemWindowInsets="@{true}"
+        app:paddingStartSystemWindowInsets="@{true}"
+        app:paddingTopSystemWindowInsets="@{true}">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:menu="@menu/sample_publisher"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:title="@string/sample_publisher" />
+        </com.google.android.material.appbar.AppBarLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

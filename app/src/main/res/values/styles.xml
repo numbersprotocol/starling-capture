@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Components-->
+
+    <!--App Bar Layout-->
+    <style name="Widget.MyTheme.AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Surface">
+        <item name="elevation">0dp</item>
+    </style>
+
+    <!--Toolbar-->
+    <style name="Widget.MyTheme.Toolbar.Image" parent="Widget.MaterialComponents.Toolbar.PrimarySurface">
+        <item name="android:background">@color/immersive_sys_ui</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <!--Action Mode-->
+    <style name="Widget.MyTheme.ActionMode" parent="Widget.AppCompat.ActionMode">
+        <item name="background">?attr/colorPrimary</item>
+    </style>
+
+    <!--Card View-->
+    <style name="Widget.MyTheme.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardElevation">@dimen/keyline_1</item>
+    </style>
+
+    <!--Divider-->
+    <style name="Widget.MyTheme.Divider" parent="">
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <!--Button-->
+    <style name="Widget.MyTheme.Button.TextButton.IconOnly" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+</resources>

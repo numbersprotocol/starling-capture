@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="information"
+            type="io.numbersprotocol.starlingcapture.data.information.Information" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/keyline_1"
+        android:paddingBottom="@dimen/keyline_1">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{information.name}"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textIsSelectable="true"
+            tools:text="@tools:sample/lorem" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{information.value}"
+            android:textIsSelectable="true"
+            tools:text="@tools:sample/lorem" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

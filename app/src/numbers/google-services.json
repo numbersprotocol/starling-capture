@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "651046991800",
+    "firebase_url": "https://starling-capture.firebaseio.com",
+    "project_id": "starling-capture",
+    "storage_bucket": "starling-capture.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651046991800:android:43ea860222f190ed13c14d",
+        "android_client_info": {
+          "package_name": "io.numbersprotocol.starlingcapture.numbers.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "651046991800-ajseu203f9bvjjbr9dg2g1vocrdi724u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO4h7LB1YZ8oC56SgEphai--nBijaR_yo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "651046991800-ajseu203f9bvjjbr9dg2g1vocrdi724u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651046991800:android:b351bb2f1014131013c14d",
+        "android_client_info": {
+          "package_name": "io.numbersprotocol.starlingcapture.numbers.qa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "651046991800-ajseu203f9bvjjbr9dg2g1vocrdi724u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO4h7LB1YZ8oC56SgEphai--nBijaR_yo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "651046991800-ajseu203f9bvjjbr9dg2g1vocrdi724u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

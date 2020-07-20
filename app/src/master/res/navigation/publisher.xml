@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/publisher_graph"
+    app:startDestination="@id/publisherFragment">
+
+    <fragment
+        android:id="@+id/publisherFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.publisher_config.PublisherConfigFragment"
+        android:label="@string/publisher"
+        tools:layout="@layout/fragment_publisher">
+        <action
+            android:id="@+id/toSamplePublisherFragment"
+            app:destination="@id/samplePublisherFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/samplePublisherFragment"
+        android:name="io.numbersprotocol.starlingcapture.publisher.sample.SamplePublisherFragment"
+        android:label="@string/sample_publisher"
+        tools:layout="@layout/fragment_sample_publisher" />
+</navigation>

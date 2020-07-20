@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature.ccapi.CcapiFragment">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="io.numbersprotocol.starlingcapture.feature.ccapi.CcapiViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:paddingEndSystemWindowInsets="@{true}"
+        app:paddingStartSystemWindowInsets="@{true}"
+        app:paddingTopSystemWindowInsets="@{true}">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                app:menu="@menu/ccapi"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:title="@string/canon_ccapi" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:minHeight="?android:attr/listPreferredItemHeight">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/keyline_3"
+                        app:srcCompat="@drawable/ic_linked_camera" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/keyline_4"
+                        android:layout_marginTop="@dimen/keyline_1"
+                        android:layout_marginEnd="@dimen/keyline_1"
+                        android:layout_marginBottom="@dimen/keyline_1"
+                        android:layout_weight="1">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/editIpAddressAndPortTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:fadingEdge="horizontal"
+                            android:singleLine="true"
+                            android:text="@string/camera_address"
+                            android:textAppearance="?android:attr/textAppearanceListItem"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:fadingEdge="horizontal"
+                            android:singleLine="true"
+                            android:text="@{viewModel.address}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/editIpAddressAndPortTitle"
+                            tools:text="@tools:sample/lorem" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MyTheme.Button.TextButton.IconOnly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/keyline_2"
+                        android:enabled="@{!viewModel.isEnabled}"
+                        android:onClick="@{() -> viewModel.editAddress()}"
+                        android:tooltipText="@string/delete"
+                        app:icon="@drawable/ic_edit" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:id="@+id/divider"
+                    style="@style/Widget.MyTheme.Divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    app:layout_constraintTop_toBottomOf="@id/providerTextView" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/keyline_2">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/liveViewTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/keyline_3"
+                        android:text="@string/live_view"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="16:9"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/liveViewTitle">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:visibility="@{viewModel.isEnabled ? View.VISIBLE : View.GONE}"
+                            app:animationSrc="@{viewModel.liveView}"
+                            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/nothing_here"
+                            android:visibility="@{viewModel.isEnabled ? View.GONE : View.VISIBLE}" />
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

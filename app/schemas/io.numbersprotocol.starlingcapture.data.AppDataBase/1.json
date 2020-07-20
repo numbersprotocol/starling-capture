@@ -1,0 +1,189 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "2f6d52d976386b50a996b1ccc9db0d54",
+    "entities": [
+      {
+        "tableName": "Proof",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`hash` TEXT NOT NULL, `mimeType` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`hash`))",
+        "fields": [
+          {
+            "fieldPath": "hash",
+            "columnName": "hash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mimeType",
+            "columnName": "mimeType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "hash"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Information",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`proofHash` TEXT NOT NULL, `provider` TEXT NOT NULL, `name` TEXT NOT NULL, `value` TEXT NOT NULL, PRIMARY KEY(`proofHash`, `provider`, `name`), FOREIGN KEY(`proofHash`) REFERENCES `Proof`(`hash`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "proofHash",
+            "columnName": "proofHash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "provider",
+            "columnName": "provider",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "proofHash",
+            "provider",
+            "name"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Proof",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "proofHash"
+            ],
+            "referencedColumns": [
+              "hash"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Signature",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`proofHash` TEXT NOT NULL, `provider` TEXT NOT NULL, `signature` TEXT NOT NULL, `publicKey` TEXT NOT NULL, PRIMARY KEY(`proofHash`, `provider`, `signature`, `publicKey`), FOREIGN KEY(`proofHash`) REFERENCES `Proof`(`hash`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "proofHash",
+            "columnName": "proofHash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "provider",
+            "columnName": "provider",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "signature",
+            "columnName": "signature",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publicKey",
+            "columnName": "publicKey",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "proofHash",
+            "provider",
+            "signature",
+            "publicKey"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Proof",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "proofHash"
+            ],
+            "referencedColumns": [
+              "hash"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Caption",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`proofHash` TEXT NOT NULL, `text` TEXT NOT NULL, PRIMARY KEY(`proofHash`), FOREIGN KEY(`proofHash`) REFERENCES `Proof`(`hash`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "proofHash",
+            "columnName": "proofHash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "proofHash"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Proof",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "proofHash"
+            ],
+            "referencedColumns": [
+              "hash"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2f6d52d976386b50a996b1ccc9db0d54')"
+    ]
+  }
+}

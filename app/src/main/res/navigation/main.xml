@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/storageFragment">
+
+    <include app:graph="@navigation/publisher" />
+
+    <fragment
+        android:id="@+id/storageFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.storage.StorageFragment"
+        android:label="@string/storage"
+        tools:layout="@layout/fragment_storage">
+        <action
+            android:id="@+id/toSettingFragment"
+            app:destination="@id/settingFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/toProofFragment"
+            app:destination="@id/proofFragment" />
+        <action
+            android:id="@+id/toCcapiFragment"
+            app:destination="@id/ccapiFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.setting.SettingFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_setting">
+        <action
+            android:id="@+id/toZionFragment"
+            app:destination="@id/zionFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/toPublisherGraph"
+            app:destination="@id/publisher_graph"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/proofFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.proof.ProofFragment"
+        android:label="@string/proof_details"
+        tools:layout="@layout/fragment_proof">
+        <argument
+            android:name="proof"
+            app:argType="io.numbersprotocol.starlingcapture.data.proof.Proof" />
+    </fragment>
+    <fragment
+        android:id="@+id/zionFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.zion.ZionFragment"
+        android:label="@string/sign_with_zion"
+        tools:layout="@layout/fragment_zion" />
+    <fragment
+        android:id="@+id/ccapiFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.ccapi.CcapiFragment"
+        android:label="@string/canon_ccapi"
+        tools:layout="@layout/fragment_ccapi" />
+</navigation>

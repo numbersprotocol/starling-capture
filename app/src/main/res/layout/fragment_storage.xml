@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature.storage.StorageFragment">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.numbersprotocol.starlingcapture.feature.storage.StorageViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:paddingEndSystemWindowInsets="@{true}"
+        app:paddingStartSystemWindowInsets="@{true}"
+        app:paddingTopSystemWindowInsets="@{true}">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                app:menu="@menu/storage_option"
+                app:title="@string/starling_capture" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/keyline_2"
+            android:layout_marginEnd="@dimen/keyline_2"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/keyline_5"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:paddingBottomSystemWindowInsets="@{true}"
+            app:spanCount="4"
+            tools:itemCount="26"
+            tools:listitem="@layout/item_proof" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addProofButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/keyline_3"
+            android:onClick="@{() -> viewModel.addProof()}"
+            app:marginBottomSystemWindowInsets="@{true}"
+            app:srcCompat="@drawable/ic_add" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

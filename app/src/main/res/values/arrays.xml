@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="entries_dark_mode">
+        <item>@string/light</item>
+        <item>@string/dark</item>
+        <item>@string/set_by_battery_saver</item>
+        <item>@string/system_default</item>
+    </string-array>
+    <string-array name="entry_values_dark_mode">
+        <item>1</item> <!--MODE_NIGHT_NO-->
+        <item>2</item> <!--MODE_NIGHT_YES-->
+        <item>3</item> <!--MODE_NIGHT_AUTO_BATTERY-->
+        <item>-1</item> <!--MODE_NIGHT_FOLLOW_SYSTEM-->
+    </string-array>
+</resources>

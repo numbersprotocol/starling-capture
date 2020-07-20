@@ -1,0 +1,247 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature.proof.ProofFragment">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="io.numbersprotocol.starlingcapture.feature.proof.ProofViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurface"
+        app:paddingEndSystemWindowInsets="@{true}"
+        app:paddingStartSystemWindowInsets="@{true}">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/thumbImageView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:onClick="@{() -> viewModel.viewMedia()}"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="@dimen/keyline_2"
+                    android:layout_marginBottom="@dimen/keyline_2"
+                    android:visibility="@{viewModel.isVideo ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintWidth_percent=".15"
+                    app:srcCompat="@drawable/ic_videocam"
+                    app:tint="@color/white_50" />
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    style="@style/Widget.MyTheme.Toolbar.Image"
+                    android:layout_width="0dp"
+                    android:layout_height="?android:attr/actionBarSize"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:marginTopSystemWindowInsets="@{true}"
+                    app:menu="@menu/proof"
+                    app:navigationIcon="@drawable/ic_arrow_back"
+                    app:title="@string/proof_details" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/keyline_2"
+                android:layout_marginBottom="@dimen/keyline_2"
+                android:orientation="vertical"
+                app:divider="@drawable/empty_divider"
+                app:marginBottomSystemWindowInsets="@{true}"
+                app:showDividers="middle">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/keyline_2"
+                    android:layout_marginEnd="@dimen/keyline_2"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/caption"
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        app:layout_constraintBottom_toTopOf="@id/captionTextView"
+                        app:layout_constraintEnd_toStartOf="@id/editCaptionButton"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/captionTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.caption == null || viewModel.caption.text.empty ? `(` + @string/nothing_here + `)` : viewModel.caption.text}"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textIsSelectable="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/editCaptionButton"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="@tools:sample/lorem" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/editCaptionButton"
+                        style="@style/Widget.MyTheme.Button.TextButton.IconOnly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{() -> viewModel.editCaption()}"
+                        android:tooltipText="@string/edit_caption"
+                        app:icon="@drawable/ic_edit"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/keyline_2"
+                    android:layout_marginEnd="@dimen/keyline_2"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hash"
+                        android:textAppearance="?attr/textAppearanceSubtitle2" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.proof.hash}"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textIsSelectable="true"
+                        tools:text="@tools:sample/lorem" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/keyline_2"
+                    android:layout_marginEnd="@dimen/keyline_2"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mime_type"
+                        android:textAppearance="?attr/textAppearanceSubtitle2" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.proof.mimeType.toString()}"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textIsSelectable="true"
+                        tools:text="@tools:sample/lorem" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/keyline_2"
+                    android:layout_marginEnd="@dimen/keyline_2"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/timestamp"
+                        android:textAppearance="?attr/textAppearanceSubtitle2" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.proof.formattedTimestamp}"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textIsSelectable="true"
+                        tools:text="@tools:sample/lorem" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/keyline_2"
+                        android:layout_marginEnd="@dimen/keyline_2"
+                        android:text="@string/information"
+                        android:textAppearance="?attr/textAppearanceSubtitle2" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/keyline_2"
+                        android:text="@string/nothing_here"
+                        android:textAlignment="center"
+                        android:visibility="@{viewModel.informationProviders.empty ? View.VISIBLE : View.GONE}" />
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/informationProviderViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.informationProviders.empty ? View.GONE : View.VISIBLE}" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/keyline_2"
+                        android:layout_marginEnd="@dimen/keyline_2"
+                        android:text="@string/signature"
+                        android:textAppearance="?attr/textAppearanceSubtitle2" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/keyline_2"
+                        android:text="@string/nothing_here"
+                        android:textAlignment="center"
+                        android:visibility="@{viewModel.signatures.empty ? View.VISIBLE : View.GONE}" />
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/signatureViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.signatures.empty ? View.GONE : View.VISIBLE}" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</layout>
