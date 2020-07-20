@@ -17,7 +17,7 @@ interface CanonCameraControlApi {
     suspend fun listSupportedApis(): Map<String, List<Api>>
 
     @GET("{version}/event/polling")
-    suspend fun poll(@Path("version") version: String = "ver100"): Status
+    suspend fun poll(@Path("version") version: String = DEFAULT_VERSION): Status
 
     @GET
     @Streaming
@@ -29,14 +29,15 @@ interface CanonCameraControlApi {
             LiveViewSettings.Size.Medium,
             LiveViewSettings.CameraDisplay.On
         ),
-        @Path("version") version: String = "ver100"
+        @Path("version") version: String = DEFAULT_VERSION
     )
 
     @GET("{version}/shooting/liveview/flip")
     @Streaming
-    suspend fun getLiveView(@Path("version") version: String = "ver100"): ResponseBody
+    suspend fun getLiveView(@Path("version") version: String = DEFAULT_VERSION): ResponseBody
 
     companion object {
+        private const val DEFAULT_VERSION = "ver100"
         fun create(address: String): CanonCameraControlApi = Retrofit.Builder()
             .baseUrl("http://${address}/ccapi/")
             .addConverterFactory(ScalarsConverterFactory.create())

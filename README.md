@@ -1,6 +1,7 @@
 # Starling Capture
 
 [![build](https://github.com/numbersprotocol/starling-capture/workflows/build/badge.svg)](https://github.com/numbersprotocol/starling-capture/actions?query=workflow%3Abuild)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1713765ab0ea4f068d40db53c44ca488)](https://www.codacy.com/gh/numbersprotocol/starling-capture?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=numbersprotocol/starling-capture&amp;utm_campaign=Badge_Grade)
 
 ## Highlight Features
 
@@ -53,7 +54,6 @@ package io.numbersprotocol.starlingcapture.publisher.numbers_storage
 const val baseUrl = "https://sample.com"
 const val token = "token 0123456789abcdef"
 ```
-
 
 ### Build Types
 

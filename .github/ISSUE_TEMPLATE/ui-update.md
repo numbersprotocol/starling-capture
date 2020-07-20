@@ -7,13 +7,13 @@ assignees: ''
 
 ---
 
-**Update Purpose**
+## Update Purpose
 Write the purpose of UI update here.
 
-**UI Suggestion**
+## UI Suggestion
 
 Put images or link to the contents of suggestions.
 
-**More Description (if any)**
+## More Description (if any)
 
 Put more description here to help developers understand.

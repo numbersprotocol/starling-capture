@@ -7,17 +7,17 @@ assignees: ''
 
 ---
 
-**Concept**
-If we provide [feature]
+## Concept
+If we provide \[feature]
 
-**Reason/Hypothesis**
+## Reason/Hypothesis
 
-We can help [who] to [benefit] or solve [problem] because we know [who] are [faced about our target].
+We can help \[who] to \[benefit] or solve \[problem] because we know \[who] are \[faced about our target].
 
-**More Description (if any)**
+## More Description (if any)
 
 Put more description here to support the concept.
 
-**Suggested Implementation (if any)**
+## Suggested Implementation (if any)
 
 Put some suggested implementation here if you already have some ideas in mind.

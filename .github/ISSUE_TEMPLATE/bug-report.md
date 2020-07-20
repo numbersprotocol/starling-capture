@@ -7,27 +7,27 @@ assignees: ''
 
 ---
 
-**Description**
+## Description
 A clear and concise description of what the bug is.
 
-**Steps to Reproduce**
+## Steps to Reproduce
 
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected Behavior**
+## Expected Behavior
 
 * Expected: A clear and concise description of what you expected to happen.
 * Actual: A clear and concise description of what actually happened.
 
-**Logs**
+## Logs
 
 If applicable, add logs or screenshots to help explain your problem.
 
-**Environment**
+## Environment
 
-* Version: [e.g. 1.3.0, beta2, etc.]
-* OS: [e.g. Ubuntu 20.04, Android 10, iOS 13, etc.]
-* Device: [e.g. HTC Exodus 1]
+* Version: _e.g. 1.3.0, beta2, etc._
+* OS: _e.g. Ubuntu 20.04, Android 10, iOS 13, etc._
+* Device: _e.g. HTC Exodus 1_
