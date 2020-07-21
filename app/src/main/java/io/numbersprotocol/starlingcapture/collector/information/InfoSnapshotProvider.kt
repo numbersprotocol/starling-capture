@@ -5,9 +5,7 @@ import androidx.work.WorkerParameters
 import io.numbers.infosnapshot.InfoSnapshotBuilder
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.data.information.Information
-import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import java.text.DateFormat
 
 class InfoSnapshotProvider(
@@ -15,11 +13,9 @@ class InfoSnapshotProvider(
     params: WorkerParameters
 ) : InformationProvider(context, params), KoinComponent {
 
-    override val provider = "InfoSnapshot"
+    override val name = "InfoSnapshot"
 
-    private val informationRepository: InformationRepository by inject()
-
-    override suspend fun provideInformation(): Result {
+    override suspend fun provide(): Collection<Information> {
         val snapshot = InfoSnapshotBuilder(context).apply {
             duration = 10000
             enableLocaleInfo = false
@@ -34,77 +30,75 @@ class InfoSnapshotProvider(
         val currentAddress = snapshot.locationInfo.value?.current?.value?.address.toString()
         val deviceInfo = snapshot.deviceInfo.value
 
-        informationRepository.add(
+        return setOf(
             Information(
-                hash, provider, context.getString(R.string.timestamp),
+                hash, name, context.getString(R.string.timestamp),
                 DateFormat.getInstance().format(System.currentTimeMillis())
             ),
             Information(
-                hash, provider, context.getString(R.string.hash_of_android_id),
+                hash, name, context.getString(R.string.hash_of_android_id),
                 snapshot.settingsInfo.value?.androidIdHash?.value.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.last_knwon_location),
+                hash, name, context.getString(R.string.last_knwon_location),
                 "$lastKnownLatitude, $lastKnownLongitude"
             ),
             Information(
-                hash, provider, context.getString(R.string.last_knwon_address), lastKnownAddress
+                hash, name, context.getString(R.string.last_knwon_address), lastKnownAddress
             ),
             Information(
-                hash, provider, context.getString(R.string.current_location),
+                hash, name, context.getString(R.string.current_location),
                 "$currentLatitude, $currentLongitude"
             ),
             Information(
-                hash, provider, context.getString(R.string.current_address), currentAddress
+                hash, name, context.getString(R.string.current_address), currentAddress
             ),
             Information(
-                hash, provider, context.getString(R.string.board), deviceInfo?.board.toString()
+                hash, name, context.getString(R.string.board), deviceInfo?.board.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.brand), deviceInfo?.brand.toString()
+                hash, name, context.getString(R.string.brand), deviceInfo?.brand.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.device_name),
+                hash, name, context.getString(R.string.device_name),
                 deviceInfo?.device.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.device_build_id),
+                hash, name, context.getString(R.string.device_build_id),
                 deviceInfo?.display.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.device_build_fingerprint),
+                hash, name, context.getString(R.string.device_build_fingerprint),
                 deviceInfo?.fingerprint.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.hardware),
+                hash, name, context.getString(R.string.hardware),
                 deviceInfo?.hardware.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.manufacturer),
+                hash, name, context.getString(R.string.manufacturer),
                 deviceInfo?.manufacturer.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.end_product_name),
+                hash, name, context.getString(R.string.end_product_name),
                 deviceInfo?.model.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.overall_product_name),
+                hash, name, context.getString(R.string.overall_product_name),
                 deviceInfo?.product.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.device_build_tags),
+                hash, name, context.getString(R.string.device_build_tags),
                 deviceInfo?.tags.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.device_build_time),
+                hash, name, context.getString(R.string.device_build_time),
                 deviceInfo?.buildTime?.let { DateFormat.getInstance().format(it) }.toString()
             ),
             Information(
-                hash, provider, context.getString(R.string.device_build_type),
+                hash, name, context.getString(R.string.device_build_type),
                 deviceInfo?.type.toString()
             )
         )
-
-        return Result.success()
     }
 }

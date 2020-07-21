@@ -5,6 +5,11 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.collector.ProofCollector
+import io.numbersprotocol.starlingcapture.data.information.InformationRepository
+import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
+import io.numbersprotocol.starlingcapture.data.serialization.SortedProofInformation
+import io.numbersprotocol.starlingcapture.data.signature.Signature
+import io.numbersprotocol.starlingcapture.data.signature.SignatureRepository
 import io.numbersprotocol.starlingcapture.util.MimeType
 import io.numbersprotocol.starlingcapture.util.NotificationUtil
 import org.koin.core.KoinComponent
@@ -17,12 +22,15 @@ abstract class SignatureProvider(
     params: WorkerParameters
 ) : CoroutineWorker(context, params), KoinComponent {
 
-    abstract val provider: String
+    abstract val name: String
 
     lateinit var hash: String
     lateinit var mimeType: MimeType
     private var notificationId by Delegates.notNull<Int>()
     private val notificationUtil: NotificationUtil by inject()
+    private val proofRepository: ProofRepository by inject()
+    private val informationRepository: InformationRepository by inject()
+    private val signatureRepository: SignatureRepository by inject()
 
     private fun initialize() {
         hash = inputData.getString(ProofCollector.KEY_HASH)!!
@@ -35,10 +43,14 @@ abstract class SignatureProvider(
 
     override suspend fun doWork(): Result {
         initialize()
-        Timber.i("Start to sign the generated SortedProofInformation with $provider.")
+        Timber.i("Start to sign the generated SortedProofInformation with $name.")
         return try {
             notifyStartSigning()
-            provideSignature()
+            val proof = proofRepository.getByHash(hash)!!
+            val sortedProofInformation = SortedProofInformation.create(proof, informationRepository)
+            val json = sortedProofInformation.toJson()
+            signatureRepository.add(provide(json))
+            Result.success()
         } catch (e: Exception) {
             Timber.e(e)
             notificationUtil.notifyException(e, notificationId)
@@ -55,5 +67,5 @@ abstract class SignatureProvider(
         notificationUtil.notify(notificationId, builder)
     }
 
-    abstract suspend fun provideSignature(): Result
+    abstract suspend fun provide(serialized: String): Signature
 }

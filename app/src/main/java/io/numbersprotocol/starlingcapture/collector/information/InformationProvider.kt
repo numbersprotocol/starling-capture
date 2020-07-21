@@ -5,6 +5,8 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.collector.ProofCollector
+import io.numbersprotocol.starlingcapture.data.information.Information
+import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import io.numbersprotocol.starlingcapture.util.MimeType
 import io.numbersprotocol.starlingcapture.util.NotificationUtil
 import org.koin.core.KoinComponent
@@ -17,12 +19,13 @@ abstract class InformationProvider(
     params: WorkerParameters
 ) : CoroutineWorker(context, params), KoinComponent {
 
-    abstract val provider: String
+    abstract val name: String
 
     lateinit var hash: String
     lateinit var mimeType: MimeType
     private var notificationId by Delegates.notNull<Int>()
     private val notificationUtil: NotificationUtil by inject()
+    private val informationRepository: InformationRepository by inject()
 
     private fun initialize() {
         hash = inputData.getString(ProofCollector.KEY_HASH)!!
@@ -35,10 +38,11 @@ abstract class InformationProvider(
 
     override suspend fun doWork(): Result {
         initialize()
-        Timber.i("Start to collect information with $provider.")
+        Timber.i("Start to collect information with $name.")
         return try {
             notifyStartCollectInformation()
-            provideInformation()
+            informationRepository.add(*provide().toTypedArray())
+            Result.success()
         } catch (e: Exception) {
             Timber.e(e)
             notificationUtil.notifyException(e, notificationId)
@@ -55,5 +59,5 @@ abstract class InformationProvider(
         notificationUtil.notify(notificationId, builder)
     }
 
-    abstract suspend fun provideInformation(): Result
+    abstract suspend fun provide(): Collection<Information>
 }
