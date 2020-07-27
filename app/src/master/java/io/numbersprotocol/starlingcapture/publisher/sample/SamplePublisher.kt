@@ -3,6 +3,7 @@ package io.numbersprotocol.starlingcapture.publisher.sample
 import android.content.Context
 import androidx.work.WorkerParameters
 import io.numbersprotocol.starlingcapture.R
+import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.publisher.ProofPublisher
 import kotlinx.coroutines.delay
 
@@ -13,7 +14,7 @@ class SamplePublisher(
 
     override val name = context.getString(R.string.sample_publisher)
 
-    override suspend fun publish(): Result {
+    override suspend fun publish(proof: Proof): Result {
         delay(3000) // Pretend we are publishing the proof.
         return Result.success()
     }

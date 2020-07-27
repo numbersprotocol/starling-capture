@@ -5,6 +5,8 @@ import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.numbersprotocol.starlingcapture.R
+import io.numbersprotocol.starlingcapture.data.proof.Proof
+import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import io.numbersprotocol.starlingcapture.util.NotificationUtil
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -18,6 +20,7 @@ abstract class ProofPublisher(
 
     abstract val name: String
     lateinit var proofHash: String
+    private val proofRepository: ProofRepository by inject()
     private val notificationUtil: NotificationUtil by inject()
     private val notificationId = notificationUtil.createNotificationId()
     private val notificationBuilder: NotificationCompat.Builder =
@@ -34,7 +37,7 @@ abstract class ProofPublisher(
         notifyStartPublish()
         return try {
             Timber.i("Start to publish proof: $proofHash")
-            val result = publish()
+            val result = publish(proofRepository.getByHash(proofHash)!!)
             notifyFinishPublish()
             result
         } catch (e: HttpException) {
@@ -73,7 +76,7 @@ abstract class ProofPublisher(
         notificationUtil.notify(notificationId, notificationBuilder)
     }
 
-    abstract suspend fun publish(): Result
+    abstract suspend fun publish(proof: Proof): Result
 
     companion object {
         const val KEY_PROOF_HASH = "KEY_PROOF_HASH"

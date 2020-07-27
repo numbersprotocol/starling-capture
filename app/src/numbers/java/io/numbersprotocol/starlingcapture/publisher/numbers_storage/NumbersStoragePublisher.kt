@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_VARIABLE")
-
 package io.numbersprotocol.starlingcapture.publisher.numbers_storage
 
 import android.content.Context
@@ -28,8 +26,7 @@ class NumbersStoragePublisher(
     private val captionRepository: CaptionRepository by inject()
     private val numbersStorageApi: NumbersStorageApi by inject()
 
-    override suspend fun publish(): Result {
-        val proof = proofRepository.getByHash(proofHash)!!
+    override suspend fun publish(proof: Proof): Result {
         val metaJson = Serialization.generateInformationJson(proof)
         val signatureJson = Serialization.generateSignaturesJson(proof)
         val captionText = captionRepository.getByProof(proof)?.text ?: ""
