@@ -10,9 +10,9 @@ import io.numbersprotocol.starlingcapture.data.preference.PreferenceRepository
 import io.numbersprotocol.starlingcapture.di.mainModule
 import io.numbersprotocol.starlingcapture.di.variantModule
 import io.numbersprotocol.starlingcapture.source.canon.CanonCameraControlProvider
-import io.numbersprotocol.starlingcapture.util.Crypto
 import io.numbersprotocol.starlingcapture.util.NotificationUtil
 import io.numbersprotocol.starlingcapture.util.asHex
+import io.numbersprotocol.starlingcapture.util.createEcKeyPair
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -72,7 +72,7 @@ class BaseApplication : Application() {
     private fun initializeDefaultKeyPair() = GlobalScope.launch(Dispatchers.Default) {
         preferenceRepository.apply {
             if (defaultPublicKey.isBlank() || defaultPrivateKey.isBlank()) {
-                val keyPair = Crypto.createEcKeyPair()
+                val keyPair = createEcKeyPair()
                 defaultPublicKey = keyPair.public.encoded.asHex()
                 defaultPrivateKey = keyPair.private.encoded.asHex()
             }

@@ -8,10 +8,10 @@ import com.htc.htcwalletsdk.Export.RESULT
 import com.htc.htcwalletsdk.Native.Type.ByteArrayHolder
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.collector.ProofCollector
-import io.numbersprotocol.starlingcapture.util.Crypto
 import io.numbersprotocol.starlingcapture.util.asHex
 import io.numbersprotocol.starlingcapture.util.booleanLiveData
 import io.numbersprotocol.starlingcapture.util.booleanPref
+import io.numbersprotocol.starlingcapture.util.sha256
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -48,7 +48,7 @@ class ZionApi(private val context: Context) : KoinComponent {
         }
     }
 
-    private fun registerWallet(name: String) = zkma.register(name, Crypto.sha256(name))
+    private fun registerWallet(name: String) = zkma.register(name, name.sha256())
 
     suspend fun hasCreatedSeed() = withContext(Dispatchers.Default) {
         when (val check = zkma.isSeedExists(uniqueId)) {
@@ -79,7 +79,7 @@ class ZionApi(private val context: Context) : KoinComponent {
                 put("path", "m/44'/60'/0'/0/0")
                 put("message", JSONObject().apply {
                     put("version", "45")
-                    put("data", Crypto.sha256(message))
+                    put("data", message.sha256())
                 })
             }
             val signature = ByteArrayHolder()

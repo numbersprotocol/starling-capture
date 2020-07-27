@@ -58,8 +58,8 @@ class SaveProofRelatedDataWorker(
             withContext(Dispatchers.IO) {
                 val targetRawFileUri =
                     saveFolder.createFile(proof.mimeType.toString(), rawFile.name)!!.uri
-                context.contentResolver.openOutputStream(targetRawFileUri)!!
-                    .write(rawFile.readBytes())
+                rawFile.inputStream()
+                    .copyTo(context.contentResolver.openOutputStream(targetRawFileUri)!!)
 
                 val targetInformationUri =
                     saveFolder.createFile("application/json", "information.json")!!.uri

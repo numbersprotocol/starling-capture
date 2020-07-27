@@ -6,64 +6,61 @@ import java.security.*
 import java.security.spec.ECGenParameterSpec
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
-import java.util.*
 
-object Crypto {
+private const val SHA_256 = "SHA-256"
 
-    const val defaultSignatureProvider = "AndroidOpenSSL"
-
-    fun sha256(file: File): String = sha256(file.readBytes())
-
-    fun sha256(string: String): String = sha256(string.toByteArray(Charsets.UTF_8))
-
-    private fun sha256(byteArray: ByteArray): String {
-        val messageDigest = MessageDigest.getInstance("SHA-256")
-        val digested = messageDigest.digest(byteArray)
-        return digested.asHex()
+fun File.sha256(): String {
+    val digest = MessageDigest.getInstance(SHA_256)
+    DigestInputStream(this.inputStream(), digest).use { digestInputStream ->
+        val buffer = ByteArray(8192)
+        // Read all bytes:
+        @Suppress("ControlFlowWithEmptyBody")
+        while (digestInputStream.read(buffer, 0, buffer.size) != -1) {
+        }
     }
-
-    fun createEcKeyPair(): KeyPair {
-        val keyPairGenerator = KeyPairGenerator.getInstance(
-            KeyProperties.KEY_ALGORITHM_EC,
-            defaultSignatureProvider
-        )
-        keyPairGenerator.initialize(ECGenParameterSpec("secp256r1"))
-        return keyPairGenerator.generateKeyPair()
-    }
-
-    fun signWithSha256AndEcdsa(message: String, privateKey: String): String {
-        val keyFactory =
-            KeyFactory.getInstance(KeyProperties.KEY_ALGORITHM_EC, defaultSignatureProvider)
-        val key = keyFactory.generatePrivate(PKCS8EncodedKeySpec(privateKey.hexAsByteArray()))
-        val signer = Signature.getInstance("SHA256withECDSA")
-            .apply {
-                initSign(key)
-                update(message.toByteArray(Charsets.UTF_8))
-            }
-        return signer.sign().asHex()
-    }
-
-    @Suppress("unused")
-    private fun verifyWithSha256AndEcdsa(
-        message: String,
-        signature: String,
-        publicKey: String
-    ): Boolean {
-        val keyFactory =
-            KeyFactory.getInstance(KeyProperties.KEY_ALGORITHM_EC, defaultSignatureProvider)
-        val key = keyFactory.generatePublic(X509EncodedKeySpec(publicKey.hexAsByteArray()))
-        val signer = Signature.getInstance("SHA256withECDSA")
-            .apply {
-                initVerify(key)
-                update(message.toByteArray(Charsets.UTF_8))
-            }
-        return signer.verify(signature.toByteArray(Charsets.UTF_8))
-    }
+    return digest.digest().asHex()
 }
 
-fun ByteArray.asHex() =
-    joinToString(separator = "") { String.format("%02x", (it.toInt() and 0xFF)) }
+fun String.sha256() = toByteArray(Charsets.UTF_8).sha256()
 
-fun String.hexAsByteArray() = chunked(2)
-    .map { it.toUpperCase(Locale.getDefault()).toInt(16).toByte() }
-    .toByteArray()
+fun ByteArray.sha256(): String {
+    val messageDigest = MessageDigest.getInstance(SHA_256)
+    val digested = messageDigest.digest(this)
+    return digested.asHex()
+}
+
+const val defaultSignatureProvider = "AndroidOpenSSL"
+
+fun createEcKeyPair(): KeyPair {
+    val keyPairGenerator = KeyPairGenerator.getInstance(
+        KeyProperties.KEY_ALGORITHM_EC,
+        defaultSignatureProvider
+    )
+    keyPairGenerator.initialize(ECGenParameterSpec("secp256r1"))
+    return keyPairGenerator.generateKeyPair()
+}
+
+fun String.signWithSha256AndEcdsa(privateKey: String): String {
+    val keyFactory =
+        KeyFactory.getInstance(KeyProperties.KEY_ALGORITHM_EC, defaultSignatureProvider)
+    val key = keyFactory.generatePrivate(PKCS8EncodedKeySpec(privateKey.hexAsByteArray()))
+    val signer = Signature.getInstance("SHA256withECDSA")
+        .apply {
+            initSign(key)
+            update(toByteArray(Charsets.UTF_8))
+        }
+    return signer.sign().asHex()
+}
+
+@Suppress("unused")
+fun String.verifyWithSha256AndEcdsa(signature: String, publicKey: String): Boolean {
+    val keyFactory =
+        KeyFactory.getInstance(KeyProperties.KEY_ALGORITHM_EC, defaultSignatureProvider)
+    val key = keyFactory.generatePublic(X509EncodedKeySpec(publicKey.hexAsByteArray()))
+    val signer = Signature.getInstance("SHA256withECDSA")
+        .apply {
+            initVerify(key)
+            update(toByteArray(Charsets.UTF_8))
+        }
+    return signer.verify(signature.toByteArray(Charsets.UTF_8))
+}

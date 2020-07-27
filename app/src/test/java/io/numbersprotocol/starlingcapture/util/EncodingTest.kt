@@ -3,7 +3,7 @@ package io.numbersprotocol.starlingcapture.util
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
 
-class CryptoTest {
+class EncodingTest {
 
     @Test
     fun testByteArrayToHexConversion() {

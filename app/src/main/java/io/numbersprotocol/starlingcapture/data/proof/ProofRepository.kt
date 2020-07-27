@@ -1,7 +1,7 @@
 package io.numbersprotocol.starlingcapture.data.proof
 
 import android.content.Context
-import io.numbersprotocol.starlingcapture.util.Crypto
+import io.numbersprotocol.starlingcapture.util.sha256
 import timber.log.Timber
 import java.io.File
 
@@ -46,7 +46,7 @@ class ProofRepository(
      * @return: The file added in the internal storage. The name of the returned file will be its hash with original extension.
      */
     fun addRawFile(file: File): File {
-        val fileHash = Crypto.sha256(file)
+        val fileHash = file.sha256()
         return file.copyTo(rawFilesDir.resolve("$fileHash.${file.extension}"), overwrite = true)
     }
 }

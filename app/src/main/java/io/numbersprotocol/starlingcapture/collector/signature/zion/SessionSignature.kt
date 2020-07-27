@@ -38,13 +38,13 @@ class SessionSignature(context: Context, private val zionApi: ZionApi) {
 
     suspend fun signWithSha256AndEcdsa(message: String) = signingMutex.withLock {
         if (isTimeout()) createNewSession()
-        return@withLock Crypto.signWithSha256AndEcdsa(message, privateKey)
+        return@withLock message.signWithSha256AndEcdsa(privateKey)
     }
 
     private fun isTimeout() = System.currentTimeMillis() - timestamp > duration
 
     suspend fun createNewSession() {
-        val keyPair = Crypto.createEcKeyPair()
+        val keyPair = createEcKeyPair()
         publicKeySignature = zionApi.signWithSha256AndEthereum(keyPair.public.encoded.asHex())
 
         publicKey = keyPair.public.encoded.asHex()
