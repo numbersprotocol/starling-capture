@@ -36,7 +36,7 @@ abstract class SignatureProvider(
         hash = inputData.getString(ProofCollector.KEY_HASH)!!
         mimeType = MimeType.fromString(inputData.getString(ProofCollector.KEY_MIME_TYPE)!!)
 
-        val illegalNotificationId = NotificationUtil.NOTIFICATION_PROOF_COLLECT_MIN - 1
+        val illegalNotificationId = NotificationUtil.NOTIFICATION_ID_MIN - 1
         notificationId = inputData.getInt(ProofCollector.KEY_NOTIFICATION_ID, illegalNotificationId)
         if (notificationId == illegalNotificationId) error("Cannot get notification ID from input data.")
     }

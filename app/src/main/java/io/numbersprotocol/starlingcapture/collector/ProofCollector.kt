@@ -122,7 +122,7 @@ class FinishCollectionWorker(
     private val notificationUtil: NotificationUtil by inject()
 
     override suspend fun doWork(): Result {
-        val illegalNotificationId = NotificationUtil.NOTIFICATION_PROOF_COLLECT_MIN - 1
+        val illegalNotificationId = NotificationUtil.NOTIFICATION_ID_MIN - 1
         val notificationId =
             inputData.getInt(ProofCollector.KEY_NOTIFICATION_ID, illegalNotificationId)
         if (notificationId == illegalNotificationId) {

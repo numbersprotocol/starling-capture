@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class NotificationUtil(private val context: Context) {
 
-    private val notificationProofCollectMin = AtomicInteger(NOTIFICATION_PROOF_COLLECT_MIN)
+    private val notificationIdMin = AtomicInteger(NOTIFICATION_ID_MIN)
 
     val baseActivityIntent: PendingIntent = Intent(context, BaseActivity::class.java).let {
         PendingIntent.getActivity(context, 0, it, 0)
@@ -37,7 +37,7 @@ class NotificationUtil(private val context: Context) {
         notificationManager.createNotificationChannel(channel)
     }
 
-    fun createNotificationId() = notificationProofCollectMin.getAndIncrement()
+    fun createNotificationId() = notificationIdMin.getAndIncrement()
 
     fun notifyException(e: Throwable, notificationId: Int) {
         Timber.e(e)
@@ -61,6 +61,6 @@ class NotificationUtil(private val context: Context) {
     companion object {
         const val CHANNEL_DEFAULT = "CHANNEL_DEFAULT"
         const val NOTIFICATION_SAVE_PROOF_RELATED_DATA = 1
-        const val NOTIFICATION_PROOF_COLLECT_MIN = 1000
+        const val NOTIFICATION_ID_MIN = 1000
     }
 }
