@@ -1,6 +1,6 @@
 # Verification Tool
 
-## Getting Start
+## Getting Started
 
 ### Environment
 
@@ -21,4 +21,30 @@ Poetry will create the virtual environment in `.venv/` folder. Visual Studio Cod
 {
     "python.pythonPath": ".venv/bin/python"
 }
+```
+
+If you are using the built-in terminal in Visual Studio Code, remember to restart it by killing the terminal first in order to enter the virtual shell session automatically.
+
+## Verify!
+
+Currently, this tool only verify the digital signatures generated from Android OpenSSL provider.
+
+To verify the json files generated from the Starling Capture app,
+
+``` python
+try:
+    result = verify('./tests/assets/information.json', './tests/assets/signature.json')
+except Error as e:
+    print(e)
+    result = False
+```
+
+See the [tests](./tests/test_verification.py) for details.
+
+## Test
+
+To run tests,
+
+``` bash
+pytest
 ```
