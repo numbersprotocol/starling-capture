@@ -27,7 +27,7 @@ To install the build to your device (or emulator), follow the steps in [the Andr
 
 ### Verification
 
-To verify the signature, create the JSON string from the `SortedProofInformation` class and use it as the message. A simple example would be provided in the future.
+To verify the signature, create the JSON string from the `SortedProofInformation` class and use it as the message. See the [README](./util/verification/README.md) in `/util/verifcation/` for the Python example.
 
 ## Development
 
