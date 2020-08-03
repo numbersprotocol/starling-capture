@@ -11,7 +11,7 @@ import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.proof.ProofDao
 import io.numbersprotocol.starlingcapture.data.signature.Signature
 import io.numbersprotocol.starlingcapture.data.signature.SignatureDao
-import io.numbersprotocol.starlingcapture.util.MimeTypeConverter
+import io.numbersprotocol.starlingcapture.util.MimeType
 
 @Database(
     entities = [
@@ -21,7 +21,7 @@ import io.numbersprotocol.starlingcapture.util.MimeTypeConverter
         Caption::class
     ], version = 1
 )
-@TypeConverters(MimeTypeConverter::class)
+@TypeConverters(MimeType.Converter::class, Information.Importance.Converter::class)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun proofDao(): ProofDao

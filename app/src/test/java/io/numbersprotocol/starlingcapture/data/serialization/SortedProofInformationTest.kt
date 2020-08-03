@@ -41,8 +41,14 @@ class SortedProofInformationTest : KoinTest {
             SortedProofInformation.create(
                 proof,
                 listOf(
-                    Information(differentHash, provider1, "longitude", "23.05"),
-                    Information(hash, provider1, "happiness", "-52")
+                    Information(
+                        differentHash,
+                        provider1,
+                        "longitude",
+                        "23.05",
+                        Information.Importance.LOW
+                    ),
+                    Information(hash, provider1, "happiness", "-52", Information.Importance.LOW)
                 )
             )
         }
@@ -50,9 +56,12 @@ class SortedProofInformationTest : KoinTest {
 
     @Test
     fun shouldHaveSameOrderWithSameData() {
-        val information1 = Information(hash, provider1, "longitude", "23.05")
-        val information2 = Information(hash, provider1, "happiness", "-52")
-        val information3 = Information(hash, provider2, "happiness", "-52")
+        val information1 =
+            Information(hash, provider1, "longitude", "23.05", Information.Importance.LOW)
+        val information2 =
+            Information(hash, provider1, "happiness", "-52", Information.Importance.LOW)
+        val information3 =
+            Information(hash, provider2, "happiness", "-52", Information.Importance.LOW)
         val sortedProofInformation1 = SortedProofInformation.create(
             proof,
             listOf(information1, information3, information2)
@@ -75,8 +84,8 @@ class SortedProofInformationTest : KoinTest {
         val sortedProofInformation = SortedProofInformation.create(
             proof,
             listOf(
-                Information(hash, provider1, "longitude", "23.05"),
-                Information(hash, provider1, "happiness", "-52")
+                Information(hash, provider1, "longitude", "23.05", Information.Importance.LOW),
+                Information(hash, provider1, "happiness", "-52", Information.Importance.LOW)
             )
         )
 

@@ -60,6 +60,9 @@
         <argument
             android:name="proof"
             app:argType="io.numbersprotocol.starlingcapture.data.proof.Proof" />
+        <action
+            android:id="@+id/toInformationFragment"
+            app:destination="@id/informationFragment" />
     </fragment>
     <fragment
         android:id="@+id/zionFragment"
@@ -71,4 +74,16 @@
         android:name="io.numbersprotocol.starlingcapture.feature.ccapi.CcapiFragment"
         android:label="@string/canon_ccapi"
         tools:layout="@layout/fragment_ccapi" />
+    <fragment
+        android:id="@+id/informationFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.information.InformationFragment"
+        android:label="@string/information"
+        tools:layout="@layout/fragment_information">
+        <argument
+            android:name="proof"
+            app:argType="io.numbersprotocol.starlingcapture.data.proof.Proof" />
+        <argument
+            android:name="provider"
+            app:argType="string" />
+    </fragment>
 </navigation>

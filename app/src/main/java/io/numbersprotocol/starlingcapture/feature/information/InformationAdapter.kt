@@ -1,4 +1,4 @@
-package io.numbersprotocol.starlingcapture.feature.proof
+package io.numbersprotocol.starlingcapture.feature.information
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -68,6 +68,7 @@
     <string name="publication">Publication</string>
     <string name="publisher">Publisher</string>
     <string name="select_a_publisher">Select a Publisher</string>
+    <string name="view_all">View All</string>
 
     <string name="message_are_you_sure">The action cannot be undone.</string>
     <string name="message_location_permission">We need the location permission to build proof. Please allow the permission request by enabling it in Android settings.</string>

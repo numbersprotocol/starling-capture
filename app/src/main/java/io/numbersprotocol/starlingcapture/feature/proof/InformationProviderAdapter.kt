@@ -3,17 +3,22 @@ package io.numbersprotocol.starlingcapture.feature.proof
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import io.numbersprotocol.starlingcapture.data.information.Information
 import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.databinding.ItemInformationProviderBinding
+import io.numbersprotocol.starlingcapture.feature.information.InformationAdapter
+import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
 
 class InformationProviderAdapter(
-    private val informationRepository: InformationRepository,
     private val viewLifecycleOwner: LifecycleOwner,
+    private val listener: RecyclerViewItemListener<String>,
+    private val informationRepository: InformationRepository,
     private val proof: Proof
 ) : ListAdapter<String, InformationProviderAdapter.ViewHolder>(diffCallback) {
 
@@ -35,8 +40,13 @@ class InformationProviderAdapter(
         fun bind(item: String) {
             binding.provider = item
             binding.informationRecyclerView.adapter = adapter
-            informationRepository.getByProofAndProviderWithLiveData(proof, item)
-                .observe(viewLifecycleOwner) { adapter.submitList(it) }
+            informationRepository
+                .getByProofAndProviderWithFlow(proof, item, Information.Importance.HIGH)
+                .asLiveData(timeoutInMs = 0)
+                .observe(viewLifecycleOwner) {
+                    adapter.submitList(it)
+                }
+            binding.viewAllButton.setOnClickListener { listener.onItemClick(item, itemView) }
             binding.executePendingBindings()
         }
     }

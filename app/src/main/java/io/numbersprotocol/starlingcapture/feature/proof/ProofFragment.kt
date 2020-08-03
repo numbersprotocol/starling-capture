@@ -29,6 +29,7 @@ import io.numbersprotocol.starlingcapture.data.serialization.SaveProofRelatedDat
 import io.numbersprotocol.starlingcapture.databinding.FragmentProofBinding
 import io.numbersprotocol.starlingcapture.di.CoilImageLoader
 import io.numbersprotocol.starlingcapture.publisher.PublishersDialog
+import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
 import io.numbersprotocol.starlingcapture.util.enableCardPreview
 import io.numbersprotocol.starlingcapture.util.observeEvent
 import io.numbersprotocol.starlingcapture.util.snack
@@ -181,8 +182,12 @@ class ProofFragment(
     }
 
     private fun bindInformationProviderViewPager() {
-        val informationProviderAdapter =
-            InformationProviderAdapter(informationRepository, viewLifecycleOwner, proof)
+        val informationProviderAdapter = InformationProviderAdapter(
+            viewLifecycleOwner,
+            createInformationProviderViewPagerListener(),
+            informationRepository,
+            proof
+        )
 
         binding.informationProviderViewPager.adapter = informationProviderAdapter
         binding.informationProviderViewPager.enableCardPreview()
@@ -191,6 +196,17 @@ class ProofFragment(
             informationProviderAdapter.submitList(it)
         }
     }
+
+    private fun createInformationProviderViewPagerListener() =
+        object : RecyclerViewItemListener<String>() {
+
+            override fun onItemClick(item: String, itemView: View) {
+                super.onItemClick(item, itemView)
+                findNavController().navigate(
+                    ProofFragmentDirections.toInformationFragment(proof, item)
+                )
+            }
+        }
 
     private fun bindSignatureViewPager() {
         val signatureAdapter = SignatureAdapter()
