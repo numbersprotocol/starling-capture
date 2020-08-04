@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
@@ -59,14 +58,12 @@ class InformationFragment : Fragment() {
     private fun bindInformationRecyclerView() {
         val informationAdapter = GroupAdapter<GroupieViewHolder>()
         binding?.apply { recyclerView.adapter = informationAdapter }
-        val groups = mutableListOf<Group>()
         informationViewModel.informationGroup.observe(viewLifecycleOwner) {
-            it.forEach { (type, informationList) ->
-                groups.add(Section(TypeItem(type)).apply {
+            informationAdapter.addAll(it.map { (type, informationList) ->
+                Section(TypeItem(type)).apply {
                     addAll(informationList.map { information -> InformationItem(information) })
-                })
-            }
-            informationAdapter.addAll(groups)
+                }
+            })
         }
     }
 
