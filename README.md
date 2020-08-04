@@ -27,7 +27,12 @@ To install the build to your device (or emulator), follow the steps in [the Andr
 
 ### Verification
 
-To verify the signature, create the JSON string from the `SortedProofInformation` class and use it as the message. See the [README](./util/verification/README.md) in `/util/verifcation/` for the Python example.
+To verify the signature, create the JSON string from the `SortedProofInformation` class and use it as the message. 
+
+#### Examples
+
+* Python: See the [README](./util/verification/README.md) in `/util/verifcation/`.
+* Kotlin: See the [Crypto.kt#String.verifyWithSha256AndEcdsa()](./app/src/main/java/io/numbersprotocol/starlingcapture/util/Crypto.kt#L56) method.
 
 ## Development
 

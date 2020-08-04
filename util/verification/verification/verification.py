@@ -10,7 +10,7 @@ def verify(information_json_filename: str, signature_json_filename: str) -> bool
     signatures = list(read_json_file(signature_json_filename))
     for signature in signatures:
         if signature['provider'] == 'AndroidOpenSSL':
-            verified = verify_android_open_ssl(
+            verified = verify_ecdsa_with_sha256(
                 message=message,
                 signature_hex=signature['signature'],
                 public_key_hex=signature['publicKey']
@@ -20,7 +20,7 @@ def verify(information_json_filename: str, signature_json_filename: str) -> bool
     return True
 
 
-def verify_android_open_ssl(message: str, signature_hex: str, public_key_hex: str) -> bool:
+def verify_ecdsa_with_sha256(message: str, signature_hex: str, public_key_hex: str) -> bool:
     public_key_bytes = bytes.fromhex(public_key_hex)
     public_key = ecdsa.VerifyingKey.from_der(
         public_key_bytes,
