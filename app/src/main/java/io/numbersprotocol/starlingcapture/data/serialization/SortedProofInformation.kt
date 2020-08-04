@@ -2,27 +2,19 @@ package io.numbersprotocol.starlingcapture.data.serialization
 
 import com.squareup.moshi.Moshi
 import io.numbersprotocol.starlingcapture.data.information.Information
-import io.numbersprotocol.starlingcapture.data.information.Information.Companion.comparator
 import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import io.numbersprotocol.starlingcapture.data.proof.Proof
+import io.numbersprotocol.starlingcapture.data.serialization.SortedProofInformation.Companion.EssentialInformation.Companion.comparator
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.util.*
 
 class SortedProofInformation private constructor(
     val proof: Proof,
-    val information: SortedSet<Information>
+    val information: SortedSet<EssentialInformation>
 ) : KoinComponent {
 
     private val moshi: Moshi by inject()
-
-    init {
-        checkInformationIsRelated()
-    }
-
-    private fun checkInformationIsRelated() {
-        if (information.any { it.proofHash != proof.hash }) error("One or more information is not related.")
-    }
 
     fun toJson(): String {
         val jsonAdapter = moshi.adapter(SortedProofInformation::class.java)
@@ -53,7 +45,12 @@ class SortedProofInformation private constructor(
             proof: Proof,
             relatedInformation: Collection<Information>
         ): SortedProofInformation {
-            return SortedProofInformation(proof, relatedInformation.toSortedSet(comparator))
+            return SortedProofInformation(
+                proof,
+                relatedInformation
+                    .map { EssentialInformation.create(it) }
+                    .toSortedSet(comparator)
+            )
         }
 
         suspend fun create(
@@ -61,6 +58,36 @@ class SortedProofInformation private constructor(
             informationRepository: InformationRepository
         ): SortedProofInformation {
             return create(proof, informationRepository.getByProof(proof))
+        }
+
+        data class EssentialInformation(
+            val provider: String,
+            val name: String,
+            val value: String
+        ) : Comparable<EssentialInformation> {
+
+            override operator fun compareTo(other: EssentialInformation) =
+                comparator.compare(this, other)
+
+            companion object {
+                val comparator = Comparator<EssentialInformation> { a, b ->
+                    when {
+                        a.provider > b.provider -> 1
+                        a.provider < b.provider -> -1
+                        a.name > b.name -> 1
+                        a.name < b.name -> -1
+                        else -> 0
+                    }
+                }
+
+                fun create(information: Information): EssentialInformation {
+                    return EssentialInformation(
+                        information.provider,
+                        information.name,
+                        information.value
+                    )
+                }
+            }
         }
     }
 }

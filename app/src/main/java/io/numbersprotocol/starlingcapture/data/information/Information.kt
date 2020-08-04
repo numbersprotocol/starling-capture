@@ -28,9 +28,7 @@ data class Information(
     val value: String,
     val importance: Importance,
     @Embedded(prefix = "type") val type: Type = Type.OTHER_TYPE
-) : Comparable<Information> {
-
-    override operator fun compareTo(other: Information) = comparator.compare(this, other)
+) {
 
     enum class Importance(val value: Int) {
         HIGH(10),
@@ -58,18 +56,6 @@ data class Information(
     ) {
         companion object {
             val OTHER_TYPE = Type(R.string.others, R.drawable.ic_info)
-        }
-    }
-
-    companion object {
-        val comparator = Comparator<Information> { a, b ->
-            when {
-                a.provider > b.provider -> 1
-                a.provider < b.provider -> -1
-                a.name > b.name -> 1
-                a.name < b.name -> -1
-                else -> 0
-            }
         }
     }
 }
