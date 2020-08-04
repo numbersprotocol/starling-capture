@@ -24,7 +24,4 @@ interface InformationDao {
 
     @Insert
     suspend fun insert(vararg information: Information): List<Long>
-
-    @Query("DELETE FROM Information WHERE Information.proofHash = :proofHash")
-    suspend fun deleteByProofHash(proofHash: String): Int
 }

@@ -17,7 +17,4 @@ interface CaptionDao {
 
     @Update
     suspend fun update(caption: Caption): Int
-
-    @Query("DELETE FROM Caption WHERE Caption.proofHash = :proofHash")
-    suspend fun deleteByProofHash(proofHash: String)
 }
