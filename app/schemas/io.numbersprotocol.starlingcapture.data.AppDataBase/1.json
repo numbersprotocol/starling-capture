@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2f6d52d976386b50a996b1ccc9db0d54",
+    "identityHash": "2d14de02a1e8c0a344c0f2fe76ac5029",
     "entities": [
       {
         "tableName": "Proof",
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "Information",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`proofHash` TEXT NOT NULL, `provider` TEXT NOT NULL, `name` TEXT NOT NULL, `value` TEXT NOT NULL, PRIMARY KEY(`proofHash`, `provider`, `name`), FOREIGN KEY(`proofHash`) REFERENCES `Proof`(`hash`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`proofHash` TEXT NOT NULL, `provider` TEXT NOT NULL, `name` TEXT NOT NULL, `value` TEXT NOT NULL, `importance` INTEGER NOT NULL, `typename` INTEGER NOT NULL, `typeicon` INTEGER NOT NULL, PRIMARY KEY(`proofHash`, `provider`, `name`), FOREIGN KEY(`proofHash`) REFERENCES `Proof`(`hash`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "proofHash",
@@ -62,6 +62,24 @@
             "fieldPath": "value",
             "columnName": "value",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "importance",
+            "columnName": "importance",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type.name",
+            "columnName": "typename",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type.icon",
+            "columnName": "typeicon",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -183,7 +201,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2f6d52d976386b50a996b1ccc9db0d54')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2d14de02a1e8c0a344c0f2fe76ac5029')"
     ]
   }
 }

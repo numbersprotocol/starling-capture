@@ -9,8 +9,15 @@ class InformationRepository(private val informationDao: InformationDao) {
     fun getProvidersByProofWithLiveData(proof: Proof) =
         informationDao.queryProvidersByProofHashWithLiveData(proof.hash)
 
-    fun getByProofAndProviderWithLiveData(proof: Proof, provider: String) =
-        informationDao.queryByProofHashAndProviderWithLiveData(proof.hash, provider)
+    fun getByProofAndProviderWithFlow(
+        proof: Proof,
+        provider: String,
+        importance: Information.Importance = Information.Importance.LOW
+    ) = informationDao.queryByProofHashAndProviderWithFlow(
+        proof.hash,
+        provider,
+        importance
+    )
 
     suspend fun add(vararg information: Information) = informationDao.insert(*information)
 }

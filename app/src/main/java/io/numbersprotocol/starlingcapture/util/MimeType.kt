@@ -10,6 +10,15 @@ enum class MimeType(private val string: String, val extension: String) {
 
     override fun toString() = string
 
+    class Converter {
+
+        @TypeConverter
+        fun toMimeType(value: String) = fromString(value)
+
+        @TypeConverter
+        fun fromMimeType(value: MimeType) = value.toString()
+    }
+
     companion object {
         fun fromString(string: String): MimeType {
             values().forEach { if (it.string == string) return it }
@@ -28,13 +37,4 @@ enum class MimeType(private val string: String, val extension: String) {
             .map { it.extension.toLowerCase(Locale.ROOT) }
             .contains(File(url).extension.toLowerCase(Locale.ROOT))
     }
-}
-
-class MimeTypeConverter {
-
-    @TypeConverter
-    fun toMimeType(value: String) = MimeType.fromString(value)
-
-    @TypeConverter
-    fun fromMimeType(value: MimeType) = value.toString()
 }

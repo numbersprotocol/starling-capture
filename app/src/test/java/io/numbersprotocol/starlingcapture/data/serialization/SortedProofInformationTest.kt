@@ -6,7 +6,6 @@ import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.di.mainModule
 import io.numbersprotocol.starlingcapture.util.MimeType
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,6 +25,10 @@ class SortedProofInformationTest : KoinTest {
     private val hash = "6ac3c336e4094835293a3fed8a4b5fedde1b5e2626d9838fed50693bba00af0e"
     private val provider1 = "test_provider1"
     private val provider2 = "test_provider2"
+    private val name1 = "longitude"
+    private val value1 = "23.05"
+    private val name2 = "happiness"
+    private val value2 = "-52"
     private lateinit var proof: Proof
 
     @Before
@@ -34,25 +37,13 @@ class SortedProofInformationTest : KoinTest {
     }
 
     @Test
-    fun shouldNotContainDifferentProofHash() {
-        val differentHash = "9ac3c336e4094835293a3fed8a4b5fedde1b5e2626d9838fed50693bba00af0e"
-
-        assertThrows(IllegalStateException::class.java) {
-            SortedProofInformation.create(
-                proof,
-                listOf(
-                    Information(differentHash, provider1, "longitude", "23.05"),
-                    Information(hash, provider1, "happiness", "-52")
-                )
-            )
-        }
-    }
-
-    @Test
     fun shouldHaveSameOrderWithSameData() {
-        val information1 = Information(hash, provider1, "longitude", "23.05")
-        val information2 = Information(hash, provider1, "happiness", "-52")
-        val information3 = Information(hash, provider2, "happiness", "-52")
+        val information1 =
+            Information(hash, provider1, name1, value1, Information.Importance.LOW)
+        val information2 =
+            Information(hash, provider1, name2, value2, Information.Importance.LOW)
+        val information3 =
+            Information(hash, provider2, name2, value2, Information.Importance.LOW)
         val sortedProofInformation1 = SortedProofInformation.create(
             proof,
             listOf(information1, information3, information2)
@@ -75,8 +66,8 @@ class SortedProofInformationTest : KoinTest {
         val sortedProofInformation = SortedProofInformation.create(
             proof,
             listOf(
-                Information(hash, provider1, "longitude", "23.05"),
-                Information(hash, provider1, "happiness", "-52")
+                Information(hash, provider1, name1, value1, Information.Importance.LOW),
+                Information(hash, provider1, name2, value2, Information.Importance.LOW)
             )
         )
 

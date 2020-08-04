@@ -33,72 +33,95 @@ class InfoSnapshotProvider(
         return setOf(
             Information(
                 hash, name, context.getString(R.string.timestamp),
-                DateFormat.getInstance().format(System.currentTimeMillis())
+                DateFormat.getInstance().format(System.currentTimeMillis()),
+                Information.Importance.LOW
             ),
             Information(
                 hash, name, context.getString(R.string.hash_of_android_id),
-                snapshot.settingsInfo.value?.androidIdHash?.value.toString()
+                snapshot.settingsInfo.value?.androidIdHash?.value.toString(),
+                Information.Importance.HIGH, deviceType
             ),
             Information(
                 hash, name, context.getString(R.string.last_knwon_location),
-                "$lastKnownLatitude, $lastKnownLongitude"
+                "$lastKnownLatitude, $lastKnownLongitude",
+                Information.Importance.HIGH, locationType
             ),
             Information(
-                hash, name, context.getString(R.string.last_knwon_address), lastKnownAddress
+                hash, name, context.getString(R.string.last_knwon_address), lastKnownAddress,
+                Information.Importance.HIGH, locationType
             ),
             Information(
                 hash, name, context.getString(R.string.current_location),
-                "$currentLatitude, $currentLongitude"
+                "$currentLatitude, $currentLongitude",
+                Information.Importance.HIGH, locationType
             ),
             Information(
-                hash, name, context.getString(R.string.current_address), currentAddress
+                hash, name, context.getString(R.string.current_address), currentAddress,
+                Information.Importance.HIGH, locationType
             ),
             Information(
-                hash, name, context.getString(R.string.board), deviceInfo?.board.toString()
+                hash, name, context.getString(R.string.board), deviceInfo?.board.toString(),
+                Information.Importance.LOW, deviceType
             ),
             Information(
-                hash, name, context.getString(R.string.brand), deviceInfo?.brand.toString()
+                hash, name, context.getString(R.string.brand), deviceInfo?.brand.toString(),
+                Information.Importance.LOW, deviceType
             ),
             Information(
                 hash, name, context.getString(R.string.device_name),
-                deviceInfo?.device.toString()
+                deviceInfo?.device.toString(),
+                Information.Importance.LOW, deviceType
             ),
             Information(
                 hash, name, context.getString(R.string.device_build_id),
-                deviceInfo?.display.toString()
+                deviceInfo?.display.toString(),
+                Information.Importance.LOW, deviceType
             ),
             Information(
                 hash, name, context.getString(R.string.device_build_fingerprint),
-                deviceInfo?.fingerprint.toString()
+                deviceInfo?.fingerprint.toString(),
+                Information.Importance.LOW, deviceType
             ),
             Information(
                 hash, name, context.getString(R.string.hardware),
-                deviceInfo?.hardware.toString()
+                deviceInfo?.hardware.toString(),
+                Information.Importance.LOW, deviceType
             ),
             Information(
                 hash, name, context.getString(R.string.manufacturer),
-                deviceInfo?.manufacturer.toString()
+                deviceInfo?.manufacturer.toString(),
+                Information.Importance.LOW, deviceType
             ),
             Information(
                 hash, name, context.getString(R.string.end_product_name),
-                deviceInfo?.model.toString()
+                deviceInfo?.model.toString(),
+                Information.Importance.LOW, deviceType
             ),
             Information(
                 hash, name, context.getString(R.string.overall_product_name),
-                deviceInfo?.product.toString()
+                deviceInfo?.product.toString(),
+                Information.Importance.LOW, deviceType
             ),
             Information(
                 hash, name, context.getString(R.string.device_build_tags),
-                deviceInfo?.tags.toString()
+                deviceInfo?.tags.toString(),
+                Information.Importance.LOW, deviceType
             ),
             Information(
                 hash, name, context.getString(R.string.device_build_time),
-                deviceInfo?.buildTime?.let { DateFormat.getInstance().format(it) }.toString()
+                deviceInfo?.buildTime?.let { DateFormat.getInstance().format(it) }.toString(),
+                Information.Importance.LOW, deviceType
             ),
             Information(
                 hash, name, context.getString(R.string.device_build_type),
-                deviceInfo?.type.toString()
+                deviceInfo?.type.toString(),
+                Information.Importance.LOW, deviceType
             )
         )
+    }
+
+    companion object {
+        val locationType = Information.Type(R.string.location, R.drawable.ic_location)
+        val deviceType = Information.Type(R.string.device, R.drawable.ic_device_information)
     }
 }

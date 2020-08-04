@@ -29,6 +29,7 @@ import io.numbersprotocol.starlingcapture.data.serialization.SaveProofRelatedDat
 import io.numbersprotocol.starlingcapture.databinding.FragmentProofBinding
 import io.numbersprotocol.starlingcapture.di.CoilImageLoader
 import io.numbersprotocol.starlingcapture.publisher.PublishersDialog
+import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
 import io.numbersprotocol.starlingcapture.util.enableCardPreview
 import io.numbersprotocol.starlingcapture.util.observeEvent
 import io.numbersprotocol.starlingcapture.util.snack
@@ -48,7 +49,7 @@ class ProofFragment(
     private val imageLoader: ImageLoader by inject(named(CoilImageLoader.LargeTransitionThumb))
     private val args: ProofFragmentArgs by navArgs()
     private lateinit var proof: Proof
-    private lateinit var binding: FragmentProofBinding
+    private var binding: FragmentProofBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,11 +68,12 @@ class ProofFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProofBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = proofViewModel
+        FragmentProofBinding.inflate(inflater, container, false).also {
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = proofViewModel
+            binding = it
+            return it.root
         }
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -181,21 +183,40 @@ class ProofFragment(
     }
 
     private fun bindInformationProviderViewPager() {
-        val informationProviderAdapter =
-            InformationProviderAdapter(informationRepository, viewLifecycleOwner, proof)
+        val informationProviderAdapter = InformationProviderAdapter(
+            viewLifecycleOwner,
+            createInformationProviderViewPagerListener(),
+            informationRepository,
+            proof
+        )
 
-        binding.informationProviderViewPager.adapter = informationProviderAdapter
-        binding.informationProviderViewPager.enableCardPreview()
+        binding?.apply {
+            informationProviderViewPager.adapter = informationProviderAdapter
+            informationProviderViewPager.enableCardPreview()
+        }
 
         proofViewModel.informationProviders.observe(viewLifecycleOwner) {
             informationProviderAdapter.submitList(it)
         }
     }
 
+    private fun createInformationProviderViewPagerListener() =
+        object : RecyclerViewItemListener<String>() {
+
+            override fun onItemClick(item: String, itemView: View) {
+                super.onItemClick(item, itemView)
+                findNavController().navigate(
+                    ProofFragmentDirections.toInformationFragment(proof, item)
+                )
+            }
+        }
+
     private fun bindSignatureViewPager() {
         val signatureAdapter = SignatureAdapter()
-        binding.signatureViewPager.adapter = signatureAdapter
-        binding.signatureViewPager.enableCardPreview()
+        binding?.apply {
+            signatureViewPager.adapter = signatureAdapter
+            signatureViewPager.enableCardPreview()
+        }
         proofViewModel.signatures.observe(viewLifecycleOwner) { signatureAdapter.submitList(it) }
     }
 
@@ -211,6 +232,11 @@ class ProofFragment(
             )
             else -> snack("Unknown request code ($requestCode) from activity result.")
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     companion object {

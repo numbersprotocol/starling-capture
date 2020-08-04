@@ -22,6 +22,8 @@ import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import io.numbersprotocol.starlingcapture.data.signature.SignatureRepository
 import io.numbersprotocol.starlingcapture.feature.ccapi.CcapiFragment
 import io.numbersprotocol.starlingcapture.feature.ccapi.CcapiViewModel
+import io.numbersprotocol.starlingcapture.feature.information.InformationFragment
+import io.numbersprotocol.starlingcapture.feature.information.InformationViewModel
 import io.numbersprotocol.starlingcapture.feature.proof.ProofFragment
 import io.numbersprotocol.starlingcapture.feature.proof.ProofViewModel
 import io.numbersprotocol.starlingcapture.feature.publisher_config.PublisherConfigFragment
@@ -96,6 +98,9 @@ val mainModule = module {
 
     viewModel { ProofViewModel(get(), get(), get()) }
     fragment { ProofFragment(get(), get(), get()) }
+
+    viewModel { InformationViewModel(get()) }
+    fragment { InformationFragment() }
 
     fragment { SettingFragment() }
     fragment { PreferenceFragment() }

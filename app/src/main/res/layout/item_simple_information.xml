@@ -12,7 +12,6 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/keyline_5"
         android:orientation="vertical"
         android:paddingTop="@dimen/keyline_1"
         android:paddingBottom="@dimen/keyline_1">
@@ -20,18 +19,20 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/keyline_2"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="@{information.name}"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             android:textIsSelectable="true"
-            tools:text="@tools:sample/lorem" />
+            tools:text="@tools:sample/lorem/random" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/keyline_2"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="@{information.value}"
             android:textIsSelectable="true"
-            tools:text="@tools:sample/lorem" />
+            tools:text="@tools:sample/lorem/random" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
