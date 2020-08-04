@@ -20,6 +20,8 @@ open class PublisherConfig(
 ) : KoinComponent {
 
     protected val context: Context by inject()
+
+    @Suppress("MemberVisibilityCanBePrivate")
     protected val sharedPreference: SharedPreferences =
         context.getSharedPreferences(PUBLISHER_CONFIG, MODE_PRIVATE)
     val isEnabledLiveData =

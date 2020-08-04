@@ -10,6 +10,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
 
+@Suppress("DEPRECATION")
 @BindingAdapter(
     "paddingStartSystemWindowInsets",
     "paddingTopSystemWindowInsets",
@@ -50,6 +51,7 @@ fun View.applySystemWindowInsetsPadding(
     }
 }
 
+@Suppress("DEPRECATION")
 @BindingAdapter(
     "marginStartSystemWindowInsets",
     "marginTopSystemWindowInsets",
