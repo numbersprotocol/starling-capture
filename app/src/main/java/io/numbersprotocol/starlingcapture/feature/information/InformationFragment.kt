@@ -21,7 +21,7 @@ class InformationFragment : Fragment() {
 
     private val informationViewModel: InformationViewModel by viewModel()
     private val args: InformationFragmentArgs by navArgs()
-    private lateinit var binding: FragmentInformationBinding
+    private var binding: FragmentInformationBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +40,12 @@ class InformationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentInformationBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = informationViewModel
+        FragmentInformationBinding.inflate(inflater, container, false).also {
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = informationViewModel
+            binding = it
+            return it.root
         }
-        return binding.root
     }
 
     @ExperimentalCoroutinesApi
@@ -57,7 +58,7 @@ class InformationFragment : Fragment() {
     @ExperimentalCoroutinesApi
     private fun bindInformationRecyclerView() {
         val informationAdapter = GroupAdapter<GroupieViewHolder>()
-        binding.recyclerView.adapter = informationAdapter
+        binding?.apply { recyclerView.adapter = informationAdapter }
         val groups = mutableListOf<Group>()
         informationViewModel.informationGroup.observe(viewLifecycleOwner) {
             it.forEach { (type, informationList) ->
@@ -67,5 +68,10 @@ class InformationFragment : Fragment() {
             }
             informationAdapter.addAll(groups)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }
