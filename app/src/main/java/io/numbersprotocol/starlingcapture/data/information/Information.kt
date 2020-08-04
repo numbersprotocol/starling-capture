@@ -1,10 +1,14 @@
 package io.numbersprotocol.starlingcapture.data.information
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.TypeConverter
 import com.squareup.moshi.JsonClass
+import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 
 @JsonClass(generateAdapter = true)
@@ -22,7 +26,8 @@ data class Information(
     val provider: String,
     val name: String,
     val value: String,
-    val importance: Importance
+    val importance: Importance,
+    @Embedded(prefix = "type") val type: Type = Type.OTHER_TYPE
 ) : Comparable<Information> {
 
     override operator fun compareTo(other: Information) = comparator.compare(this, other)
@@ -44,6 +49,15 @@ data class Information(
 
             @TypeConverter
             fun fromImportance(importance: Importance) = importance.value
+        }
+    }
+
+    data class Type(
+        @StringRes val name: Int,
+        @DrawableRes val icon: Int
+    ) {
+        companion object {
+            val OTHER_TYPE = Type(R.string.others, R.drawable.ic_info)
         }
     }
 

@@ -12,7 +12,7 @@ import io.numbersprotocol.starlingcapture.data.information.Information
 import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.databinding.ItemInformationProviderBinding
-import io.numbersprotocol.starlingcapture.feature.information.InformationAdapter
+import io.numbersprotocol.starlingcapture.databinding.ItemSimpleInformationBinding
 import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
 
 class InformationProviderAdapter(
@@ -35,7 +35,7 @@ class InformationProviderAdapter(
         private val binding: ItemInformationProviderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val adapter = InformationAdapter()
+        private val adapter = SimpleInformationAdapter()
 
         fun bind(item: String) {
             binding.provider = item
@@ -48,6 +48,39 @@ class InformationProviderAdapter(
                 }
             binding.viewAllButton.setOnClickListener { listener.onItemClick(item, itemView) }
             binding.executePendingBindings()
+        }
+    }
+
+    class SimpleInformationAdapter :
+        ListAdapter<Information, SimpleInformationAdapter.ViewHolder>(diffCallback) {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val layoutInflater = LayoutInflater.from(parent.context)
+            val binding = ItemSimpleInformationBinding.inflate(layoutInflater, parent, false)
+            return ViewHolder(binding)
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) =
+            holder.bind(getItem(position))
+
+        inner class ViewHolder(
+            private val binding: ItemSimpleInformationBinding
+        ) : RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(item: Information) {
+                binding.information = item
+                binding.executePendingBindings()
+            }
+        }
+
+        companion object {
+            private val diffCallback = object : DiffUtil.ItemCallback<Information>() {
+                override fun areItemsTheSame(oldItem: Information, newItem: Information) =
+                    oldItem.proofHash == newItem.proofHash && oldItem.provider == newItem.provider
+
+                override fun areContentsTheSame(oldItem: Information, newItem: Information) =
+                    oldItem == newItem
+            }
         }
     }
 

@@ -8,6 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.xwray.groupie.Group
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.Section
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import io.numbersprotocol.starlingcapture.databinding.FragmentInformationBinding
 import kotlinx.android.synthetic.main.fragment_information.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -52,10 +56,16 @@ class InformationFragment : Fragment() {
 
     @ExperimentalCoroutinesApi
     private fun bindInformationRecyclerView() {
-        val informationAdapter = InformationAdapter()
+        val informationAdapter = GroupAdapter<GroupieViewHolder>()
         binding.recyclerView.adapter = informationAdapter
-        informationViewModel.informationList.observe(viewLifecycleOwner) {
-            informationAdapter.submitList(it)
+        val groups = mutableListOf<Group>()
+        informationViewModel.informationGroup.observe(viewLifecycleOwner) {
+            it.forEach { (type, informationList) ->
+                groups.add(Section(TypeItem(type)).apply {
+                    addAll(informationList.map { information -> InformationItem(information) })
+                })
+            }
+            informationAdapter.addAll(groups)
         }
     }
 }

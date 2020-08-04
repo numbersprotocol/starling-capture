@@ -64,7 +64,12 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
+        dataBinding true
+        viewBinding true
+    }
+
+    androidExtensions {
+        experimental = true
     }
 
     lintOptions {
@@ -127,6 +132,10 @@ dependencies {
 
     implementation "io.coil-kt:coil:0.11.0"
     implementation "io.coil-kt:coil-video:0.11.0"
+
+    implementation "com.github.lisawray.groupie:groupie:2.8.1"
+    implementation "com.github.lisawray.groupie:groupie-viewbinding:2.8.1"
+    implementation "com.github.lisawray.groupie:groupie-kotlin-android-extensions:2.8.1"
 
     implementation "com.jakewharton.timber:timber:4.7.1"
     implementation 'com.karumi:dexter:6.2.1'

@@ -10,6 +10,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 
 class InformationViewModel(informationRepository: InformationRepository) : ViewModel() {
 
@@ -17,7 +18,7 @@ class InformationViewModel(informationRepository: InformationRepository) : ViewM
     val provider = MutableLiveData<String>()
 
     @ExperimentalCoroutinesApi
-    val informationList = combine(
+    val informationGroup = combine(
         proof.asFlow().filterNotNull(),
         provider.asFlow().filterNotNull()
     ) { proof: Proof, provider: String -> proof to provider }
@@ -26,5 +27,6 @@ class InformationViewModel(informationRepository: InformationRepository) : ViewM
                 proof,
                 provider
             )
-        }.asLiveData(timeoutInMs = 0)
+        }.map { it.groupBy { information -> information.type } }
+        .asLiveData(timeoutInMs = 0)
 }
