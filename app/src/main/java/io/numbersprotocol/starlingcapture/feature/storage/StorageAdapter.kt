@@ -56,6 +56,11 @@ class StorageAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bind(getItem(position))
 
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.coroutineContext.cancelChildren()
+    }
+
     suspend fun selectAll() {
         selectedItems.addAll(proofRepository.getAll())
         notifyDataSetChanged()
