@@ -7,6 +7,8 @@ import androidx.work.WorkerParameters
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
+import io.numbersprotocol.starlingcapture.data.publish_history.PublishHistory
+import io.numbersprotocol.starlingcapture.data.publish_history.PublishHistoryRepository
 import io.numbersprotocol.starlingcapture.util.NotificationUtil
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -21,6 +23,7 @@ abstract class ProofPublisher(
     abstract val name: String
     lateinit var proofHash: String
     private val proofRepository: ProofRepository by inject()
+    private val publishHistoryRepository: PublishHistoryRepository by inject()
     private val notificationUtil: NotificationUtil by inject()
     private val notificationId = notificationUtil.createNotificationId()
     private val notificationBuilder: NotificationCompat.Builder =
@@ -38,6 +41,8 @@ abstract class ProofPublisher(
         return try {
             Timber.i("Start to publish proof: $proofHash")
             val result = publish(proofRepository.getByHash(proofHash)!!)
+            check(result == Result.success())
+            savePublishHistory()
             notifyFinishPublish()
             result
         } catch (e: HttpException) {
@@ -61,6 +66,12 @@ abstract class ProofPublisher(
                     .bigText("$proofHash ${context.getString(R.string.message_is_being_published_to)} $name")
             )
         notificationUtil.notify(notificationId, notificationBuilder)
+    }
+
+    private suspend fun savePublishHistory() {
+        publishHistoryRepository.addOrUpdate(
+            PublishHistory(proofHash, name, System.currentTimeMillis())
+        )
     }
 
     private fun notifyFinishPublish() {

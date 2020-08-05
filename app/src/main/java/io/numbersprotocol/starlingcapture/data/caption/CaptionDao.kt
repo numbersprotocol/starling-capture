@@ -4,17 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface CaptionDao {
+abstract class CaptionDao {
 
     @Query("SELECT * FROM Caption WHERE Caption.proofHash = :proofHash")
-    suspend fun queryByProofHash(proofHash: String): Caption?
+    abstract suspend fun queryByProofHash(proofHash: String): Caption?
 
     @Query("SELECT * FROM Caption WHERE Caption.proofHash = :proofHash")
-    fun queryByProofHashWithLiveData(proofHash: String): LiveData<Caption>
+    abstract fun queryByProofHashWithLiveData(proofHash: String): LiveData<Caption>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(caption: Caption): Long
+    abstract suspend fun insert(caption: Caption): Long
 
     @Update
-    suspend fun update(caption: Caption): Int
+    abstract suspend fun update(caption: Caption): Int
+
+    @Transaction
+    open suspend fun upsert(caption: Caption) {
+        val rowId = insert(caption)
+        if (rowId == -1L) update(caption)
+    }
 }

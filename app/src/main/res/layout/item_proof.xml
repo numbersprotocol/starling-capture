@@ -47,6 +47,21 @@
                 app:layout_constraintWidth_percent=".3"
                 app:srcCompat="@drawable/ic_videocam"
                 app:tint="@color/white_50" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/publishedIndicator"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/keyline_2"
+                android:layout_marginBottom="@dimen/keyline_2"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHeight_percent=".3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent=".3"
+                app:srcCompat="@drawable/ic_publish"
+                app:tint="@color/white_50" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
