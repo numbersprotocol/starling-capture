@@ -179,7 +179,6 @@ The `SortedProofInformation` class provides the message of signature provider.
         timestamp: Long
     },
     information: [{
-        proofHash: String,
         provider: String,
         name: String,
         value: String
@@ -200,7 +199,6 @@ Example:
    },
    "information":[
       {
-         "proofHash":"1837bc2c546d46c705204cf9f857b90b1dbffd2a7988451670119945ba39a10b",
          "provider":"ProofMode",
          "name":"Current Location",
          "value":"121.0, 23.0"
