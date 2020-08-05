@@ -51,7 +51,6 @@ class ProofFragment(
     private val imageLoader: ImageLoader by inject(named(CoilImageLoader.LargeTransitionThumb))
     private val args: ProofFragmentArgs by navArgs()
     private lateinit var proof: Proof
-    private var binding: FragmentProofBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +73,6 @@ class ProofFragment(
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = proofViewModel
             enableSharedTransition(it)
-            binding = it
             return it.root
         }
     }
@@ -93,7 +91,7 @@ class ProofFragment(
     }
 
     private fun initializeSharedElements() {
-        binding?.apply { root.transitionName = "$proof" }
+        scrollView.transitionName = "$proof"
         thumbImageView.load(proofRepository.getRawFile(proof), imageLoader = imageLoader)
     }
 
@@ -192,12 +190,8 @@ class ProofFragment(
             informationRepository,
             proof
         )
-
-        binding?.apply {
-            informationProviderViewPager.adapter = informationProviderAdapter
-            informationProviderViewPager.enableCardPreview()
-        }
-
+        informationProviderViewPager.adapter = informationProviderAdapter
+        informationProviderViewPager.enableCardPreview()
         proofViewModel.informationProviders.observe(viewLifecycleOwner) {
             informationProviderAdapter.submitList(it)
         }
@@ -217,10 +211,8 @@ class ProofFragment(
 
     private fun bindSignatureViewPager() {
         val signatureAdapter = SignatureAdapter()
-        binding?.apply {
-            signatureViewPager.adapter = signatureAdapter
-            signatureViewPager.enableCardPreview()
-        }
+        signatureViewPager.adapter = signatureAdapter
+        signatureViewPager.enableCardPreview()
         proofViewModel.signatures.observe(viewLifecycleOwner) { signatureAdapter.submitList(it) }
     }
 
@@ -240,7 +232,8 @@ class ProofFragment(
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        informationProviderViewPager.adapter = null
+        signatureViewPager.adapter = null
     }
 
     companion object {

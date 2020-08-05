@@ -75,6 +75,9 @@
     <string name="slate">Slate</string>
     <string name="date">Date</string>
     <string name="photographer">Photographer</string>
+    <string name="information_provider">Information Provider</string>
+    <string name="collect_device_info">Collect Device Info</string>
+    <string name="collect_location_info">Collect Location Info</string>
 
     <string name="message_are_you_sure">The action cannot be undone.</string>
     <string name="message_location_permission">We need the location permission to build proof. Please allow the permission request by enabling it in Android settings.</string>

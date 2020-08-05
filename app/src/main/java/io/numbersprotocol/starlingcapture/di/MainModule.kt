@@ -10,7 +10,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.collector.ProofCollector
-import io.numbersprotocol.starlingcapture.collector.information.InfoSnapshotProvider
+import io.numbersprotocol.starlingcapture.collector.information.infosnapshot.InfoSnapshotProvider
 import io.numbersprotocol.starlingcapture.collector.signature.DefaultSignatureProvider
 import io.numbersprotocol.starlingcapture.collector.signature.zion.SessionSignature
 import io.numbersprotocol.starlingcapture.collector.signature.zion.ZionApi
@@ -25,6 +25,8 @@ import io.numbersprotocol.starlingcapture.feature.ccapi.CcapiFragment
 import io.numbersprotocol.starlingcapture.feature.ccapi.CcapiViewModel
 import io.numbersprotocol.starlingcapture.feature.information.InformationFragment
 import io.numbersprotocol.starlingcapture.feature.information.InformationViewModel
+import io.numbersprotocol.starlingcapture.feature.information_provider_config.InformationProviderConfigFragment
+import io.numbersprotocol.starlingcapture.feature.information_provider_config.InformationProviderConfigViewModel
 import io.numbersprotocol.starlingcapture.feature.proof.ProofFragment
 import io.numbersprotocol.starlingcapture.feature.proof.ProofViewModel
 import io.numbersprotocol.starlingcapture.feature.publisher_config.PublisherConfigFragment
@@ -108,6 +110,9 @@ val mainModule = module {
 
     fragment { SettingFragment() }
     fragment { PreferenceFragment() }
+
+    viewModel { InformationProviderConfigViewModel() }
+    fragment { InformationProviderConfigFragment() }
 
     viewModel { PublisherConfigViewModel() }
     fragment { PublisherConfigFragment() }

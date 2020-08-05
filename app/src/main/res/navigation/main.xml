@@ -50,6 +50,13 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/toInformationProviderConfigFragment"
+            app:destination="@id/informationProviderConfigFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
 
     <fragment
@@ -86,4 +93,9 @@
             android:name="provider"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/informationProviderConfigFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.information_provider_config.InformationProviderConfigFragment"
+        android:label="fragment_information_provider_config"
+        tools:layout="@layout/fragment_information_provider_config" />
 </navigation>
