@@ -28,7 +28,7 @@ import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.serialization.SaveProofRelatedDataWorker
 import io.numbersprotocol.starlingcapture.databinding.FragmentStorageBinding
-import io.numbersprotocol.starlingcapture.publisher.PublishersDialog
+import io.numbersprotocol.starlingcapture.publisher.PublisherManager
 import io.numbersprotocol.starlingcapture.source.InternalCameraProvider
 import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
 import io.numbersprotocol.starlingcapture.util.observeEvent
@@ -38,7 +38,7 @@ import kotlinx.android.synthetic.main.fragment_storage.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 
-class StorageFragment(private val publishersDialog: PublishersDialog) : Fragment() {
+class StorageFragment(private val publisherManager: PublisherManager) : Fragment() {
 
     private val storageViewModel: StorageViewModel by stateViewModel()
     private val adapter = StorageAdapter(createRecyclerViewItemListener())
@@ -176,7 +176,7 @@ class StorageFragment(private val publishersDialog: PublishersDialog) : Fragment
                     adapter.selectAll()
                     updateActionModeStatus()
                 }
-                R.id.publish -> publishersDialog.show(
+                R.id.publish -> publisherManager.publishOrShowSelection(
                     requireActivity(),
                     adapter.selectedItems,
                     viewLifecycleOwner
