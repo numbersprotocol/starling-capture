@@ -35,7 +35,7 @@ import io.numbersprotocol.starlingcapture.feature.storage.StorageFragment
 import io.numbersprotocol.starlingcapture.feature.storage.StorageViewModel
 import io.numbersprotocol.starlingcapture.feature.zion.ZionFragment
 import io.numbersprotocol.starlingcapture.feature.zion.ZionViewModel
-import io.numbersprotocol.starlingcapture.publisher.PublishersDialog
+import io.numbersprotocol.starlingcapture.publisher.PublisherManager
 import io.numbersprotocol.starlingcapture.source.canon.CanonCameraControlProvider
 import io.numbersprotocol.starlingcapture.util.NotificationUtil
 import io.numbersprotocol.starlingcapture.util.SortedSetAdapterFactory
@@ -91,7 +91,7 @@ val mainModule = module {
     single { ZionApi(androidContext()) }
     single { SessionSignature(get(), get()) }
 
-    single { PublishersDialog(androidContext()) }
+    single { PublisherManager(androidContext()) }
 
     single { CanonCameraControlProvider(androidContext()) }
 

@@ -11,9 +11,21 @@ import com.afollestad.materialdialogs.list.listItems
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 
-class PublishersDialog(private val context: Context) {
+class PublisherManager(private val context: Context) {
 
-    fun show(
+    fun publishOrShowSelection(
+        activity: Activity,
+        proofs: Iterable<Proof>,
+        lifecycleOwner: LifecycleOwner,
+        callback: () -> Unit = {}
+    ) {
+        if (publisherConfigs.size == 1) {
+            publisherConfigs.first().onPublish(context, proofs)
+            callback()
+        } else showSelection(activity, proofs, lifecycleOwner, callback)
+    }
+
+    private fun showSelection(
         activity: Activity,
         proofs: Iterable<Proof>,
         lifecycleOwner: LifecycleOwner,

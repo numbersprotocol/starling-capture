@@ -28,7 +28,7 @@ import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import io.numbersprotocol.starlingcapture.data.serialization.SaveProofRelatedDataWorker
 import io.numbersprotocol.starlingcapture.databinding.FragmentProofBinding
 import io.numbersprotocol.starlingcapture.di.CoilImageLoader
-import io.numbersprotocol.starlingcapture.publisher.PublishersDialog
+import io.numbersprotocol.starlingcapture.publisher.PublisherManager
 import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
 import io.numbersprotocol.starlingcapture.util.enableCardPreview
 import io.numbersprotocol.starlingcapture.util.observeEvent
@@ -42,7 +42,7 @@ import org.koin.core.qualifier.named
 class ProofFragment(
     private val proofRepository: ProofRepository,
     private val informationRepository: InformationRepository,
-    private val publishersDialog: PublishersDialog
+    private val publisherManager: PublisherManager
 ) : Fragment() {
 
     private val proofViewModel: ProofViewModel by viewModel()
@@ -102,7 +102,11 @@ class ProofFragment(
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.publish -> {
-                    publishersDialog.show(requireActivity(), setOf(proof), viewLifecycleOwner)
+                    publisherManager.publishOrShowSelection(
+                        requireActivity(),
+                        setOf(proof),
+                        viewLifecycleOwner
+                    )
                 }
                 R.id.saveAs -> dispatchPickFolderIntent()
                 R.id.delete -> showConfirmDialog { deleteProof() }
