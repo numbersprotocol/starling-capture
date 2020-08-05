@@ -38,6 +38,7 @@ class InformationProviderAdapter(
         private val adapter = SimpleInformationAdapter()
 
         fun bind(item: String) {
+            binding.root.transitionName = item
             binding.provider = item
             binding.informationRecyclerView.adapter = adapter
             informationRepository

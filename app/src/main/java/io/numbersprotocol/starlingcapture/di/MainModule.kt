@@ -19,6 +19,7 @@ import io.numbersprotocol.starlingcapture.data.caption.CaptionRepository
 import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import io.numbersprotocol.starlingcapture.data.preference.PreferenceRepository
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
+import io.numbersprotocol.starlingcapture.data.publish_history.PublishHistoryRepository
 import io.numbersprotocol.starlingcapture.data.signature.SignatureRepository
 import io.numbersprotocol.starlingcapture.feature.ccapi.CcapiFragment
 import io.numbersprotocol.starlingcapture.feature.ccapi.CcapiViewModel
@@ -34,7 +35,7 @@ import io.numbersprotocol.starlingcapture.feature.storage.StorageFragment
 import io.numbersprotocol.starlingcapture.feature.storage.StorageViewModel
 import io.numbersprotocol.starlingcapture.feature.zion.ZionFragment
 import io.numbersprotocol.starlingcapture.feature.zion.ZionViewModel
-import io.numbersprotocol.starlingcapture.publisher.PublishersDialog
+import io.numbersprotocol.starlingcapture.publisher.PublisherManager
 import io.numbersprotocol.starlingcapture.source.canon.CanonCameraControlProvider
 import io.numbersprotocol.starlingcapture.util.NotificationUtil
 import io.numbersprotocol.starlingcapture.util.SortedSetAdapterFactory
@@ -75,6 +76,9 @@ val mainModule = module {
     single { get<AppDataBase>().captionDao() }
     single { CaptionRepository(get()) }
 
+    single { get<AppDataBase>().publishHistoryDao() }
+    single { PublishHistoryRepository(get()) }
+
     single { PreferenceRepository(androidContext()) }
 
     single {
@@ -87,7 +91,7 @@ val mainModule = module {
     single { ZionApi(androidContext()) }
     single { SessionSignature(get(), get()) }
 
-    single { PublishersDialog(androidContext()) }
+    single { PublisherManager(androidContext()) }
 
     single { CanonCameraControlProvider(androidContext()) }
 
@@ -96,7 +100,7 @@ val mainModule = module {
     viewModel { (handle: SavedStateHandle) -> StorageViewModel(handle, get(), get()) }
     fragment { StorageFragment(get()) }
 
-    viewModel { ProofViewModel(get(), get(), get()) }
+    viewModel { ProofViewModel(get(), get(), get(), get()) }
     fragment { ProofFragment(get(), get(), get()) }
 
     viewModel { InformationViewModel(get()) }

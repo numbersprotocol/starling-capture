@@ -13,10 +13,10 @@
     </data>
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorSurface"
+        android:transitionGroup="true"
         app:paddingEndSystemWindowInsets="@{true}"
         app:paddingStartSystemWindowInsets="@{true}">
 
@@ -37,8 +37,8 @@
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription"
                     tools:src="@tools:sample/backgrounds/scenic" />
@@ -51,9 +51,22 @@
                     android:visibility="@{viewModel.isVideo ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintWidth_percent=".15"
                     app:srcCompat="@drawable/ic_videocam"
+                    app:tint="@color/white_50" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="@dimen/keyline_2"
+                    android:layout_marginBottom="@dimen/keyline_2"
+                    android:visibility="@{viewModel.hasPublished ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintWidth_percent=".15"
+                    app:srcCompat="@drawable/ic_publish"
                     app:tint="@color/white_50" />
 
                 <com.google.android.material.appbar.MaterialToolbar

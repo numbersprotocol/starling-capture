@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.ImageLoader
@@ -28,7 +30,7 @@ import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import io.numbersprotocol.starlingcapture.data.serialization.SaveProofRelatedDataWorker
 import io.numbersprotocol.starlingcapture.databinding.FragmentProofBinding
 import io.numbersprotocol.starlingcapture.di.CoilImageLoader
-import io.numbersprotocol.starlingcapture.publisher.PublishersDialog
+import io.numbersprotocol.starlingcapture.publisher.PublisherManager
 import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
 import io.numbersprotocol.starlingcapture.util.enableCardPreview
 import io.numbersprotocol.starlingcapture.util.observeEvent
@@ -42,7 +44,7 @@ import org.koin.core.qualifier.named
 class ProofFragment(
     private val proofRepository: ProofRepository,
     private val informationRepository: InformationRepository,
-    private val publishersDialog: PublishersDialog
+    private val publisherManager: PublisherManager
 ) : Fragment() {
 
     private val proofViewModel: ProofViewModel by viewModel()
@@ -71,9 +73,15 @@ class ProofFragment(
         FragmentProofBinding.inflate(inflater, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = proofViewModel
+            enableSharedTransition(it)
             binding = it
             return it.root
         }
+    }
+
+    private fun enableSharedTransition(binding: FragmentProofBinding) {
+        postponeEnterTransition()
+        binding.informationProviderViewPager.doOnPreDraw { startPostponedEnterTransition() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,24 +93,19 @@ class ProofFragment(
     }
 
     private fun initializeSharedElements() {
-        scrollView.transitionName = "$proof"
-        thumbImageView.load(
-            proofRepository.getRawFile(proof),
-            imageLoader = imageLoader,
-            builder = {
-                listener(
-                    onError = { _, _ -> startPostponedEnterTransition() },
-                    onSuccess = { _, _ -> startPostponedEnterTransition() }
-                )
-            }
-        )
+        binding?.apply { root.transitionName = "$proof" }
+        thumbImageView.load(proofRepository.getRawFile(proof), imageLoader = imageLoader)
     }
 
     private fun setOptionsMenuListener() {
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.publish -> {
-                    publishersDialog.show(requireActivity(), setOf(proof), viewLifecycleOwner)
+                    publisherManager.publishOrShowSelection(
+                        requireActivity(),
+                        setOf(proof),
+                        viewLifecycleOwner
+                    )
                 }
                 R.id.saveAs -> dispatchPickFolderIntent()
                 R.id.delete -> showConfirmDialog { deleteProof() }
@@ -206,7 +209,8 @@ class ProofFragment(
             override fun onItemClick(item: String, itemView: View) {
                 super.onItemClick(item, itemView)
                 findNavController().navigate(
-                    ProofFragmentDirections.toInformationFragment(proof, item)
+                    ProofFragmentDirections.toInformationFragment(proof, item),
+                    FragmentNavigatorExtras(itemView to item)
                 )
             }
         }
