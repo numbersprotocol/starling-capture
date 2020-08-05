@@ -21,14 +21,15 @@ class ZionViewModel(
     val enableSessionSignatureEvent = MutableLiveData<Event<Unit>>()
 
     @ObsoleteCoroutinesApi
+    private val tickerChannel = ticker(delayMillis = 1000, initialDelayMillis = 0)
+
+    @ObsoleteCoroutinesApi
     val sessionDurationProgress = liveData {
-        val tickerChannel = ticker(delayMillis = 1000, initialDelayMillis = 0)
         for (event in tickerChannel) emit(provideSessionDurationProgress())
     }
 
     @ObsoleteCoroutinesApi
     val sessionDescription = liveData {
-        val tickerChannel = ticker(delayMillis = 1000, initialDelayMillis = 0)
         for (event in tickerChannel) emit(provideSessionDescription())
     }
     val sessionGeneratedTimestamp = sessionSignature.timestampLiveData.map {

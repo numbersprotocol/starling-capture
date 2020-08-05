@@ -16,7 +16,4 @@ interface SignatureDao {
 
     @Insert
     suspend fun insert(vararg signatures: Signature): List<Long>
-
-    @Query("DELETE FROM Signature WHERE Signature.proofHash = :proofHash")
-    suspend fun deleteByProofHash(proofHash: String): Int
 }

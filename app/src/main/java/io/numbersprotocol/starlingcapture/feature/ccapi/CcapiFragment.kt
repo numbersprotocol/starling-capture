@@ -64,6 +64,9 @@ class CcapiFragment : Fragment() {
         ccapiViewModel.editIpAddressAndPortEvent.observeEvent(viewLifecycleOwner) {
             showEditIpAddressDialog()
         }
+        ccapiViewModel.editSlateEvent.observeEvent(viewLifecycleOwner) {
+            showEditSlateDialog()
+        }
     }
 
     private fun showEditIpAddressDialog() {
@@ -85,6 +88,18 @@ class CcapiFragment : Fragment() {
             }
             positiveButton(android.R.string.ok) {
                 address?.also { ccapiViewModel.setAddress(it) }
+            }
+            negativeButton(android.R.string.cancel) { dismiss() }
+        }
+    }
+
+    private fun showEditSlateDialog() {
+        var photographer = ""
+        MaterialDialog(requireContext()).show {
+            lifecycleOwner(viewLifecycleOwner)
+            input { _, text -> photographer = text.toString() }
+            positiveButton(android.R.string.ok) {
+                ccapiViewModel.slatePhotographer.value = photographer
             }
             negativeButton(android.R.string.cancel) { dismiss() }
         }

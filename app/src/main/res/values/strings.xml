@@ -72,6 +72,9 @@
     <string name="location">Location</string>
     <string name="device">Device</string>
     <string name="others">Others</string>
+    <string name="slate">Slate</string>
+    <string name="date">Date</string>
+    <string name="photographer">Photographer</string>
 
     <string name="message_are_you_sure">The action cannot be undone.</string>
     <string name="message_location_permission">We need the location permission to build proof. Please allow the permission request by enabling it in Android settings.</string>
