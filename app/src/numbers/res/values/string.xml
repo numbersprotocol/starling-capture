@@ -10,9 +10,6 @@
     <string name="create_account">Create Account</string>
     <string name="required">Required</string>
     <string name="logout">Logout</string>
-    <string name="slate">Slate</string>
-    <string name="date">Date</string>
-    <string name="photographer">Photographer</string>
 
     <string name="message_invalid_email">Invalid email address.</string>
     <string name="message_too_short">The value is too short.</string>

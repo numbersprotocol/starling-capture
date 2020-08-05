@@ -3,16 +3,17 @@ package io.numbersprotocol.starlingcapture.feature.ccapi
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import io.numbersprotocol.starlingcapture.source.canon.CanonCameraControlProvider
 import io.numbersprotocol.starlingcapture.util.Event
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CcapiViewModel(
     private val canonCameraControlProvider: CanonCameraControlProvider
@@ -21,6 +22,23 @@ class CcapiViewModel(
     val isEnabled = canonCameraControlProvider.isEnabledLiveData
     val address = canonCameraControlProvider.addressLiveData
     val editIpAddressAndPortEvent = MutableLiveData<Event<Unit>>()
+
+    @ObsoleteCoroutinesApi
+    private val tickerChannel = ticker(delayMillis = 500, initialDelayMillis = 0)
+
+    @ObsoleteCoroutinesApi
+    val slateTime = liveData {
+        val dateFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        for (event in tickerChannel) emit(dateFormat.format(Date()))
+    }
+
+    @ObsoleteCoroutinesApi
+    val slateDate = liveData {
+        val dateFormat = SimpleDateFormat.getDateInstance()
+        for (event in tickerChannel) emit(dateFormat.format(Date()))
+    }
+    val slatePhotographer = MutableLiveData<String>("")
+    val editSlateEvent = MutableLiveData<Event<String>>()
 
     private var liveViewJob: Job? = null
     val liveView = MutableLiveData<Bitmap?>()
@@ -54,5 +72,9 @@ class CcapiViewModel(
 
     fun setAddress(address: String) {
         canonCameraControlProvider.address = address
+    }
+
+    fun editSlate() {
+        editSlateEvent.value = Event(slatePhotographer.value ?: "")
     }
 }

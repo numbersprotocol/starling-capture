@@ -36,7 +36,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            android:clipToPadding="false"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:paddingBottomSystemWindowInsets="@{true}">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -148,6 +150,107 @@
                             android:text="@string/nothing_here"
                             android:visibility="@{viewModel.isEnabled ? View.GONE : View.VISIBLE}" />
                     </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/keyline_3"
+                        android:layout_weight="1"
+                        android:text="@string/slate"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MyTheme.Button.TextButton.IconOnly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/keyline_2"
+                        android:onClick="@{() -> viewModel.editSlate()}"
+                        app:icon="@drawable/ic_edit" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:paddingStart="@dimen/keyline_2"
+                        android:paddingEnd="@dimen/keyline_2"
+                        android:paddingBottom="@dimen/keyline_2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/slate" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.6">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/keyline_4"
+                            android:fontFamily="@font/dseg7classic"
+                            android:text="@{viewModel.slateTime}"
+                            android:textAppearance="?attr/textAppearanceHeadline3"
+                            android:textColor="@color/red_200"
+                            tools:text="23:07:21" />
+
+                        <GridLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/keyline_4"
+                            android:layout_marginEnd="@dimen/keyline_4"
+                            android:columnCount="2">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/keyline_4"
+                                android:layout_marginBottom="@dimen/keyline_1"
+                                android:text="@string/date"
+                                android:textColor="@color/white_50" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/keyline_1"
+                                android:text="@{viewModel.slateDate}"
+                                android:textColor="@color/white_50"
+                                tools:text="@tools:sample/date/mmddyy" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/keyline_4"
+                                android:text="@string/photographer"
+                                android:textColor="@color/white_50" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewModel.slatePhotographer}"
+                                android:textColor="@color/white_50"
+                                tools:text="@tools:sample/full_names" />
+                        </GridLayout>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
