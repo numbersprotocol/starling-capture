@@ -2,6 +2,7 @@ package io.numbersprotocol.starlingcapture.feature.storage
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -14,9 +15,16 @@ import com.google.android.material.card.MaterialCardView
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
+import io.numbersprotocol.starlingcapture.data.publish_history.PublishHistoryRepository
 import io.numbersprotocol.starlingcapture.di.CoilImageLoader
 import io.numbersprotocol.starlingcapture.util.MimeType
 import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.koin.core.qualifier.named
@@ -26,6 +34,7 @@ class StorageAdapter(
 ) : PagedListAdapter<Proof, StorageAdapter.ViewHolder>(diffCallback), KoinComponent {
 
     private val proofRepository: ProofRepository by inject()
+    private val publishHistoryRepository: PublishHistoryRepository by inject()
     private val imageLoader: ImageLoader by inject(named(CoilImageLoader.SmallThumb))
 
     var isMultiSelected = false
@@ -52,13 +61,17 @@ class StorageAdapter(
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(
+        itemView: View
+    ) : RecyclerView.ViewHolder(itemView), CoroutineScope by MainScope() {
 
         private val thumbCardView: MaterialCardView = itemView.findViewById(R.id.thumbCardView)
         private val thumbImageView: ImageView = itemView.findViewById(R.id.thumbImageView)
         private val videoIndicator: ImageView = itemView.findViewById(R.id.videoIndicator)
+        private val publishedIndicator: ImageView = itemView.findViewById(R.id.publishedIndicator)
 
         fun bind(item: Proof?) {
+            coroutineContext.cancelChildren()
             thumbCardView.isChecked = selectedItems.contains(item)
             if (item == null) {
                 bindLoading()
@@ -66,7 +79,8 @@ class StorageAdapter(
                 bindListener(item)
                 thumbCardView.transitionName = "$item"
                 bindThumbImage(item)
-                if (item.mimeType == MimeType.MP4) videoIndicator.visibility = VISIBLE
+                bindVideoIndicator(item)
+                bindPublishedIndicator(item)
             }
         }
 
@@ -89,6 +103,17 @@ class StorageAdapter(
         private fun bindThumbImage(proof: Proof) {
             val rawMediaFile = proofRepository.getRawFile(proof)
             thumbImageView.load(rawMediaFile, imageLoader = imageLoader)
+        }
+
+        private fun bindVideoIndicator(proof: Proof) {
+            if (proof.mimeType == MimeType.MP4) videoIndicator.visibility = VISIBLE
+            else videoIndicator.visibility = GONE
+        }
+
+        private fun bindPublishedIndicator(proof: Proof) = launch {
+            publishHistoryRepository.getByProofWithFlow(proof)
+                .map { it.isNotEmpty() }
+                .collect { publishedIndicator.visibility = if (it) VISIBLE else GONE }
         }
 
         private fun selectItem(item: Proof) {

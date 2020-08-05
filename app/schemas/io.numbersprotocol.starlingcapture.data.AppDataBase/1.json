@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2d14de02a1e8c0a344c0f2fe76ac5029",
+    "identityHash": "8570b2a6f4b3bfa2bc122c04967da0e1",
     "entities": [
       {
         "tableName": "Proof",
@@ -196,12 +196,57 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "PublishHistory",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`proofHash` TEXT NOT NULL, `publisher` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`proofHash`, `publisher`), FOREIGN KEY(`proofHash`) REFERENCES `Proof`(`hash`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "proofHash",
+            "columnName": "proofHash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publisher",
+            "columnName": "publisher",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "proofHash",
+            "publisher"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Proof",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "proofHash"
+            ],
+            "referencedColumns": [
+              "hash"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2d14de02a1e8c0a344c0f2fe76ac5029')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8570b2a6f4b3bfa2bc122c04967da0e1')"
     ]
   }
 }

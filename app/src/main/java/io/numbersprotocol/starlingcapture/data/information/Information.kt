@@ -7,11 +7,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.TypeConverter
-import com.squareup.moshi.JsonClass
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 
-@JsonClass(generateAdapter = true)
 @Entity(
     primaryKeys = ["proofHash", "provider", "name"],
     foreignKeys = [ForeignKey(
