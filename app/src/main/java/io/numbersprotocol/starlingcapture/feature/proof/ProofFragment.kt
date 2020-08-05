@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.ImageLoader
@@ -71,9 +73,15 @@ class ProofFragment(
         FragmentProofBinding.inflate(inflater, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = proofViewModel
+            enableSharedTransition(it)
             binding = it
             return it.root
         }
+    }
+
+    private fun enableSharedTransition(binding: FragmentProofBinding) {
+        postponeEnterTransition()
+        binding.informationProviderViewPager.doOnPreDraw { startPostponedEnterTransition() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,17 +93,8 @@ class ProofFragment(
     }
 
     private fun initializeSharedElements() {
-        scrollView.transitionName = "$proof"
-        thumbImageView.load(
-            proofRepository.getRawFile(proof),
-            imageLoader = imageLoader,
-            builder = {
-                listener(
-                    onError = { _, _ -> startPostponedEnterTransition() },
-                    onSuccess = { _, _ -> startPostponedEnterTransition() }
-                )
-            }
-        )
+        binding?.apply { root.transitionName = "$proof" }
+        thumbImageView.load(proofRepository.getRawFile(proof), imageLoader = imageLoader)
     }
 
     private fun setOptionsMenuListener() {
@@ -206,7 +205,8 @@ class ProofFragment(
             override fun onItemClick(item: String, itemView: View) {
                 super.onItemClick(item, itemView)
                 findNavController().navigate(
-                    ProofFragmentDirections.toInformationFragment(proof, item)
+                    ProofFragmentDirections.toInformationFragment(proof, item),
+                    FragmentNavigatorExtras(itemView to item)
                 )
             }
         }
