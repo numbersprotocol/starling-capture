@@ -12,6 +12,13 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/information">
+        <Preference
+            app:icon="@drawable/ic_fingerprint"
+            app:key="@string/key_information_provider"
+            app:title="@string/information_provider" />
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/signature">
         <EditTextPreference
             app:icon="@drawable/ic_lock_open"

@@ -9,7 +9,7 @@
         android:id="@+id/publisherFragment"
         android:name="io.numbersprotocol.starlingcapture.feature.publisher_config.PublisherConfigFragment"
         android:label="@string/publisher"
-        tools:layout="@layout/fragment_publisher">
+        tools:layout="@layout/fragment_publisher_config">
         <action
             android:id="@+id/toNumbersStoragePublisherLoginFragment"
             app:destination="@id/numbersStoragePublisherLoginFragment" />

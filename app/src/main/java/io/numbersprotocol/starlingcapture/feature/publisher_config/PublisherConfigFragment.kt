@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import io.numbersprotocol.starlingcapture.databinding.FragmentPublisherBinding
+import io.numbersprotocol.starlingcapture.databinding.FragmentPublisherConfigBinding
 import io.numbersprotocol.starlingcapture.publisher.PublisherConfig
 import io.numbersprotocol.starlingcapture.publisher.publisherConfigs
 import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
-import kotlinx.android.synthetic.main.fragment_publisher.*
+import kotlinx.android.synthetic.main.fragment_publisher_config.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PublisherConfigFragment : Fragment() {
@@ -28,7 +28,7 @@ class PublisherConfigFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        FragmentPublisherBinding.inflate(inflater, container, false).also { binding ->
+        FragmentPublisherConfigBinding.inflate(inflater, container, false).also { binding ->
             binding.lifecycleOwner = viewLifecycleOwner
             binding.viewModel = publisherConfigViewModel
             binding.recyclerView.adapter = PublisherConfigAdapter(recyclerViewItemListener).apply {

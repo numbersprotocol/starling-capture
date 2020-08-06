@@ -22,9 +22,17 @@ class PreferenceFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+        initInformationPreferences()
         initSignaturePreferences()
         initPublisherPreferences()
         initAboutPreferences()
+    }
+
+    private fun initInformationPreferences() {
+        findPreference<Preference>(getString(R.string.key_information_provider))?.setOnPreferenceClickListener {
+            findNavController().navigate(R.id.toInformationProviderConfigFragment)
+            true
+        }
     }
 
     private fun initSignaturePreferences() {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="key_dark_mode">key_dark_mode</string>
+    <string name="key_information_provider">key_information_provider</string>
     <string name="key_default_public_key">key_default_public_key</string>
     <string name="key_default_private_key">key_default_private_key</string>
     <string name="key_sign_with_zion">key_sign_with_zion</string>
