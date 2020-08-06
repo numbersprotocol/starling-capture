@@ -19,6 +19,7 @@ class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupKoinFragmentFactory()
+        setTheme(R.style.Theme_MyApp)
         ActivityBaseBinding.inflate(layoutInflater).also { binding ->
             binding.lifecycleOwner = this
             setContentView(binding.root)

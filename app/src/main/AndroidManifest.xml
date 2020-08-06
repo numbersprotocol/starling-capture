@@ -15,9 +15,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/starling_capture"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".BaseActivity">
+        <activity
+            android:name=".BaseActivity"
+            android:theme="@style/Theme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

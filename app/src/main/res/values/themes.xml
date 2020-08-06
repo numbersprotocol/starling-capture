@@ -58,4 +58,8 @@
         <item name="actionModeStyle">@style/Widget.MyTheme.ActionMode</item>
         <item name="actionModeCloseDrawable">@drawable/ic_close</item>
     </style>
+
+    <style name="Theme.Splash" parent="Base.Theme.MyApp">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
 </resources>
