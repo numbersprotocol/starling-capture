@@ -242,6 +242,14 @@ Example:
 ]
 ```
 
+## Release
+
+1. Bump app version.
+1. Commit and push the update.
+1. Create a pre-release on `develop` branch and write the release note.
+1. Upload `masterQa` APK to the release asset.
+1. Upload `numbersQa` to the internal space.
+
 ## Caveat
 
 * The default keypair is not encrypted in AndroidKeyStore. Thus, if the device is rooted, your default key pair could be compromised.
