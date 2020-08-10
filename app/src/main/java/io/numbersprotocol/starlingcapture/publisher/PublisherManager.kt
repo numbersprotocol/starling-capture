@@ -19,7 +19,7 @@ class PublisherManager(private val context: Context) {
         lifecycleOwner: LifecycleOwner,
         callback: () -> Unit = {}
     ) {
-        if (publisherConfigs.size == 1) {
+        if (publisherConfigs.size == 1 && publisherConfigs.first().isEnabled) {
             publisherConfigs.first().onPublish(context, proofs)
             callback()
         } else showSelection(activity, proofs, lifecycleOwner, callback)
