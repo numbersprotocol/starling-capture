@@ -145,7 +145,7 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.4"
 
     numbersImplementation "com.google.firebase:firebase-analytics-ktx:17.4.4"
-    numbersImplementation "com.google.firebase:firebase-crashlytics:17.1.1"
+    numbersImplementation "com.google.firebase:firebase-crashlytics:17.2.1"
 
     testImplementation "junit:junit:4.13"
     testImplementation "org.mockito:mockito-core:3.4.6"
