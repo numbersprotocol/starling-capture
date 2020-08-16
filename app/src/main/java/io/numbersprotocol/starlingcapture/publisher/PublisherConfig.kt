@@ -23,10 +23,10 @@ open class PublisherConfig(
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected val sharedPreference: SharedPreferences =
-        context.getSharedPreferences(PUBLISHER_CONFIG, MODE_PRIVATE)
+        context.getSharedPreferences("${PUBLISHER_CONFIG}_${context.getString(name)}", MODE_PRIVATE)
     val isEnabledLiveData =
-        sharedPreference.booleanLiveData("${context.getString(name)}_$KEY_IS_ENABLED")
-    var isEnabled by sharedPreference.booleanPref("${context.getString(name)}_$KEY_IS_ENABLED")
+        sharedPreference.booleanLiveData(KEY_IS_ENABLED)
+    var isEnabled by sharedPreference.booleanPref(KEY_IS_ENABLED)
 
     companion object {
         private const val PUBLISHER_CONFIG = "PUBLISHER_CONFIG"
