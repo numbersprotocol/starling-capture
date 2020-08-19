@@ -1,6 +1,8 @@
 package io.numbersprotocol.starlingcapture.util
 
 import androidx.room.TypeConverter
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
 import java.io.File
 import java.util.*
 
@@ -10,13 +12,22 @@ enum class MimeType(private val string: String, val extension: String) {
 
     override fun toString() = string
 
-    class Converter {
+    class RoomTypeConverter {
 
         @TypeConverter
         fun toMimeType(value: String) = fromString(value)
 
         @TypeConverter
         fun fromMimeType(value: MimeType) = value.toString()
+    }
+
+    class JsonAdapter {
+
+        @FromJson
+        fun fromJson(value: String) = fromString(value)
+
+        @ToJson
+        fun toJson(value: MimeType) = value.toString()
     }
 
     companion object {

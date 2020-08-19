@@ -24,7 +24,7 @@ import io.numbersprotocol.starlingcapture.util.MimeType
         PublishHistory::class
     ], version = 1
 )
-@TypeConverters(MimeType.Converter::class, Information.Importance.Converter::class)
+@TypeConverters(MimeType.RoomTypeConverter::class, Information.Importance.RoomTypeConverter::class)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun proofDao(): ProofDao

@@ -39,7 +39,7 @@ data class Information(
             }
         }
 
-        class Converter {
+        class RoomTypeConverter {
             @TypeConverter
             fun toImportance(value: Int) = fromValue(value)
 
