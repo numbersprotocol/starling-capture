@@ -39,6 +39,7 @@ import io.numbersprotocol.starlingcapture.feature.zion.ZionFragment
 import io.numbersprotocol.starlingcapture.feature.zion.ZionViewModel
 import io.numbersprotocol.starlingcapture.publisher.PublisherManager
 import io.numbersprotocol.starlingcapture.source.canon.CanonCameraControlProvider
+import io.numbersprotocol.starlingcapture.util.MimeType
 import io.numbersprotocol.starlingcapture.util.NotificationUtil
 import io.numbersprotocol.starlingcapture.util.SortedSetAdapterFactory
 import org.koin.android.ext.koin.androidContext
@@ -53,6 +54,7 @@ val mainModule = module {
 
     single {
         Moshi.Builder()
+            .add(MimeType.JsonAdapter())
             .add(SortedSetAdapterFactory())
             .add(KotlinJsonAdapterFactory())
             .build()
