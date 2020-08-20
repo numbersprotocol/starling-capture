@@ -31,10 +31,7 @@ import io.numbersprotocol.starlingcapture.data.serialization.SaveProofRelatedDat
 import io.numbersprotocol.starlingcapture.databinding.FragmentProofBinding
 import io.numbersprotocol.starlingcapture.di.CoilImageLoader
 import io.numbersprotocol.starlingcapture.publisher.PublisherManager
-import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
-import io.numbersprotocol.starlingcapture.util.enableCardPreview
-import io.numbersprotocol.starlingcapture.util.observeEvent
-import io.numbersprotocol.starlingcapture.util.snack
+import io.numbersprotocol.starlingcapture.util.*
 import kotlinx.android.synthetic.main.fragment_proof.*
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -202,7 +199,7 @@ class ProofFragment(
 
             override fun onItemClick(item: String, itemView: View) {
                 super.onItemClick(item, itemView)
-                findNavController().navigate(
+                findNavController().navigateSafely(
                     ProofFragmentDirections.toInformationFragment(proof, item),
                     FragmentNavigatorExtras(itemView to item)
                 )

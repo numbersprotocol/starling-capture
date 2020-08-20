@@ -10,6 +10,7 @@ import io.numbersprotocol.starlingcapture.databinding.FragmentPublisherConfigBin
 import io.numbersprotocol.starlingcapture.publisher.PublisherConfig
 import io.numbersprotocol.starlingcapture.publisher.publisherConfigs
 import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
+import io.numbersprotocol.starlingcapture.util.navigateSafely
 import kotlinx.android.synthetic.main.fragment_publisher_config.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -19,7 +20,7 @@ class PublisherConfigFragment : Fragment() {
     private val recyclerViewItemListener = object : RecyclerViewItemListener<PublisherConfig>() {
         override fun onItemClick(item: PublisherConfig, itemView: View) {
             super.onItemClick(item, itemView)
-            findNavController().navigate(item.toFragmentAction)
+            findNavController().navigateSafely(item.toFragmentAction)
         }
     }
 

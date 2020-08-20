@@ -30,10 +30,7 @@ import io.numbersprotocol.starlingcapture.data.serialization.SaveProofRelatedDat
 import io.numbersprotocol.starlingcapture.databinding.FragmentStorageBinding
 import io.numbersprotocol.starlingcapture.publisher.PublisherManager
 import io.numbersprotocol.starlingcapture.source.InternalCameraProvider
-import io.numbersprotocol.starlingcapture.util.RecyclerViewItemListener
-import io.numbersprotocol.starlingcapture.util.observeEvent
-import io.numbersprotocol.starlingcapture.util.snack
-import io.numbersprotocol.starlingcapture.util.themeColor
+import io.numbersprotocol.starlingcapture.util.*
 import kotlinx.android.synthetic.main.fragment_storage.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
@@ -71,7 +68,7 @@ class StorageFragment(private val publisherManager: PublisherManager) : Fragment
 
     private fun setOptionsMenuListener() {
         toolbar.setOnMenuItemClickListener { menuItem ->
-            if (menuItem.itemId == R.id.navigate_to_setting) findNavController().navigate(R.id.toSettingFragment)
+            if (menuItem.itemId == R.id.navigate_to_setting) findNavController().navigateSafely(R.id.toSettingFragment)
             true
         }
     }
@@ -107,7 +104,7 @@ class StorageFragment(private val publisherManager: PublisherManager) : Fragment
         MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
             lifecycleOwner(viewLifecycleOwner)
             listItems(items = items) { _, _, text ->
-                if (text == getString(R.string.canon_ccapi)) findNavController().navigate(R.id.toCcapiFragment)
+                if (text == getString(R.string.canon_ccapi)) findNavController().navigateSafely(R.id.toCcapiFragment)
                 else startActivityForInternalCamera(text.toString())
             }
         }
@@ -147,7 +144,7 @@ class StorageFragment(private val publisherManager: PublisherManager) : Fragment
         }
 
     private fun navigateToProofFragment(item: Proof, itemView: View) {
-        findNavController().navigate(
+        findNavController().navigateSafely(
             StorageFragmentDirections.toProofFragment(item),
             FragmentNavigatorExtras(itemView to "$item")
         )

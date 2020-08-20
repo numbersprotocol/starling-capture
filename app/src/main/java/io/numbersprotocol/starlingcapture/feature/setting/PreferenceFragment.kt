@@ -10,6 +10,7 @@ import androidx.preference.PreferenceFragmentCompat
 import io.numbersprotocol.starlingcapture.BuildConfig.VERSION_NAME
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.collector.signature.zion.ZionApi
+import io.numbersprotocol.starlingcapture.util.navigateSafely
 
 class PreferenceFragment : PreferenceFragmentCompat() {
 
@@ -30,7 +31,7 @@ class PreferenceFragment : PreferenceFragmentCompat() {
 
     private fun initInformationPreferences() {
         findPreference<Preference>(getString(R.string.key_information_provider))?.setOnPreferenceClickListener {
-            findNavController().navigate(R.id.toInformationProviderConfigFragment)
+            findNavController().navigateSafely(R.id.toInformationProviderConfigFragment)
             true
         }
     }
@@ -60,14 +61,14 @@ class PreferenceFragment : PreferenceFragmentCompat() {
                 }
             }
             setOnPreferenceClickListener {
-                findNavController().navigate(R.id.toZionFragment)
+                findNavController().navigateSafely(R.id.toZionFragment)
                 true
             }
         }
 
     private fun initPublisherPreferences() =
         findPreference<Preference>(R.string.key_publisher)?.setOnPreferenceClickListener {
-            findNavController().navigate(R.id.toPublisherGraph)
+            findNavController().navigateSafely(R.id.toPublisherGraph)
             true
         }
 

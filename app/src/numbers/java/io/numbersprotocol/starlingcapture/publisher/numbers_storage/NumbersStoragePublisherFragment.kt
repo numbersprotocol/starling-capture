@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.databinding.FragmentNumbersStoragePublisherLoginBinding
+import io.numbersprotocol.starlingcapture.util.navigateSafely
 import io.numbersprotocol.starlingcapture.util.observeEvent
 import io.numbersprotocol.starlingcapture.util.scopedLayoutFullScreen
 import io.numbersprotocol.starlingcapture.util.snack
@@ -43,7 +44,7 @@ class NumbersStoragePublisherFragment : Fragment() {
 
     private fun bindViewLifecycle() {
         numbersStoragePublisherViewModel.signUpEvent.observeEvent(viewLifecycleOwner) {
-            findNavController().navigate(R.id.toNumbersStoragePublisherSignUpFragment)
+            findNavController().navigateSafely(R.id.toNumbersStoragePublisherSignUpFragment)
         }
         numbersStoragePublisherViewModel.errorEvent.observeEvent(viewLifecycleOwner) { snack(it) }
     }
