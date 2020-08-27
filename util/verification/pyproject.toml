@@ -6,7 +6,7 @@ authors = ["Sean Wu <seanwu1105@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-ecdsa = "^0.15"
+ecdsa = "^0.16"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0"
