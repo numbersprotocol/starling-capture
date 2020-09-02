@@ -1,24 +1,23 @@
-package io.numbersprotocol.starlingcapture.publisher.numbers_storage.sign_up
+package io.numbersprotocol.starlingcapture.publisher.numbers_storage
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import io.numbersprotocol.starlingcapture.R
-import io.numbersprotocol.starlingcapture.databinding.FragmentNumbersStoragePublisherSignupBinding
+import io.numbersprotocol.starlingcapture.databinding.FragmentNumbersStoragePublisherLoginBinding
+import io.numbersprotocol.starlingcapture.util.navigateSafely
 import io.numbersprotocol.starlingcapture.util.observeEvent
 import io.numbersprotocol.starlingcapture.util.scopedLayoutFullScreen
 import io.numbersprotocol.starlingcapture.util.snack
-import kotlinx.android.synthetic.numbers.fragment_numbers_storage_publisher_signup.*
-import kotlinx.coroutines.delay
+import kotlinx.android.synthetic.internal.fragment_numbers_storage_publisher_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NumbersStoragePublisherSignUpFragment : Fragment() {
+class NumbersStoragePublisherFragment : Fragment() {
 
-    private val numbersStoragePublisherSignUpViewModel: NumbersStoragePublisherSignUpViewModel by viewModel()
+    private val numbersStoragePublisherViewModel: NumbersStoragePublisherViewModel by viewModel()
 
     init {
         scopedLayoutFullScreen = false
@@ -29,10 +28,10 @@ class NumbersStoragePublisherSignUpFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        FragmentNumbersStoragePublisherSignupBinding.inflate(inflater, container, false)
+        FragmentNumbersStoragePublisherLoginBinding.inflate(inflater, container, false)
             .also { binding ->
                 binding.lifecycleOwner = viewLifecycleOwner
-                binding.viewModel = numbersStoragePublisherSignUpViewModel
+                binding.viewModel = numbersStoragePublisherViewModel
                 return binding.root
             }
     }
@@ -44,17 +43,9 @@ class NumbersStoragePublisherSignUpFragment : Fragment() {
     }
 
     private fun bindViewLifecycle() {
-        numbersStoragePublisherSignUpViewModel.errorEvent.observeEvent(viewLifecycleOwner) {
-            snack(it)
+        numbersStoragePublisherViewModel.signUpEvent.observeEvent(viewLifecycleOwner) {
+            findNavController().navigateSafely(R.id.toNumbersStoragePublisherSignUpFragment)
         }
-        numbersStoragePublisherSignUpViewModel.successEvent.observeEvent(viewLifecycleOwner) {
-            showSuccessfulMessage()
-        }
-    }
-
-    private fun showSuccessfulMessage() = lifecycleScope.launchWhenStarted {
-        snack(R.string.message_account_created)
-        delay(1500)
-        findNavController().navigateUp()
+        numbersStoragePublisherViewModel.errorEvent.observeEvent(viewLifecycleOwner) { snack(it) }
     }
 }

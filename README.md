@@ -44,7 +44,7 @@ To verify the signature, create the JSON string from the `SortedProofInformation
 * It should be always buildable without manual configurations.
 * This flavor only contains a sample publisher.
 
-#### Numbers Flavor
+#### Internal Flavor
 
 * __This is an internal product flavor, which cannot be build directly.__
 * Crashlytics is enabled.

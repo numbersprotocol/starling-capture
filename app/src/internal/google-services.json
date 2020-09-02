@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:651046991800:android:43ea860222f190ed13c14d",
+        "mobilesdk_app_id": "1:651046991800:android:6b678c68b9433dba13c14d",
         "android_client_info": {
-          "package_name": "io.numbersprotocol.starlingcapture.numbers.debug"
+          "package_name": "io.numbersprotocol.starlingcapture.internal.debug"
         }
       },
       "oauth_client": [
@@ -37,9 +37,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:651046991800:android:b351bb2f1014131013c14d",
+        "mobilesdk_app_id": "1:651046991800:android:b344f4a35733091313c14d",
         "android_client_info": {
-          "package_name": "io.numbersprotocol.starlingcapture.numbers.qa"
+          "package_name": "io.numbersprotocol.starlingcapture.internal.qa"
         }
       },
       "oauth_client": [

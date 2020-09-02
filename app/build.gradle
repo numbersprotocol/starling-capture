@@ -4,7 +4,7 @@ apply plugin: "kotlin-android-extensions"
 apply plugin: "kotlin-kapt"
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
-if (getGradle().getStartParameter().getTaskRequests().toString().contains("Numbers")) {
+if (getGradle().getStartParameter().getTaskRequests().toString().contains("Internal")) {
     apply plugin: "com.google.gms.google-services"
     apply plugin: "com.google.firebase.crashlytics"
 }
@@ -55,10 +55,10 @@ android {
         master {
             dimension "mode"
         }
-        numbers {
+        internal {
             dimension "mode"
-            applicationIdSuffix ".numbers"
-            versionNameSuffix "-numbers"
+            applicationIdSuffix ".internal"
+            versionNameSuffix "-internal"
         }
     }
 
@@ -144,8 +144,8 @@ dependencies {
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.4"
 
-    numbersImplementation "com.google.firebase:firebase-analytics-ktx:17.5.0"
-    numbersImplementation "com.google.firebase:firebase-crashlytics:17.2.1"
+    internalImplementation "com.google.firebase:firebase-analytics-ktx:17.5.0"
+    internalImplementation "com.google.firebase:firebase-crashlytics:17.2.1"
 
     testImplementation "junit:junit:4.13"
     testImplementation "org.mockito:mockito-core:3.5.7"
