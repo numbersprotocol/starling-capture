@@ -13,7 +13,7 @@
         android:name=".BaseApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/starling_capture"
+        android:label="@string/numbers_capture"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
         <activity

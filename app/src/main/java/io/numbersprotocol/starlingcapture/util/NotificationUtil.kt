@@ -23,7 +23,7 @@ class NotificationUtil(private val context: Context) {
     }
 
     fun initialize() {
-        createChannel(CHANNEL_DEFAULT, R.string.starling_capture)
+        createChannel(CHANNEL_DEFAULT, R.string.numbers_capture)
     }
 
     fun createChannel(

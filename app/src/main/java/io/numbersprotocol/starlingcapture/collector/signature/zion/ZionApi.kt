@@ -42,7 +42,7 @@ class ZionApi(private val context: Context) : KoinComponent {
             isEnabled = true
             val result = zkma.init(context)
             if (result != RESULT.SUCCESS) error("Bad result when initializing Zion: $result")
-            uniqueId = registerWallet(context.getString(R.string.starling_capture))
+            uniqueId = registerWallet(context.getString(R.string.numbers_capture))
             proofCollector.addProvideSignatureRequestBuilder(provideZionSignatureRequestBuilder)
             true
         }

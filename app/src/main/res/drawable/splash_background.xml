@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/blue_gray_900" />
-    <item android:bottom="200dp">
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/logo_capture" />
-    </item>
+    <item android:drawable="@color/white_50" />
+    <item
+        android:width="120dp"
+        android:height="126.94dp"
+        android:bottom="150dp"
+        android:drawable="@drawable/ic_lite_logo"
+        android:gravity="center" />
     <item
         android:width="100dp"
         android:height="30dp"

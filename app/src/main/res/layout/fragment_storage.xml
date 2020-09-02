@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 app:menu="@menu/storage_option"
-                app:title="@string/starling_capture" />
+                app:title="@string/numbers_capture" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView

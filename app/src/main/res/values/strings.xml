@@ -1,5 +1,5 @@
 <resources>
-    <string name="starling_capture">Starling Capture</string>
+    <string name="numbers_capture">Numbers Capture</string>
     <string name="storage">Storage</string>
     <string name="settings">Settings</string>
     <string name="take_picture">Take Picture</string>

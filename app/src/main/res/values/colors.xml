@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="cyan_200">#80DEEA</color>
-    <color name="cyan_300">#4DD0E1</color>
-    <color name="cyan_400">#26C6DA</color>
-    <color name="cyan_500">#00BCD4</color>
-    <color name="cyan_600">#00ACC1</color>
-    <color name="cyan_700">#0097A7</color>
-    <color name="cyan_800">#00838F</color>
     <color name="red_200">#CF6679</color>
     <color name="red_600">#B00020</color>
     <color name="white_50">#FFFFFF</color>
     <color name="black_900">#000000</color>
     <color name="blue_gray_900">#263238</color>
     <color name="immersive_sys_ui">#33000000</color>
+    <color name="lite_primary">#564DFC</color>
+    <color name="lite_primary_variant">#7578B8</color>
+    <color name="lite_secondary">#6EE4D3</color>
 </resources>
