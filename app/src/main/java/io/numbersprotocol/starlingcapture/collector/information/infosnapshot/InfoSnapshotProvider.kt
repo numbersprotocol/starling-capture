@@ -8,6 +8,7 @@ import io.numbersprotocol.starlingcapture.collector.information.InformationProvi
 import io.numbersprotocol.starlingcapture.data.information.Information
 import org.koin.core.KoinComponent
 import java.text.DateFormat
+import java.time.Instant
 
 class InfoSnapshotProvider(
     context: Context,
@@ -30,7 +31,7 @@ class InfoSnapshotProvider(
         informationSet.add(
             Information(
                 hash, name, context.getString(R.string.timestamp),
-                DateFormat.getInstance().format(System.currentTimeMillis()),
+                Instant.now().toString(),
                 Information.Importance.LOW
             )
         )
