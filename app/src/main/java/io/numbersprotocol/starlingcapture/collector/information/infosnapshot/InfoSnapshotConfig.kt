@@ -16,8 +16,14 @@ object InfoSnapshotConfig : KoinComponent {
     var collectDeviceInfo by sharedPreferences.booleanPref(KEY_COLLECT_DEVICE_INFO, true)
     val collectDeviceInfoLiveData =
         sharedPreferences.booleanLiveData(KEY_COLLECT_DEVICE_INFO, true)
+
     private const val KEY_COLLECT_LOCATION_INFO = "KEY_COLLECT_LOCATION_INFO"
     var collectLocationInfo by sharedPreferences.booleanPref(KEY_COLLECT_LOCATION_INFO, true)
     val collectLocationInfoLiveData =
         sharedPreferences.booleanLiveData(KEY_COLLECT_LOCATION_INFO, true)
+
+    private const val KEY_COLLECT_SENSOR_INFO = "KEY_COLLECT_SENSOR_INFO"
+    var collectSensorInfo by sharedPreferences.booleanPref(KEY_COLLECT_SENSOR_INFO, true)
+    val collectSensorInfoLiveData =
+        sharedPreferences.booleanLiveData(KEY_COLLECT_SENSOR_INFO, true)
 }

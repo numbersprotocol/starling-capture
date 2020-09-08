@@ -106,6 +106,32 @@
                         android:checked="@{viewModel.infoSnapshotCollectLocationInfo}"
                         android:onClick="@{(v) -> viewModel.onInfoSnapshotCollectLocationInfoClick(v)}" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/keyline_3"
+                        app:srcCompat="@drawable/ic_settings_input_antenna" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/keyline_2"
+                        android:layout_weight="1"
+                        android:text="@string/collect_sensor_info"
+                        android:textAppearance="?attr/textAppearanceListItem" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.infoSnapshotCollectSensorInfo}"
+                        android:onClick="@{(v) -> viewModel.onInfoSnapshotCollectSensorInfoClick(v)}" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
