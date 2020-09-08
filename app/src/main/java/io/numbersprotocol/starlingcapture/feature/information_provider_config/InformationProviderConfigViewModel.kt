@@ -9,6 +9,7 @@ class InformationProviderConfigViewModel : ViewModel() {
 
     val infoSnapshotCollectDeviceInfo = InfoSnapshotConfig.collectDeviceInfoLiveData
     val infoSnapshotCollectLocationInfo = InfoSnapshotConfig.collectLocationInfoLiveData
+    val infoSnapshotCollectSensorInfo = InfoSnapshotConfig.collectSensorInfoLiveData
 
     fun onInfoSnapshotCollectDeviceInfoClick(view: View) {
         InfoSnapshotConfig.collectDeviceInfo = (view as SwitchCompat).isChecked
@@ -16,5 +17,9 @@ class InformationProviderConfigViewModel : ViewModel() {
 
     fun onInfoSnapshotCollectLocationInfoClick(view: View) {
         InfoSnapshotConfig.collectLocationInfo = (view as SwitchCompat).isChecked
+    }
+
+    fun onInfoSnapshotCollectSensorInfoClick(view: View) {
+        InfoSnapshotConfig.collectSensorInfo = (view as SwitchCompat).isChecked
     }
 }

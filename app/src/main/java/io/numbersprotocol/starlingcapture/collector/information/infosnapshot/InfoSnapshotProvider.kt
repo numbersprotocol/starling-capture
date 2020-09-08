@@ -8,6 +8,7 @@ import io.numbersprotocol.starlingcapture.collector.information.InformationProvi
 import io.numbersprotocol.starlingcapture.data.information.Information
 import org.koin.core.KoinComponent
 import java.text.DateFormat
+import java.time.Instant
 
 class InfoSnapshotProvider(
     context: Context,
@@ -24,13 +25,13 @@ class InfoSnapshotProvider(
             enableDeviceInfo = InfoSnapshotConfig.collectDeviceInfo
             enableLocationInfo = InfoSnapshotConfig.collectLocationInfo
             enableLocaleInfo = false
-            enableSensorInfo = false
+            enableSensorInfo = InfoSnapshotConfig.collectSensorInfo
         }.snap()
 
         informationSet.add(
             Information(
                 hash, name, context.getString(R.string.timestamp),
-                DateFormat.getInstance().format(System.currentTimeMillis()),
+                Instant.now().toString(),
                 Information.Importance.LOW
             )
         )
@@ -46,36 +47,90 @@ class InfoSnapshotProvider(
 
         snapshot.locationInfo.value?.apply {
             lastKnown.value?.apply {
-                informationSet.add(
-                    Information(
-                        hash, name, context.getString(R.string.last_knwon_location),
-                        "$latitude, $longitude", Information.Importance.HIGH, locationType
-                    )
-                )
                 address.value?.apply {
                     informationSet.add(
                         Information(
-                            hash, name, context.getString(R.string.last_knwon_address), this,
+                            hash, name, context.getString(R.string.last_knwon_gps_address), this,
                             Information.Importance.HIGH, locationType
                         )
                     )
                 }
+                informationSet.addAll(
+                    setOf(
+                        Information(
+                            hash, name, context.getString(R.string.last_knwon_gps_latitude),
+                            "$latitude", Information.Importance.HIGH, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.last_knwon_gps_longitude),
+                            "$longitude", Information.Importance.HIGH, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.last_knwon_gps_accuracy),
+                            "$accuracy", Information.Importance.LOW, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.last_knwon_gps_altitude),
+                            "$altitude", Information.Importance.LOW, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.last_knwon_gps_bearing),
+                            "$bearing", Information.Importance.LOW, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.last_knwon_gps_speed),
+                            "$speed", Information.Importance.LOW, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.last_knwon_gps_timestamp),
+                            "${Instant.ofEpochMilli(time)}",
+                            Information.Importance.LOW, locationType
+                        )
+                    )
+                )
             }
             current.value?.apply {
-                informationSet.add(
-                    Information(
-                        hash, name, context.getString(R.string.current_location),
-                        "$latitude, $longitude", Information.Importance.HIGH, locationType
-                    )
-                )
                 address.value?.apply {
                     informationSet.add(
                         Information(
-                            hash, name, context.getString(R.string.current_address), this,
+                            hash, name, context.getString(R.string.current_gps_address), this,
                             Information.Importance.HIGH, locationType
                         )
                     )
                 }
+                informationSet.addAll(
+                    setOf(
+                        Information(
+                            hash, name, context.getString(R.string.current_gps_latitude),
+                            "$latitude", Information.Importance.HIGH, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.current_gps_longitude),
+                            "$longitude", Information.Importance.HIGH, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.current_gps_accuracy),
+                            "$accuracy", Information.Importance.LOW, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.current_gps_altitude),
+                            "$altitude", Information.Importance.LOW, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.current_gps_bearing),
+                            "$bearing", Information.Importance.LOW, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.current_gps_speed),
+                            "$speed", Information.Importance.LOW, locationType
+                        ),
+                        Information(
+                            hash, name, context.getString(R.string.current_gps_timestamp),
+                            "${Instant.ofEpochMilli(time)}",
+                            Information.Importance.LOW, locationType
+                        )
+                    )
+                )
             }
         }
 
@@ -135,11 +190,64 @@ class InfoSnapshotProvider(
             )
         }
 
+        snapshot.sensorInfo.value?.apply {
+            informationSet.addAll(
+                setOf(
+                    Information(
+                        hash, name, context.getString(R.string.accelerometer),
+                        "${accelerometer.value?.value ?: accelerometer.nullReason}",
+                        Information.Importance.LOW, sensorType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.gravity),
+                        "${gravity.value?.value ?: gravity.nullReason}",
+                        Information.Importance.LOW, sensorType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.gyroscope),
+                        "${gyroscope.value?.value ?: gyroscope.nullReason}",
+                        Information.Importance.LOW, sensorType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.light),
+                        "${light.value?.value ?: light.nullReason}",
+                        Information.Importance.LOW, sensorType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.linear_accelerometer),
+                        "${linearAcceleration.value?.value ?: linearAcceleration.nullReason}",
+                        Information.Importance.LOW, sensorType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.game_rotation_vector),
+                        "${gameRotationVector.value?.value ?: gameRotationVector.nullReason}",
+                        Information.Importance.LOW, sensorType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.geomagnetic_rotation_vector),
+                        "${geomagneticRotationVector.value?.value ?: geomagneticRotationVector.nullReason}",
+                        Information.Importance.LOW, sensorType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.magnetic_field),
+                        "${magneticField.value?.value ?: magneticField.nullReason}",
+                        Information.Importance.LOW, sensorType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.rotation_vector),
+                        "${rotationVector.value?.value ?: rotationVector.nullReason}",
+                        Information.Importance.LOW, sensorType
+                    )
+                )
+            )
+        }
+
         return informationSet
     }
 
     companion object {
         val locationType = Information.Type(R.string.location, R.drawable.ic_location)
         val deviceType = Information.Type(R.string.device, R.drawable.ic_device_information)
+        val sensorType = Information.Type(R.string.sensor, R.drawable.ic_settings_input_antenna)
     }
 }

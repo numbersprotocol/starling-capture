@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonClass
 import io.numbersprotocol.starlingcapture.util.MimeType
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
-import java.text.DateFormat
+import java.time.Instant
 
 @JsonClass(generateAdapter = true)
 @Entity
@@ -20,5 +20,5 @@ data class Proof(
 ) : Parcelable {
     @Ignore
     @IgnoredOnParcel
-    val formattedTimestamp: String = DateFormat.getInstance().format(timestamp)
+    val formattedTimestamp: String = Instant.ofEpochMilli(timestamp).run { toString() }
 }
