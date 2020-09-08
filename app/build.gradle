@@ -122,7 +122,7 @@ dependencies {
 
     implementation 'com.squareup.moshi:moshi:1.9.3'
     implementation 'com.squareup.moshi:moshi-kotlin:1.9.3'
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.9.3'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.10.0'
 
     implementation "com.afollestad.material-dialogs:core:3.3.0"
     implementation "com.afollestad.material-dialogs:lifecycle:3.3.0"
