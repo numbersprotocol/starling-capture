@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "651046991800",
-    "firebase_url": "https://starling-capture.firebaseio.com",
-    "project_id": "starling-capture",
-    "storage_bucket": "starling-capture.appspot.com"
+    "project_number": "696729539009",
+    "firebase_url": "https://numbers-capture-5dbd9.firebaseio.com",
+    "project_id": "numbers-capture-5dbd9",
+    "storage_bucket": "numbers-capture-5dbd9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:651046991800:android:6b678c68b9433dba13c14d",
+        "mobilesdk_app_id": "1:696729539009:android:e1630f0d6d2ecac5211f40",
         "android_client_info": {
-          "package_name": "io.numbersprotocol.starlingcapture.internal.debug"
+          "package_name": "io.numbersprotocol.numberscapture.internal.debug"
         }
       },
       "oauth_client": [
         {
-          "client_id": "651046991800-ajseu203f9bvjjbr9dg2g1vocrdi724u.apps.googleusercontent.com",
+          "client_id": "696729539009-b10h7t74l337pcfv6kiji0r1kh71rd2s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDO4h7LB1YZ8oC56SgEphai--nBijaR_yo"
+          "current_key": "AIzaSyD3V_OfXuZzb26MsbFzXlxtgPcs868cIHc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "651046991800-ajseu203f9bvjjbr9dg2g1vocrdi724u.apps.googleusercontent.com",
+              "client_id": "696729539009-b10h7t74l337pcfv6kiji0r1kh71rd2s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -37,27 +37,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:651046991800:android:b344f4a35733091313c14d",
+        "mobilesdk_app_id": "1:696729539009:android:aeddad46cb820a12211f40",
         "android_client_info": {
-          "package_name": "io.numbersprotocol.starlingcapture.internal.qa"
+          "package_name": "io.numbersprotocol.numberscapture.internal.qa"
         }
       },
       "oauth_client": [
         {
-          "client_id": "651046991800-ajseu203f9bvjjbr9dg2g1vocrdi724u.apps.googleusercontent.com",
+          "client_id": "696729539009-b10h7t74l337pcfv6kiji0r1kh71rd2s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDO4h7LB1YZ8oC56SgEphai--nBijaR_yo"
+          "current_key": "AIzaSyD3V_OfXuZzb26MsbFzXlxtgPcs868cIHc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "651046991800-ajseu203f9bvjjbr9dg2g1vocrdi724u.apps.googleusercontent.com",
+              "client_id": "696729539009-b10h7t74l337pcfv6kiji0r1kh71rd2s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
