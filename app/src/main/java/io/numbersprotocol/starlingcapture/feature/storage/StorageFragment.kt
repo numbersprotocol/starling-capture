@@ -11,7 +11,6 @@ import androidx.appcompat.view.ActionMode
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.LayoutMode

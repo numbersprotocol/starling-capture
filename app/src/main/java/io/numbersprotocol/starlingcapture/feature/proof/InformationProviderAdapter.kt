@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -64,7 +63,7 @@ class InformationProviderAdapter(
         override fun onBindViewHolder(holder: ViewHolder, position: Int) =
             holder.bind(getItem(position))
 
-        inner class ViewHolder(
+        class ViewHolder(
             private val binding: ItemSimpleInformationBinding
         ) : RecyclerView.ViewHolder(binding.root) {
 

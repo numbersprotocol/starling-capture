@@ -3,7 +3,6 @@ package io.numbersprotocol.starlingcapture.util
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.observe
 
 class Event<out T>(private val content: T) {
     @Suppress("MemberVisibilityCanBePrivate")
