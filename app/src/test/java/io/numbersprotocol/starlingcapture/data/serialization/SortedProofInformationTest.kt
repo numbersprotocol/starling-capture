@@ -18,7 +18,13 @@ class SortedProofInformationTest : KoinTest {
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         printLogger()
-        modules(mainModule)
+
+        // TODO Await fix for Koin and replace the explicit invocations
+        //  of loadModules() and createRootScope() with a single call to modules()
+        //  (https://github.com/InsertKoinIO/koin/issues/847)
+        koin.loadModules(listOf(mainModule))
+        koin.createRootScope()
+
     }
 
     private val moshi: Moshi by inject()
