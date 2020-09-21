@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="com.otaliastudios.cameraview.controls.Mode" />
+
         <variable
             name="viewModel"
             type="io.numbersprotocol.starlingcapture.feature.camera.CameraViewModel" />
@@ -30,21 +32,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/keyline_3"
+            android:src="@{viewModel.captureButtonIcon}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:marginBottomSystemWindowInsets="@{true}"
-            app:srcCompat="@drawable/ic_capture" />
+            app:marginBottomSystemWindowInsets="@{true}" />
 
-        <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_margin="@dimen/keyline_3"-->
-        <!--            app:fabSize="mini"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toStartOf="@id/captureButton"-->
-        <!--            app:marginBottomSystemWindowInsets="@{true}"-->
-        <!--            app:srcCompat="@drawable/ic_videocam" />-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/switchModeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/keyline_3"
+            android:onClick="@{() -> viewModel.switchMode()}"
+            android:src="@{viewModel.cameraMode == Mode.PICTURE ? @drawable/ic_videocam : @drawable/ic_photo_camera}"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/captureButton"
+            app:marginBottomSystemWindowInsets="@{true}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/navBackButton"
