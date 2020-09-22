@@ -248,7 +248,9 @@ Example:
 1. Commit and push the update.
 1. Create a pre-release on `develop` branch and write the release note.
 1. Upload `masterQa` APK to the release asset.
-1. Upload `numbersQa` to the internal space.
+1. Upload `numbersQa` to the internal release folder.
+1. Checkout the `numbers` branch and merge to the `develop` branch.
+1. Upload `numbersQa` to the internal release folder.
 
 ## Caveat
 
