@@ -19,10 +19,10 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.afollestad.materialdialogs.list.listItems
 import com.karumi.dexter.Dexter
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.single.BasePermissionListener
-import com.karumi.dexter.listener.single.CompositePermissionListener
-import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener
+import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener
+import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.serialization.SaveProofRelatedDataWorker
@@ -73,22 +73,30 @@ class StorageFragment(private val publisherManager: PublisherManager) : Fragment
 
     private fun bindViewLifecycle() {
         storageViewModel.proofList.observe(viewLifecycleOwner) { adapter.submitList(it) }
-        storageViewModel.newProofEvent.observeEvent(viewLifecycleOwner) { checkLocationPermission(::openNewProofOptionDialog) }
+        storageViewModel.newProofEvent.observeEvent(viewLifecycleOwner) { checkRequiredPermission(::openNewProofOptionDialog) }
     }
 
-    private fun checkLocationPermission(onGranted: () -> Unit) {
-        val onGrantedListener = object : BasePermissionListener() {
-            override fun onPermissionGranted(response: PermissionGrantedResponse?) = onGranted()
+    private fun checkRequiredPermission(onGranted: () -> Unit) {
+        val onGrantedListener = object : BaseMultiplePermissionsListener() {
+            override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                super.onPermissionsChecked(report)
+                if (report != null && report.areAllPermissionsGranted()) onGranted()
+            }
         }
-        val onDeniedListener = DialogOnDeniedPermissionListener.Builder
+        val onDeniedListener = DialogOnAnyDeniedMultiplePermissionsListener.Builder
             .withContext(requireContext())
             .withTitle(R.string.permission_denied)
-            .withMessage(R.string.message_location_permission)
+            .withMessage(R.string.message_permissions)
             .withButtonText(android.R.string.ok)
             .build()
-        val permissionListeners = CompositePermissionListener(onGrantedListener, onDeniedListener)
+        val permissionListeners =
+            CompositeMultiplePermissionsListener(onGrantedListener, onDeniedListener)
         Dexter.withContext(requireContext())
-            .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+            .withPermissions(
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
             .withListener(permissionListeners)
             .check()
     }

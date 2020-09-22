@@ -103,7 +103,7 @@
     <string name="media_captured">Media Captured</string>
 
     <string name="message_are_you_sure">The action cannot be undone.</string>
-    <string name="message_location_permission">We need the location permission to build proof. Please allow the permission request by enabling it in Android settings.</string>
+    <string name="message_permissions">We need the camera, audio recording and location permissions to build proof. Please allow the permission request by enabling it in Android settings.</string>
     <string name="message_saving_proof_to_external">Saving proof to external storage</string>
     <string name="message_saved_proof_to_external">Proof has been saved to external storage</string>
     <string name="message_collecting_proof_information">Collecting proof information</string>

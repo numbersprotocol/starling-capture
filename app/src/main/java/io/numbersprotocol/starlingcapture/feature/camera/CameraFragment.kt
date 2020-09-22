@@ -26,6 +26,7 @@ class CameraFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        videoFile = createCachedMediaFile(MimeType.MP4)
 
         // Support portrait orientation only.
         requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
