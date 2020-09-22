@@ -1,6 +1,5 @@
 package io.numbersprotocol.starlingcapture.di
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.room.Room
 import androidx.work.OneTimeWorkRequestBuilder
@@ -21,6 +20,8 @@ import io.numbersprotocol.starlingcapture.data.preference.PreferenceRepository
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import io.numbersprotocol.starlingcapture.data.publish_history.PublishHistoryRepository
 import io.numbersprotocol.starlingcapture.data.signature.SignatureRepository
+import io.numbersprotocol.starlingcapture.feature.camera.CameraFragment
+import io.numbersprotocol.starlingcapture.feature.camera.CameraViewModel
 import io.numbersprotocol.starlingcapture.feature.ccapi.CcapiFragment
 import io.numbersprotocol.starlingcapture.feature.ccapi.CcapiViewModel
 import io.numbersprotocol.starlingcapture.feature.information.InformationFragment
@@ -101,7 +102,7 @@ val mainModule = module {
 
     fragment { NavHostFragment() }
 
-    viewModel { (handle: SavedStateHandle) -> StorageViewModel(handle, get(), get()) }
+    viewModel { StorageViewModel(get()) }
     fragment { StorageFragment(get()) }
 
     viewModel { ProofViewModel(get(), get(), get(), get()) }
@@ -124,6 +125,9 @@ val mainModule = module {
 
     viewModel { CcapiViewModel(get()) }
     fragment { CcapiFragment() }
+
+    viewModel { CameraViewModel(get()) }
+    fragment { CameraFragment() }
 
     single(named(CoilImageLoader.SmallThumb)) {
         ImageLoader.Builder(androidContext())

@@ -5,9 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
 
 @Suppress("DEPRECATION")
@@ -151,4 +153,9 @@ fun TextInputLayout.bindErrorText(@StringRes previousStringRes: Int?, @StringRes
     if (previousStringRes != stringRes) {
         error = if (stringRes == null) stringRes else context.getString(stringRes)
     }
+}
+
+@BindingAdapter("android:src")
+fun setImageResource(floatingActionButton: FloatingActionButton, @DrawableRes drawableRes: Int) {
+    floatingActionButton.setImageResource(drawableRes)
 }

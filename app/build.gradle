@@ -22,12 +22,13 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        javaCompileOptions.annotationProcessorOptions {
-            arguments = [
-                    "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                    "room.incremental"     : "true",
-                    "room.expandProjection": "true"
-            ]
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
+            }
         }
     }
 
@@ -140,6 +141,7 @@ dependencies {
     implementation "com.karumi:dexter:6.2.1"
     implementation "com.github.stfalcon:stfalcon-imageviewer:1.0.1"
     implementation "com.github.numbersprotocol:android-info-snapshot:0.4.1"
+    implementation "com.otaliastudios:cameraview:2.6.4"
     implementation files("libs/zkma-3.4.6.aar")
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.4"
