@@ -37,7 +37,7 @@ class CcapiViewModel(
         val dateFormat = SimpleDateFormat.getDateInstance()
         for (event in tickerChannel) emit(dateFormat.format(Date()))
     }
-    val slatePhotographer = MutableLiveData<String>("")
+    val slatePhotographer = MutableLiveData("")
     val editSlateEvent = MutableLiveData<Event<String>>()
 
     private var liveViewJob: Job? = null

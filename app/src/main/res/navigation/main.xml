@@ -29,6 +29,9 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/toCameraFragment"
+            app:destination="@id/cameraFragment" />
     </fragment>
 
     <fragment
@@ -98,4 +101,9 @@
         android:name="io.numbersprotocol.starlingcapture.feature.information_provider_config.InformationProviderConfigFragment"
         android:label="fragment_information_provider_config"
         tools:layout="@layout/fragment_information_provider_config" />
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.camera.CameraFragment"
+        android:label="@string/camera"
+        tools:layout="@layout/fragment_camera" />
 </navigation>

@@ -19,7 +19,7 @@ class SignatureAdapter : ListAdapter<Signature, SignatureAdapter.ViewHolder>(dif
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    inner class ViewHolder(
+    class ViewHolder(
         private val binding: ItemSignatureBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 

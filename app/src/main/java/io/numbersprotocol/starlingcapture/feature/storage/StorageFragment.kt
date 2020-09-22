@@ -11,7 +11,6 @@ import androidx.appcompat.view.ActionMode
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.LayoutMode
@@ -20,24 +19,23 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.afollestad.materialdialogs.list.listItems
 import com.karumi.dexter.Dexter
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.single.BasePermissionListener
-import com.karumi.dexter.listener.single.CompositePermissionListener
-import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener
+import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener
+import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.serialization.SaveProofRelatedDataWorker
 import io.numbersprotocol.starlingcapture.databinding.FragmentStorageBinding
 import io.numbersprotocol.starlingcapture.publisher.PublisherManager
-import io.numbersprotocol.starlingcapture.source.InternalCameraProvider
 import io.numbersprotocol.starlingcapture.util.*
 import kotlinx.android.synthetic.main.fragment_storage.*
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.stateViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StorageFragment(private val publisherManager: PublisherManager) : Fragment() {
 
-    private val storageViewModel: StorageViewModel by stateViewModel()
+    private val storageViewModel: StorageViewModel by viewModel()
     private val adapter = StorageAdapter(createRecyclerViewItemListener())
     private var actionMode: ActionMode? = null
 
@@ -75,53 +73,47 @@ class StorageFragment(private val publisherManager: PublisherManager) : Fragment
 
     private fun bindViewLifecycle() {
         storageViewModel.proofList.observe(viewLifecycleOwner) { adapter.submitList(it) }
-        storageViewModel.newProofEvent.observeEvent(viewLifecycleOwner) { checkLocationPermission(::openNewProofOptionDialog) }
+        storageViewModel.newProofEvent.observeEvent(viewLifecycleOwner) { checkRequiredPermission(::openNewProofOptionDialog) }
     }
 
-    private fun checkLocationPermission(onGranted: () -> Unit) {
-        val onGrantedListener = object : BasePermissionListener() {
-            override fun onPermissionGranted(response: PermissionGrantedResponse?) = onGranted()
+    private fun checkRequiredPermission(onGranted: () -> Unit) {
+        val onGrantedListener = object : BaseMultiplePermissionsListener() {
+            override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                super.onPermissionsChecked(report)
+                if (report != null && report.areAllPermissionsGranted()) onGranted()
+            }
         }
-        val onDeniedListener = DialogOnDeniedPermissionListener.Builder
+        val onDeniedListener = DialogOnAnyDeniedMultiplePermissionsListener.Builder
             .withContext(requireContext())
             .withTitle(R.string.permission_denied)
-            .withMessage(R.string.message_location_permission)
+            .withMessage(R.string.message_permissions)
             .withButtonText(android.R.string.ok)
             .build()
-        val permissionListeners = CompositePermissionListener(onGrantedListener, onDeniedListener)
+        val permissionListeners =
+            CompositeMultiplePermissionsListener(onGrantedListener, onDeniedListener)
         Dexter.withContext(requireContext())
-            .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+            .withPermissions(
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
             .withListener(permissionListeners)
             .check()
     }
 
     private fun openNewProofOptionDialog() {
         val items = listOf(
-            getString(InternalCameraProvider.SupportedAction.IMAGE.title),
-            getString(InternalCameraProvider.SupportedAction.VIDEO.title),
+            getString(R.string.built_in_camera),
             getString(R.string.canon_ccapi)
         )
         MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
             lifecycleOwner(viewLifecycleOwner)
             listItems(items = items) { _, _, text ->
-                if (text == getString(R.string.canon_ccapi)) findNavController().navigateSafely(R.id.toCcapiFragment)
-                else startActivityForInternalCamera(text.toString())
+                if (text == getString(R.string.built_in_camera)) {
+                    findNavController().navigateSafely(R.id.toCameraFragment)
+                } else findNavController().navigateSafely(R.id.toCcapiFragment)
             }
         }
-    }
-
-    private fun startActivityForInternalCamera(title: String) {
-        val supportedAction =
-            InternalCameraProvider.SupportedAction.from(title, requireContext())
-        val intent = when (supportedAction) {
-            InternalCameraProvider.SupportedAction.IMAGE -> storageViewModel.createImageCaptureIntent(
-                this@StorageFragment
-            )
-            InternalCameraProvider.SupportedAction.VIDEO -> storageViewModel.createVideoCaptureIntent(
-                this@StorageFragment
-            )
-        }
-        startActivityForResult(intent, REQUEST_MEDIA_CAPTURE)
     }
 
     private fun createRecyclerViewItemListener(): RecyclerViewItemListener<Proof> =
@@ -222,12 +214,10 @@ class StorageFragment(private val publisherManager: PublisherManager) : Fragment
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != RESULT_OK) {
             if (resultCode != RESULT_CANCELED) snack("Bad result code from request ($requestCode): $resultCode")
-            storageViewModel.cleanUpMediaOnFail()
             return
         }
         try {
             when (requestCode) {
-                REQUEST_MEDIA_CAPTURE -> storageViewModel.storeMedia()
                 REQUEST_PICK_FOLDER -> adapter.selectedItems.forEach {
                     SaveProofRelatedDataWorker.saveProofAs(requireContext(), it, data!!.data!!)
                 }
@@ -244,7 +234,6 @@ class StorageFragment(private val publisherManager: PublisherManager) : Fragment
     }
 
     companion object {
-        const val REQUEST_MEDIA_CAPTURE = 1
-        const val REQUEST_PICK_FOLDER = 2
+        const val REQUEST_PICK_FOLDER = 1
     }
 }

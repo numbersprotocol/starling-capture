@@ -111,7 +111,7 @@ class CanonCameraControlService : Service(), CoroutineScope by CoroutineScope(Di
         cancel()
     }
 
-    inner class Binder(val service: CanonCameraControlService) : android.os.Binder()
+    class Binder(val service: CanonCameraControlService) : android.os.Binder()
 
     data class MediaStream(
         val inputStream: InputStream,
