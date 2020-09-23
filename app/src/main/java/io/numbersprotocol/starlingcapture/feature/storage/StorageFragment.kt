@@ -13,11 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
-import com.afollestad.materialdialogs.list.listItems
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener
@@ -102,18 +100,18 @@ class StorageFragment(private val publisherManager: PublisherManager) : Fragment
     }
 
     private fun openNewProofOptionDialog() {
-        val items = listOf(
+        val items = arrayOf(
             getString(R.string.built_in_camera),
             getString(R.string.canon_ccapi)
         )
-        MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
-            lifecycleOwner(viewLifecycleOwner)
-            listItems(items = items) { _, _, text ->
-                if (text == getString(R.string.built_in_camera)) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.add_new_proof)
+            .setItems(items) { _, which ->
+                if (items[which] == getString(R.string.built_in_camera)) {
                     findNavController().navigateSafely(R.id.toCameraFragment)
                 } else findNavController().navigateSafely(R.id.toCcapiFragment)
             }
-        }
+            .show()
     }
 
     private fun createRecyclerViewItemListener(): RecyclerViewItemListener<Proof> =
