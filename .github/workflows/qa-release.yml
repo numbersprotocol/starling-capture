@@ -110,7 +110,6 @@ jobs:
           ./gradlew bundleMasterRelease
 
       - name: Sign AAB
-        id: sign_aab
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: ./app/build/outputs/bundle/masterRelease
@@ -120,7 +119,6 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Create service_account.json
-        id: createServiceAccount
         run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
 
       - name: Deploy to Play Store (internal)
@@ -155,7 +153,6 @@ jobs:
           ./gradlew bundleInternalRelease
 
       - name: Sign AAB
-        id: sign_aab
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: ./app/build/outputs/bundle/internalRelease
@@ -165,7 +162,6 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Create service_account.json
-        id: createServiceAccount
         run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
 
       - name: Deploy to Play Store (internal)

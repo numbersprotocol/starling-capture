@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:651046991800:android:96ff716b9dd6a1ed13c14d",
+        "mobilesdk_app_id": "1:651046991800:android:9320aca7a30912a213c14d",
         "android_client_info": {
-          "package_name": "io.numbersprotocol.starlingcapture.internal"
+          "package_name": "io.numbersprotocol.starlingcapture"
         }
       },
       "oauth_client": [
@@ -37,9 +37,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:651046991800:android:6b678c68b9433dba13c14d",
+        "mobilesdk_app_id": "1:651046991800:android:5088e055830f238d13c14d",
         "android_client_info": {
-          "package_name": "io.numbersprotocol.starlingcapture.internal.debug"
+          "package_name": "io.numbersprotocol.starlingcapture.debug"
         }
       },
       "oauth_client": [
@@ -66,9 +66,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:651046991800:android:b344f4a35733091313c14d",
+        "mobilesdk_app_id": "1:651046991800:android:dae2259fcabf5f2513c14d",
         "android_client_info": {
-          "package_name": "io.numbersprotocol.starlingcapture.internal.qa"
+          "package_name": "io.numbersprotocol.starlingcapture.qa"
         }
       },
       "oauth_client": [
