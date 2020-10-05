@@ -1,4 +1,4 @@
-name: Release
+name: release
 on: workflow_dispatch
 
 jobs:
@@ -92,7 +92,7 @@ jobs:
           asset_name: output-metadata-master-debug.json
           asset_content_type: application/json
 
-  master-release:
+  internal-track:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
