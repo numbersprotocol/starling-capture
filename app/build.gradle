@@ -151,7 +151,7 @@ dependencies {
     implementation "com.otaliastudios:cameraview:2.6.4"
     implementation files("libs/zkma-3.4.6.aar")
 
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.4"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.5"
 
     internalImplementation "com.google.firebase:firebase-analytics-ktx:17.5.0"
     internalImplementation "com.google.firebase:firebase-crashlytics:17.2.2"
