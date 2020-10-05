@@ -1,4 +1,4 @@
-name: release
+name: qa-release
 on: workflow_dispatch
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
           echo "::set-output name=versionCode::$(./gradlew -q printVersionCode)"
           echo "::set-output name=versionName::$(./gradlew -q printVersionName)"
 
-      - name: Create GitHub QA release draft
+      - name: Create GitHub QA prerelease
         id: create_release
         if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/create-release@v1

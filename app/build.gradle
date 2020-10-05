@@ -17,8 +17,8 @@ android {
         applicationId "io.numbersprotocol.starlingcapture"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 5
-        versionName "1.6.4"
+        versionCode 6
+        versionName "1.6.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -57,11 +57,10 @@ android {
     productFlavors {
         master {
             dimension "mode"
+            versionNameSuffix "-master"
         }
         internal {
             dimension "mode"
-            applicationIdSuffix ".internal"
-            versionNameSuffix "-internal"
         }
     }
 
