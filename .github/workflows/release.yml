@@ -1,0 +1,101 @@
+name: Release
+on: workflow_dispatch
+
+jobs:
+  github-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+
+      - name: Set up JDK
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Test master-qa app
+        if: steps.extract_branch.outputs.branch == 'develop'
+        run: ./gradlew testMasterQaUnitTest
+
+      - name: Build master-qa app
+        if: steps.extract_branch.outputs.branch == 'develop'
+        run: ./gradlew assembleMasterQa
+
+      - name: Test master-debug app
+        if: steps.extract_branch.outputs.branch == 'develop'
+        run: ./gradlew testMasterDebugUnitTest
+
+      - name: Build master-debug app
+        if: steps.extract_branch.outputs.branch == 'develop'
+        run: ./gradlew assembleMasterDebug
+
+      - name: Extract app version
+        id: extract_version
+        if: steps.extract_branch.outputs.branch == 'develop'
+        run: |
+          echo "::set-output name=versionCode::$(./gradlew -q printVersionCode)"
+          echo "::set-output name=versionName::$(./gradlew -q printVersionName)"
+
+      - name: Create GitHub QA release draft
+        id: create_release
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.extract_version.outputs.versionName }}
+          release_name: ${{ steps.extract_version.outputs.versionName }}
+          body: |
+            ![release!](https://i.giphy.com/media/lPulaaB9lDMnGZiivs/source.gif)
+            # Changelog
+            > Write changelog manually here...
+          prerelease: true
+          draft: true
+
+      - name: Upload master-qa APK to release assets
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/master/qa/app-master-qa.apk
+          asset_name: app-master-qa.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload master-qa metadata.json to release assets
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/master/qa/output-metadata.json
+          asset_name: output-metadata-master-qa.json
+          asset_content_type: application/json
+
+      - name: Upload master-debug APK to release assets
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/master/debug/app-master-debug.apk
+          asset_name: app-master-debug.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload master-debug metadata.json to release assets
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/master/debug/output-metadata.json
+          asset_name: output-metadata-master-debug.json
+          asset_content_type: application/json
