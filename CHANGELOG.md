@@ -5,12 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.6.4 - 2020-10-05
+
+### Changed
+
+#### Code Quality
+
+- Build the workflow automatically signing and deploying the internal-release app on the alpha track of Google Play Console.
+
 ## 1.6.3 - 2020-10-05
 
-### Added
+### Changed
+
+#### Code Quality
 
 - Build the workflow automatically creating GitHub release with development tag.
-- Build the workflow automatically signing and deploying master-release app on the internal track of Google Play Console.
+- Build the workflow automatically signing and deploying the master-release app on the internal track of Google Play Console.
 
 ## 1.6.0 - 2020-09-22
 
