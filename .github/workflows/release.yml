@@ -17,21 +17,13 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: Test master-qa app
+      - name: Test and build master-qa and debug apps
         if: steps.extract_branch.outputs.branch == 'develop'
-        run: ./gradlew testMasterQaUnitTest
-
-      - name: Build master-qa app
-        if: steps.extract_branch.outputs.branch == 'develop'
-        run: ./gradlew assembleMasterQa
-
-      - name: Test master-debug app
-        if: steps.extract_branch.outputs.branch == 'develop'
-        run: ./gradlew testMasterDebugUnitTest
-
-      - name: Build master-debug app
-        if: steps.extract_branch.outputs.branch == 'develop'
-        run: ./gradlew assembleMasterDebug
+        run: |
+          ./gradlew testMasterQaUnitTest
+          ./gradlew assembleMasterQa
+          ./gradlew testMasterDebugUnitTest
+          ./gradlew assembleMasterDebug
 
       - name: Extract app version
         id: extract_version
@@ -99,3 +91,46 @@ jobs:
           asset_path: ./app/build/outputs/apk/master/debug/output-metadata.json
           asset_name: output-metadata-master-debug.json
           asset_content_type: application/json
+
+  master-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+
+      - name: Set up JDK
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Test and build master-release bundle (AAB)
+        if: steps.extract_branch.outputs.branch == 'develop'
+        run: |
+          ./gradlew testMasterRelease
+          ./gradlew bundleMasterRelease
+
+      - name: Sign AAB
+        id: sign_aab
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: ./app/build/outputs/bundle/masterRelease
+          signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Create service_account.json
+        id: createServiceAccount
+        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
+
+      - name: Deploy to Play Store (internal)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: service_account.json
+          packageName: io.numbersprotocol.starlingcapture
+          releaseFile: ./app/build/outputs/bundle/masterRelease/app-master-release.aab
+          track: internal
