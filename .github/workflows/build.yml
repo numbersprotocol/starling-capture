@@ -3,7 +3,7 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  app:
+  master-qa:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,7 +26,39 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
-          name: Reports
+          name: master-qa reports
+          path: ./app/build/reports/
+
+  internal-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Lint
+        env:
+          NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
+        run: ./gradlew lintInternalQa
+
+      - name: Unit Test
+        env:
+          NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
+        run: ./gradlew testInternalQaUnitTest
+
+      - name: Build APK
+        env:
+          NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
+        run: ./gradlew assembleInternalQa
+
+      - name: Upload reports to artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: internal-qa reports
           path: ./app/build/reports/
 
   util-verification:

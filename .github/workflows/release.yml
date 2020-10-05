@@ -43,7 +43,6 @@ jobs:
           release_name: ${{ steps.extract_version.outputs.versionName }}
           body: Thanks for following along! For more information check out the [CHANGELOG](https://github.com/numbersprotocol/starling-capture/blob/develop/CHANGELOG.md).
           prerelease: true
-          draft: true
 
       - name: Upload master-qa APK to release assets
         if: steps.extract_branch.outputs.branch == 'develop'
@@ -131,3 +130,48 @@ jobs:
           packageName: io.numbersprotocol.starlingcapture
           releaseFile: ./app/build/outputs/bundle/masterRelease/app-master-release.aab
           track: internal
+
+  alpha-track:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+
+      - name: Set up JDK
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Test and build internal-release bundle (AAB)
+        if: steps.extract_branch.outputs.branch == 'develop'
+        env:
+          NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
+        run: |
+          ./gradlew testInternalRelease
+          ./gradlew bundleInternalRelease
+
+      - name: Sign AAB
+        id: sign_aab
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: ./app/build/outputs/bundle/internalRelease
+          signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Create service_account.json
+        id: createServiceAccount
+        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
+
+      - name: Deploy to Play Store (internal)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: service_account.json
+          packageName: io.numbersprotocol.starlingcapture
+          releaseFile: ./app/build/outputs/bundle/internalRelease/app-internal-release.aab
+          track: alpha

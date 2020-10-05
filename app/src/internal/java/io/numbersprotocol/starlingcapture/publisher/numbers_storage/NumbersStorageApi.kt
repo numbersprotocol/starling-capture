@@ -5,6 +5,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import io.numbersprotocol.starlingcapture.BuildConfig
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.util.isEmail
 import io.numbersprotocol.starlingcapture.util.isInt
@@ -64,7 +65,7 @@ interface NumbersStorageApi {
 
     companion object {
         fun create(): NumbersStorageApi = Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(BuildConfig.NUMBERS_STORAGE_BASE_URL)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create())
             .client(
