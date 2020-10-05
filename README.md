@@ -244,13 +244,10 @@ Example:
 
 ## Release
 
-1. Bump app version.
+1. Increase the `versionName` and `versionCode` in app/build.gradle file.
+1. Update the CHANGELOG.md file.
 1. Commit and push the update.
-1. Create a pre-release on `develop` branch and write the release note.
-1. Upload `masterQa` APK to the release asset.
-1. Upload `numbersQa` to the internal release folder.
-1. Checkout the `numbers` branch and merge to the `develop` branch.
-1. Upload `numbersQa` to the internal release folder.
+1. Go to __Action > release > Run workflow > Branch: develop > Run workflow__ to automatically create GitHub Release with development tag and deploy the master-release app to internal track on the Google Play Console.
 
 ## Caveat
 

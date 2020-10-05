@@ -41,10 +41,7 @@ jobs:
         with:
           tag_name: ${{ steps.extract_version.outputs.versionName }}
           release_name: ${{ steps.extract_version.outputs.versionName }}
-          body: |
-            ![release!](https://i.giphy.com/media/lPulaaB9lDMnGZiivs/source.gif)
-            # Changelog
-            > Write changelog manually here...
+          body: Thanks for following along! For more information check out the [CHANGELOG](https://github.com/numbersprotocol/starling-capture/blob/develop/CHANGELOG.md).
           prerelease: true
           draft: true
 
