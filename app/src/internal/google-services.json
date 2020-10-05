@@ -8,6 +8,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:651046991800:android:96ff716b9dd6a1ed13c14d",
+        "android_client_info": {
+          "package_name": "io.numbersprotocol.starlingcapture.internal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "651046991800-ajseu203f9bvjjbr9dg2g1vocrdi724u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO4h7LB1YZ8oC56SgEphai--nBijaR_yo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "651046991800-ajseu203f9bvjjbr9dg2g1vocrdi724u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:651046991800:android:6b678c68b9433dba13c14d",
         "android_client_info": {
           "package_name": "io.numbersprotocol.starlingcapture.internal.debug"
