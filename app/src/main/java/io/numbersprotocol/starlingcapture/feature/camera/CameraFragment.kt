@@ -11,10 +11,8 @@ import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.PictureResult
 import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Mode
-import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.databinding.FragmentCameraBinding
 import io.numbersprotocol.starlingcapture.util.MimeType
-import io.numbersprotocol.starlingcapture.util.snack
 import kotlinx.android.synthetic.main.fragment_camera.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
@@ -57,13 +55,11 @@ class CameraFragment : Fragment() {
                 super.onPictureTaken(result)
                 val cachedMediaFile = createCachedMediaFile(MimeType.JPEG)
                 result.toFile(cachedMediaFile) { cameraViewModel.storeMedia(it!!, MimeType.JPEG) }
-                snack(R.string.media_captured, anchorView = captureButton)
             }
 
             override fun onVideoTaken(result: VideoResult) {
                 super.onVideoTaken(result)
                 cameraViewModel.storeMedia(result.file, MimeType.MP4)
-                snack(R.string.media_captured, anchorView = captureButton)
             }
 
             override fun onVideoRecordingStart() {
