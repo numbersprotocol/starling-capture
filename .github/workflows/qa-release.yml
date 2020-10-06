@@ -1,0 +1,173 @@
+name: qa-release
+on: workflow_dispatch
+
+jobs:
+  github-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+
+      - name: Set up JDK
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Test and build master-qa and debug apps
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        run: |
+          ./gradlew testMasterQaUnitTest
+          ./gradlew assembleMasterQa
+          ./gradlew testMasterDebugUnitTest
+          ./gradlew assembleMasterDebug
+
+      - name: Extract app version
+        id: extract_version
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        run: |
+          echo "::set-output name=versionCode::$(./gradlew -q printVersionCode)"
+          echo "::set-output name=versionName::$(./gradlew -q printVersionName)"
+
+      - name: Create GitHub QA prerelease
+        id: create_release
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.extract_version.outputs.versionName }}
+          release_name: ${{ steps.extract_version.outputs.versionName }}
+          body: Thanks for following along! For more information check out the [CHANGELOG](https://github.com/numbersprotocol/starling-capture/blob/numbers/CHANGELOG.md).
+          prerelease: true
+
+      - name: Upload master-qa APK to release assets
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/master/qa/app-master-qa.apk
+          asset_name: app-master-qa.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload master-qa metadata.json to release assets
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/master/qa/output-metadata.json
+          asset_name: output-metadata-master-qa.json
+          asset_content_type: application/json
+
+      - name: Upload master-debug APK to release assets
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/master/debug/app-master-debug.apk
+          asset_name: app-master-debug.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload master-debug metadata.json to release assets
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/master/debug/output-metadata.json
+          asset_name: output-metadata-master-debug.json
+          asset_content_type: application/json
+
+  internal-track:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+
+      - name: Set up JDK
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Test and build master-release bundle (AAB)
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        run: |
+          ./gradlew testMasterRelease
+          ./gradlew bundleMasterRelease
+
+      - name: Sign AAB
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: ./app/build/outputs/bundle/masterRelease
+          signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Create service_account.json
+        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
+
+      - name: Deploy to Play Store (internal)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: service_account.json
+          packageName: io.numbersprotocol.numberscapture
+          releaseFile: ./app/build/outputs/bundle/masterRelease/app-master-release.aab
+          track: internal
+
+  alpha-track:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+
+      - name: Set up JDK
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Test and build internal-release bundle (AAB)
+        if: steps.extract_branch.outputs.branch == 'numbers'
+        env:
+          NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
+        run: |
+          ./gradlew testInternalRelease
+          ./gradlew bundleInternalRelease
+
+      - name: Sign AAB
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: ./app/build/outputs/bundle/internalRelease
+          signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Create service_account.json
+        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
+
+      - name: Deploy to Play Store (internal)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: service_account.json
+          packageName: io.numbersprotocol.numberscapture
+          releaseFile: ./app/build/outputs/bundle/internalRelease/app-internal-release.aab
+          track: alpha

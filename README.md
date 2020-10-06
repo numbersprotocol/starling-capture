@@ -51,13 +51,10 @@ To verify the signature, create the JSON string from the `SortedProofInformation
 
 ##### Build Requirements
 
-Place the information required by the numbers backend in `./app/src/main/.../publisher/numbers_storage/Token.kt`. For example:
+Set the system environment variable `NUMBERS_STORAGE_BASE_URL` before build the app by appending the following string in `~/.profile`:
 
-``` kotlin
-package io.numbersprotocol.starlingcapture.publisher.numbers_storage
-
-const val baseUrl = "https://sample.com"
-const val token = "token 0123456789abcdef"
+``` txt
+export NUMBERS_STORAGE_BASE_URL="THE PRIVATE BASE URL"
 ```
 
 ### Build Types
@@ -244,11 +241,10 @@ Example:
 
 ## Release
 
-1. Bump app version.
+1. Increase the `versionName` and `versionCode` in app/build.gradle file.
+1. Update the CHANGELOG.md file.
 1. Commit and push the update.
-1. Create a pre-release on `develop` branch and write the release note.
-1. Upload `masterQa` APK to the release asset.
-1. Upload `numbersQa` to the internal space.
+1. Go to __Action > release > Run workflow > Branch: develop > Run workflow__ to automatically create GitHub Release with development tag and deploy apps on the Google Play Console.
 
 ## Caveat
 
