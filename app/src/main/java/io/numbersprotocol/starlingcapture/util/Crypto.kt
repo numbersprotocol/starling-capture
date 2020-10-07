@@ -29,12 +29,12 @@ fun ByteArray.sha256(): String {
     return digested.asHex()
 }
 
-const val defaultSignatureProvider = "AndroidOpenSSL"
+const val androidOpenSslSignatureProvider = "AndroidOpenSSL"
 
 fun createEcKeyPair(): KeyPair {
     val keyPairGenerator = KeyPairGenerator.getInstance(
         KeyProperties.KEY_ALGORITHM_EC,
-        defaultSignatureProvider
+        androidOpenSslSignatureProvider
     )
     keyPairGenerator.initialize(ECGenParameterSpec("secp256r1"))
     return keyPairGenerator.generateKeyPair()
@@ -42,7 +42,7 @@ fun createEcKeyPair(): KeyPair {
 
 fun String.signWithSha256AndEcdsa(privateKey: String): String {
     val keyFactory =
-        KeyFactory.getInstance(KeyProperties.KEY_ALGORITHM_EC, defaultSignatureProvider)
+        KeyFactory.getInstance(KeyProperties.KEY_ALGORITHM_EC, androidOpenSslSignatureProvider)
     val key = keyFactory.generatePrivate(PKCS8EncodedKeySpec(privateKey.hexAsByteArray()))
     val signer = Signature.getInstance("SHA256withECDSA")
         .apply {
@@ -55,7 +55,7 @@ fun String.signWithSha256AndEcdsa(privateKey: String): String {
 @Suppress("unused")
 fun String.verifyWithSha256AndEcdsa(signature: String, publicKey: String): Boolean {
     val keyFactory =
-        KeyFactory.getInstance(KeyProperties.KEY_ALGORITHM_EC, defaultSignatureProvider)
+        KeyFactory.getInstance(KeyProperties.KEY_ALGORITHM_EC, androidOpenSslSignatureProvider)
     val key = keyFactory.generatePublic(X509EncodedKeySpec(publicKey.hexAsByteArray()))
     val signer = Signature.getInstance("SHA256withECDSA")
         .apply {

@@ -9,10 +9,10 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.collector.ProofCollector
-import io.numbersprotocol.starlingcapture.collector.information.infosnapshot.InfoSnapshotProvider
-import io.numbersprotocol.starlingcapture.collector.signature.DefaultSignatureProvider
-import io.numbersprotocol.starlingcapture.collector.signature.zion.SessionSignature
-import io.numbersprotocol.starlingcapture.collector.signature.zion.ZionApi
+import io.numbersprotocol.starlingcapture.collector.android_open_ssl.AndroidOpenSslSignatureProvider
+import io.numbersprotocol.starlingcapture.collector.infosnapshot.InfoSnapshotProvider
+import io.numbersprotocol.starlingcapture.collector.zion.SessionSignature
+import io.numbersprotocol.starlingcapture.collector.zion.ZionApi
 import io.numbersprotocol.starlingcapture.data.AppDataBase
 import io.numbersprotocol.starlingcapture.data.caption.CaptionRepository
 import io.numbersprotocol.starlingcapture.data.information.InformationRepository
@@ -89,7 +89,7 @@ val mainModule = module {
     single {
         ProofCollector(androidContext(), get(), get()).apply {
             addProvideInformationRequestBuilder(OneTimeWorkRequestBuilder<InfoSnapshotProvider>())
-            addProvideSignatureRequestBuilder(OneTimeWorkRequestBuilder<DefaultSignatureProvider>())
+            addProvideSignatureRequestBuilder(OneTimeWorkRequestBuilder<AndroidOpenSslSignatureProvider>())
         }
     }
 

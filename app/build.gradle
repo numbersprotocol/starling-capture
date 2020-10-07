@@ -150,6 +150,7 @@ dependencies {
     implementation "com.github.numbersprotocol:android-info-snapshot:0.4.1"
     implementation "com.otaliastudios:cameraview:2.6.4"
     implementation files("libs/zkma-3.4.6.aar")
+    implementation "org.witness:android-libproofmode:0.7"
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.5"
 
@@ -165,6 +166,8 @@ dependencies {
 
 configurations.all {
     resolutionStrategy.force "junit:junit:4.13"
+    exclude group: "com.squareup.okio", module: "okio"
+    exclude group: "com.google.guava", module: "listenablefuture"
 }
 
 task printVersionCode {

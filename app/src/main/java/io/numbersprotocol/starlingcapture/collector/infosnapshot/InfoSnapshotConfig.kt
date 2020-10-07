@@ -1,4 +1,4 @@
-package io.numbersprotocol.starlingcapture.collector.information.infosnapshot
+package io.numbersprotocol.starlingcapture.collector.infosnapshot
 
 import android.content.Context
 import io.numbersprotocol.starlingcapture.util.booleanLiveData
