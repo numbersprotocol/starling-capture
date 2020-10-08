@@ -29,6 +29,7 @@ class NumbersStoragePublisher(
 
     override suspend fun publish(proof: Proof): Result {
         var retryTimes = 3
+        val retryWaitingTimeMillis = 5000L
         var exception: Throwable
         val metaJson = Serialization.generateInformationJson(proof)
         val signatureJson = Serialization.generateSignaturesJson(proof)
@@ -52,7 +53,7 @@ class NumbersStoragePublisher(
                 exception = e
                 retryTimes -= 1
                 if (retryTimes <= 0) break
-                delay(5000)
+                delay(retryWaitingTimeMillis)
             }
         }
         throw exception
