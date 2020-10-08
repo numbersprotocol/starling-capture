@@ -114,7 +114,7 @@ interface NumbersStorageApi {
             return try {
                 JSONObject(string).apply {
                     keys().forEach { key ->
-                        val array = getJSONArray(key)
+                        val array = getJSONArray(key as String)
                         for (i in 0 until array.length()) {
                             errorMessages.add("$key: ${array.getString(i)}")
                         }

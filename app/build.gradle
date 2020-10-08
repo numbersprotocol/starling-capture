@@ -93,6 +93,11 @@ android {
         //       jetified-kotlin-stdlib-common-1.4.10.jar (version 1.4)
         // kotlinOptions.allWarningsAsErrors = true
     }
+
+    packagingOptions {
+        // Solve INSTALL_FAILED_NO_MATCHING_ABIS error by ProofMode dependency.
+        exclude 'lib/x86_64/darwin/libscrypt.dylib'
+    }
 }
 
 dependencies {
@@ -150,7 +155,14 @@ dependencies {
     implementation "com.github.numbersprotocol:android-info-snapshot:0.4.1"
     implementation "com.otaliastudios:cameraview:2.6.4"
     implementation files("libs/zkma-3.4.6.aar")
-    implementation "org.witness:android-libproofmode:0.7"
+
+    // Because android-libproofmode >= 0.6 will cause error:
+    //   java.lang.NoClassDefFoundError: Failed resolution of: Lorg/spongycastle/util/Strings;
+    // force the version of the library to 0.0.4. This requires further investigation.
+    //noinspection GradleDependency
+    implementation("org.witness:android-libproofmode:0.0.4") {
+        exclude group: "com.google.guava", module: "guava"
+    }
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.5"
 
@@ -162,12 +174,6 @@ dependencies {
 
     androidTestImplementation "androidx.test.ext:junit:1.1.2"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
-}
-
-configurations.all {
-    resolutionStrategy.force "junit:junit:4.13"
-    exclude group: "com.squareup.okio", module: "okio"
-    exclude group: "com.google.guava", module: "listenablefuture"
 }
 
 task printVersionCode {

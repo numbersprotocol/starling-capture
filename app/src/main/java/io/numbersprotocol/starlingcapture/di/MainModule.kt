@@ -11,6 +11,7 @@ import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.collector.ProofCollector
 import io.numbersprotocol.starlingcapture.collector.android_open_ssl.AndroidOpenSslSignatureProvider
 import io.numbersprotocol.starlingcapture.collector.infosnapshot.InfoSnapshotProvider
+import io.numbersprotocol.starlingcapture.collector.proofmode.ProofModeProvider
 import io.numbersprotocol.starlingcapture.collector.zion.SessionSignature
 import io.numbersprotocol.starlingcapture.collector.zion.ZionApi
 import io.numbersprotocol.starlingcapture.data.AppDataBase
@@ -88,8 +89,9 @@ val mainModule = module {
 
     single {
         ProofCollector(androidContext(), get(), get()).apply {
-            addProvideInformationRequestBuilder(OneTimeWorkRequestBuilder<InfoSnapshotProvider>())
-            addProvideSignatureRequestBuilder(OneTimeWorkRequestBuilder<AndroidOpenSslSignatureProvider>())
+            addProvideInformationAndSignatureRequestBuilder(OneTimeWorkRequestBuilder<InfoSnapshotProvider>())
+            addProvideInformationAndSignatureRequestBuilder(OneTimeWorkRequestBuilder<AndroidOpenSslSignatureProvider>())
+            addProvideInformationAndSignatureRequestBuilder(OneTimeWorkRequestBuilder<ProofModeProvider>())
         }
     }
 
