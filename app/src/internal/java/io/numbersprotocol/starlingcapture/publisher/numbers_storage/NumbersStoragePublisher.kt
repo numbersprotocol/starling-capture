@@ -8,6 +8,7 @@ import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import io.numbersprotocol.starlingcapture.data.serialization.Serialization
 import io.numbersprotocol.starlingcapture.publisher.ProofPublisher
+import kotlinx.coroutines.delay
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -27,21 +28,35 @@ class NumbersStoragePublisher(
     private val numbersStorageApi: NumbersStorageApi by inject()
 
     override suspend fun publish(proof: Proof): Result {
+        var retryTimes = 3
+        val retryWaitingTimeMillis = 5000L
+        var exception: Throwable
         val metaJson = Serialization.generateInformationJson(proof)
         val signatureJson = Serialization.generateSignaturesJson(proof)
         val captionText = captionRepository.getByProof(proof)?.text ?: ""
 
-        val result = numbersStorageApi.createMedia(
-            authToken = numbersStoragePublisherConfig.authToken,
-            rawFile = convertFileToMultipartBodyPart(proof),
-            targetProvider = TargetProvider.Numbers.toString(),
-            information = metaJson,
-            signatures = signatureJson,
-            caption = captionText,
-            tag = "intern-camp"
-        )
-        Timber.i("Publish result: $result")
-        return Result.success()
+        while (true) {
+            try {
+                val result = numbersStorageApi.createMedia(
+                    authToken = numbersStoragePublisherConfig.authToken,
+                    rawFile = convertFileToMultipartBodyPart(proof),
+                    targetProvider = TargetProvider.Numbers.toString(),
+                    information = metaJson,
+                    signatures = signatureJson,
+                    caption = captionText,
+                    tag = "intern-camp"
+                )
+                Timber.i("Publish result: $result")
+                return Result.success()
+            } catch (e: Exception) {
+                Timber.e("[retry ${3 - retryTimes}] ${e.message}")
+                exception = e
+                retryTimes -= 1
+                if (retryTimes <= 0) break
+                delay(retryWaitingTimeMillis)
+            }
+        }
+        throw exception
     }
 
     private fun convertFileToMultipartBodyPart(proof: Proof): MultipartBody.Part {
