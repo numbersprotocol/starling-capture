@@ -15,7 +15,7 @@ class InfoSnapshotProvider(
     params: WorkerParameters
 ) : InformationAndSignatureProvider(context, params), KoinComponent {
 
-    override val name = "InfoSnapshot"
+    override val name = InfoSnapshotConfig.name
 
     private val informationSet = mutableSetOf<Information>()
 

@@ -17,7 +17,7 @@ class ProofModeProvider(
     params: WorkerParameters
 ) : InformationAndSignatureProvider(context, params), KoinComponent {
 
-    override val name = "ProofMode"
+    override val name = ProofModeConfig.name
 
     private val proofRepository: ProofRepository by inject()
     private lateinit var generatedDir: File

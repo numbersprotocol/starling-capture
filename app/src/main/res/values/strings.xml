@@ -102,6 +102,7 @@
     <string name="camera">Camera</string>
     <string name="media_captured">Media Captured</string>
     <string name="add_new_proof">Add New Proof</string>
+    <string name="enabled">Enabled</string>
 
     <string name="message_are_you_sure">The action cannot be undone.</string>
     <string name="message_permissions">We need the camera, audio recording and location permissions to build proof. Please allow the permission request by enabling it in Android settings.</string>
@@ -117,4 +118,5 @@
     <string name="message_will_generate_on_proof_created">Will be generated on the next proof created.</string>
     <string name="message_monitoring_canon_camera">Monitoring new media assets from Canon Camera with CCAPI.</string>
     <string name="message_enable_publishers_in_settings">Enable publishers in settings.</string>
+    <string name="message_proofmode_requires_api_less_or_equal_to_28">ProofMode requires Android device API less or equal to 28.</string>
 </resources>

@@ -48,11 +48,12 @@ abstract class InformationAndSignatureProvider(
             onStarted()
             collectInformation()
             collectSignature()
-            onCleared()
             Result.success()
         } catch (e: Exception) {
             notificationUtil.notifyException(e, notificationId)
             Result.failure()
+        } finally {
+            onCleared()
         }
     }
 
