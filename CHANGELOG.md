@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.7.0 - 2020-10-12
+
+### Added
+
+- Re-upload proof and its information automatically on Internet connection interrupted. #68
+- Integrate ProofMode. #73
+
+### Changed
+
+#### UI/UX
+
+- Remove snack bar on camera fragment to avoid memory leak.
+- Use pop-up dialog to replace bottom dialog to avoid crash on rotation. #43
+
+#### Code Quality
+
+- Replace the deprecated `set-env` command with environment file in GitHub Action.
+
 ## 1.6.5 - 2020-10-06
 
 ### Fixed

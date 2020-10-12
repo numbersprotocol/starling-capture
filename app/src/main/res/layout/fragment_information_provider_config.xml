@@ -167,12 +167,14 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{viewModel.proofModeSupported}"
                             android:text="@string/enabled"
                             android:textAppearance="?attr/textAppearanceListItem" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="@{viewModel.proofModeSupported}"
                             android:text="@string/message_proofmode_requires_api_less_or_equal_to_28" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
