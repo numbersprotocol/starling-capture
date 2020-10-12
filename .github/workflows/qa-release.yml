@@ -94,24 +94,24 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: reminder-releases
           SLACK_COLOR: '#6EE4D3'
-          SLACK_ICON: https://cdn.iconscout.com/icon/free/png-512/github-brand-logo-47401.png
+          SLACK_ICON: https://icons-for-free.com/iconfiles/png/512/github-131994889643862775.png
           SLACK_MESSAGE: |
             Version: ${{ steps.extract_version.outputs.versionName }} (${{ steps.extract_version.outputs.versionCode }})
             <https://github.com/numbersprotocol/starling-capture/releases/tag/${{ steps.extract_version.outputs.versionName }}|GitHub Release Note>
 
-            __APKs__
+            *APKs*
             <https://drive.google.com/drive/folders/1Ed77Mkg1XGIRa6PZuyW6ua92MSmXSIfB?usp=sharing|Google Drive (Master-Debug, Master-QA, Internal-Debug and Internal-QA)>
             <https://play.google.com/apps/internaltest/4699778249822953397|Google Play Internal Testing (Master-Release)>
             <https://play.google.com/apps/testing/io.numbersprotocol.starlingcapture|Google Play Closed Alpha Testing (Internal-Release)>
 
-            __Notes__
+            *Notes*
             - Publishing process usually requires some time to complete, and thus the link provided above might still display the old version of the app. Please check the app version before download and install the app.
             - This message is automatically sent from GitHub Action.
 
           SLACK_TITLE: Starling Capture QA Release
           SLACK_USERNAME: GitHub Action
 
-  internal-track:
+  google-play-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -132,10 +132,27 @@ jobs:
           ./gradlew testMasterRelease
           ./gradlew bundleMasterRelease
 
-      - name: Sign AAB
+      - name: Test and build internal-release bundle (AAB)
+        if: steps.extract_branch.outputs.branch == 'develop'
+        env:
+          NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
+        run: |
+          ./gradlew testInternalRelease
+          ./gradlew bundleInternalRelease
+
+      - name: Sign master-release AAB
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: ./app/build/outputs/bundle/masterRelease
+          signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Sign internal-release AAB
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: ./app/build/outputs/bundle/internalRelease
           signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -151,41 +168,6 @@ jobs:
           packageName: io.numbersprotocol.starlingcapture
           releaseFile: ./app/build/outputs/bundle/masterRelease/app-master-release.aab
           track: internal
-
-  alpha-track:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Extract branch name
-        id: extract_branch
-        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-
-      - name: Set up JDK
-        if: steps.extract_branch.outputs.branch == 'develop'
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-
-      - name: Test and build internal-release bundle (AAB)
-        if: steps.extract_branch.outputs.branch == 'develop'
-        env:
-          NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
-        run: |
-          ./gradlew testInternalRelease
-          ./gradlew bundleInternalRelease
-
-      - name: Sign AAB
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: ./app/build/outputs/bundle/internalRelease
-          signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
-          alias: ${{ secrets.KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-
-      - name: Create service_account.json
-        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
 
       - name: Deploy to Play Store (internal)
         uses: r0adkll/upload-google-play@v1
