@@ -245,11 +245,11 @@ Example:
 1. Update the CHANGELOG.md file.
 1. Commit and push the update.
 1. Go to __Action > release > Run workflow > Branch: develop > Run workflow__. The workflow will do the following things.
-  1. Create GitHub Release page with master-debug and master-qa APKs.
-  1. Show a Slack notification on release-reminders channel.
-  1. Upload master-debug, master-qa, internal-debug and internal-qa APKs to private Google Drive.
-  1. Deploy master-release to the internal testing on Google Play Console.
-  1. Deploy internal-release to the alpha closed testing on Google Play Console.
+    - Create GitHub Release page with master-debug and master-qa APKs.
+    - Show a Slack notification on release-reminders channel.
+    - Upload master-debug, master-qa, internal-debug and internal-qa APKs to private Google Drive.
+    - Deploy master-release to the internal testing on Google Play Console.
+    - Deploy internal-release to the alpha closed testing on Google Play Console.
 
 ## Caveat
 
