@@ -17,8 +17,8 @@ import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.afollestad.materialdialogs.list.listItems
 import io.numbersprotocol.starlingcapture.R
-import io.numbersprotocol.starlingcapture.collector.signature.zion.SessionSignature
-import io.numbersprotocol.starlingcapture.collector.signature.zion.ZionApi
+import io.numbersprotocol.starlingcapture.collector.zion.SessionSignature
+import io.numbersprotocol.starlingcapture.collector.zion.ZionApi
 import io.numbersprotocol.starlingcapture.databinding.FragmentZionBinding
 import io.numbersprotocol.starlingcapture.util.isPositiveInteger
 import io.numbersprotocol.starlingcapture.util.observeEvent

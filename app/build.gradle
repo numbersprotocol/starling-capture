@@ -11,7 +11,7 @@ if (getGradle().getStartParameter().getTaskRequests().toString().contains("Inter
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.1"
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "io.numbersprotocol.starlingcapture"
@@ -85,13 +85,18 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        // TODO: Enable the 'allWarningAsErrors' after most  of the Kotlin dependencies are updated
+        // TODO: Enable the "allWarningAsErrors" after most  of the Kotlin dependencies are updated
         //       to 1.4.10. Currently, the following dependencies are not update-to-date.
         //       jetified-kotlin-reflect-1.4.0.jar (version 1.4)
         //       jetified-kotlin-stdlib-jdk7-1.3.72.jar (version 1.3)
         //       jetified-kotlin-stdlib-1.4.10.jar (version 1.4)
         //       jetified-kotlin-stdlib-common-1.4.10.jar (version 1.4)
         // kotlinOptions.allWarningsAsErrors = true
+    }
+
+    packagingOptions {
+        // Solve INSTALL_FAILED_NO_MATCHING_ABIS error by ProofMode dependency.
+        exclude "lib/x86_64/darwin/libscrypt.dylib"
     }
 }
 
@@ -151,6 +156,14 @@ dependencies {
     implementation "com.otaliastudios:cameraview:2.6.4"
     implementation files("libs/zkma-3.4.6.aar")
 
+    // Because android-libproofmode >= 0.6 will have duplicate classes: okio.* and we currently do
+    // not know how to resolve it, we force the version of android-libproofmode to 0.0.4. Error
+    // details: https://stackoverflow.com/questions/64300437/duplicate-class-okio-in-module-com-eternitywalljava-opentimestamps1-17-with-pr
+    //noinspection GradleDependency
+    implementation("org.witness:android-libproofmode:0.0.4") {
+        exclude group: "com.google.guava", module: "guava"
+    }
+
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.5"
 
     internalImplementation "com.google.firebase:firebase-analytics-ktx:17.5.0"
@@ -161,10 +174,6 @@ dependencies {
 
     androidTestImplementation "androidx.test.ext:junit:1.1.2"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
-}
-
-configurations.all {
-    resolutionStrategy.force "junit:junit:4.13"
 }
 
 task printVersionCode {

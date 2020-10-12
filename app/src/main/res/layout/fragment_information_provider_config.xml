@@ -132,6 +132,57 @@
                         android:checked="@{viewModel.infoSnapshotCollectSensorInfo}"
                         android:onClick="@{(v) -> viewModel.onInfoSnapshotCollectSensorInfoClick(v)}" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/keyline_5"
+                    android:layout_marginTop="@dimen/keyline_2"
+                    android:layout_marginBottom="@dimen/keyline_1"
+                    android:paddingStart="@dimen/keyline_3"
+                    android:paddingEnd="@dimen/keyline_3"
+                    android:text="ProofMode"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:textColor="?attr/colorPrimary"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/keyline_3"
+                        app:srcCompat="@drawable/ic_power_settings" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/keyline_2"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/enabled"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/message_proofmode_requires_api_less_or_equal_to_28" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.proofModeEnabled}"
+                        android:enabled="@{viewModel.proofModeSupported}"
+                        android:onClick="@{(v) -> viewModel.onProofModeEnabledClick(v)}" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,4 +1,4 @@
-package io.numbersprotocol.starlingcapture.collector.signature.zion
+package io.numbersprotocol.starlingcapture.collector.zion
 
 import android.content.Context
 import android.os.Build
@@ -43,7 +43,9 @@ class ZionApi(private val context: Context) : KoinComponent {
             val result = zkma.init(context)
             if (result != RESULT.SUCCESS) error("Bad result when initializing Zion: $result")
             uniqueId = registerWallet(context.getString(R.string.starling_capture))
-            proofCollector.addProvideSignatureRequestBuilder(provideZionSignatureRequestBuilder)
+            proofCollector.addProvideInformationAndSignatureRequestBuilder(
+                provideZionSignatureRequestBuilder
+            )
             true
         }
     }
@@ -102,7 +104,9 @@ class ZionApi(private val context: Context) : KoinComponent {
     suspend fun disable() = withContext(Dispatchers.Default) {
         synchronized(this) {
             sessionSignature.disable()
-            proofCollector.removeProvideSignatureRequestBuilder(provideZionSignatureRequestBuilder)
+            proofCollector.removeProvideInformationAndSignatureRequestBuilder(
+                provideZionSignatureRequestBuilder
+            )
             val result = zkma.deinit()
             if (result != RESULT.SUCCESS) error("Bad result when destroying Zion: $result")
             isEnabled = false

@@ -93,7 +93,8 @@ class StorageFragment(private val publisherManager: PublisherManager) : Fragment
             .withPermissions(
                 Manifest.permission.CAMERA,
                 Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
             .withListener(permissionListeners)
             .check()

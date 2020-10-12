@@ -1,4 +1,4 @@
-package io.numbersprotocol.starlingcapture.collector.information.infosnapshot
+package io.numbersprotocol.starlingcapture.collector.infosnapshot
 
 import android.content.Context
 import io.numbersprotocol.starlingcapture.util.booleanLiveData
@@ -9,8 +9,8 @@ import org.koin.core.inject
 object InfoSnapshotConfig : KoinComponent {
 
     private val context: Context by inject()
-    private const val INFOSNAPSHOT = "INFOSNAPSHOT"
-    private val sharedPreferences = context.getSharedPreferences(INFOSNAPSHOT, Context.MODE_PRIVATE)
+    const val name = "InfoSnapshot"
+    private val sharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
 
     private const val KEY_COLLECT_DEVICE_INFO = "KEY_COLLECT_DEVICE_INFO"
     var collectDeviceInfo by sharedPreferences.booleanPref(KEY_COLLECT_DEVICE_INFO, true)
