@@ -89,12 +89,13 @@ jobs:
           asset_content_type: application/json
 
       - name: Send Slack notification
+        if: steps.extract_branch.outputs.branch == 'develop'
         uses: rtCamp/action-slack-notify@master
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: reminder-releases
           SLACK_COLOR: '#6EE4D3'
-          SLACK_ICON: https://icons-for-free.com/iconfiles/png/512/github-131994889643862775.png
+          SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
           SLACK_MESSAGE: |
             Version: ${{ steps.extract_version.outputs.versionName }} (${{ steps.extract_version.outputs.versionCode }})
             <https://github.com/numbersprotocol/starling-capture/releases/tag/${{ steps.extract_version.outputs.versionName }}|GitHub Release Note>
@@ -141,6 +142,7 @@ jobs:
           ./gradlew bundleInternalRelease
 
       - name: Sign master-release AAB
+        if: steps.extract_branch.outputs.branch == 'develop'
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: ./app/build/outputs/bundle/masterRelease
@@ -150,6 +152,7 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Sign internal-release AAB
+        if: steps.extract_branch.outputs.branch == 'develop'
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: ./app/build/outputs/bundle/internalRelease
@@ -159,9 +162,11 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Create service_account.json
+        if: steps.extract_branch.outputs.branch == 'develop'
         run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
 
       - name: Deploy to Play Store (internal)
+        if: steps.extract_branch.outputs.branch == 'develop'
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJson: service_account.json
@@ -170,6 +175,7 @@ jobs:
           track: internal
 
       - name: Deploy to Play Store (internal)
+        if: steps.extract_branch.outputs.branch == 'develop'
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJson: service_account.json
@@ -183,11 +189,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up JDK
+        if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
 
       - name: Build APKs
+        if: steps.extract_branch.outputs.branch == 'develop'
         env:
           NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
         run: |
@@ -197,6 +205,7 @@ jobs:
           ./gradlew assembleInternalQa
 
       - name: Upload master-debug outputs to Google Drive
+        if: steps.extract_branch.outputs.branch == 'develop'
         uses: satackey/action-google-drive@v1
         with:
           skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
@@ -206,6 +215,7 @@ jobs:
           upload-to: /starling-capture/apk/master/debug/
 
       - name: Upload master-qa outputs to Google Drive
+        if: steps.extract_branch.outputs.branch == 'develop'
         uses: satackey/action-google-drive@v1
         with:
           skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
@@ -215,6 +225,7 @@ jobs:
           upload-to: /starling-capture/apk/master/qa/
 
       - name: Upload internal-debug outputs to Google Drive
+        if: steps.extract_branch.outputs.branch == 'develop'
         uses: satackey/action-google-drive@v1
         with:
           skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
@@ -224,6 +235,7 @@ jobs:
           upload-to: /starling-capture/apk/internal/debug/
 
       - name: Upload internal-qa outputs to Google Drive
+        if: steps.extract_branch.outputs.branch == 'develop'
         uses: satackey/action-google-drive@v1
         with:
           skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
