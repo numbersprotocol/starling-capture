@@ -16,6 +16,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/starling_capture"
         android:supportsRtl="true"
+        android:theme="@style/Theme.MyApp"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".BaseActivity"
