@@ -19,8 +19,8 @@ class ProofCollector(
     private val notificationUtil: NotificationUtil
 ) {
 
-    private val provideInformationRequestBuilders = mutableSetOf<OneTimeWorkRequest.Builder>()
-    private val provideSignatureRequestBuilders = mutableSetOf<OneTimeWorkRequest.Builder>()
+    private val provideInformationAndSignatureRequestBuilders =
+        mutableSetOf<OneTimeWorkRequest.Builder>()
 
     fun storeAndCollect(cachedMediaFile: File, mimeType: MimeType) {
         val notificationId = notificationUtil.createNotificationId()
@@ -38,11 +38,7 @@ class ProofCollector(
             .setInputData(workData)
             .build()
 
-        val provideInformationRequests = provideInformationRequestBuilders.map {
-            it.setInputData(workData).build()
-        }
-
-        val provideSignatureRequests = provideSignatureRequestBuilders.map {
+        val provideInformationRequests = provideInformationAndSignatureRequestBuilders.map {
             it.setInputData(workData).build()
         }
 
@@ -50,23 +46,15 @@ class ProofCollector(
         WorkManager.getInstance(context)
             .beginWith(storeProofRequest)
             .then(provideInformationRequests)
-            .then(provideSignatureRequests)
             .then(finishCollectionRequest)
             .enqueue()
     }
 
-    fun addProvideInformationRequestBuilder(builder: OneTimeWorkRequest.Builder) =
-        provideInformationRequestBuilders.add(builder)
+    fun addProvideInformationAndSignatureRequestBuilder(builder: OneTimeWorkRequest.Builder) =
+        provideInformationAndSignatureRequestBuilders.add(builder)
 
-    @Suppress("unused")
-    fun removeProvideInformationRequestBuilder(builder: OneTimeWorkRequest.Builder) =
-        provideInformationRequestBuilders.remove(builder)
-
-    fun addProvideSignatureRequestBuilder(builder: OneTimeWorkRequest.Builder) =
-        provideSignatureRequestBuilders.add(builder)
-
-    fun removeProvideSignatureRequestBuilder(builder: OneTimeWorkRequest.Builder) =
-        provideSignatureRequestBuilders.remove(builder)
+    fun removeProvideInformationAndSignatureRequestBuilder(builder: OneTimeWorkRequest.Builder) =
+        provideInformationAndSignatureRequestBuilders.remove(builder)
 
     private fun notifyStartCollecting(notificationId: Int) {
         val builder = getNotificationBuilder(context).apply {

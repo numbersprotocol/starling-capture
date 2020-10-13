@@ -70,9 +70,9 @@ interface NumbersStorageApi {
             .addConverterFactory(MoshiConverterFactory.create())
             .client(
                 OkHttpClient.Builder()
-                    .connectTimeout(120, TimeUnit.SECONDS)
-                    .writeTimeout(120, TimeUnit.SECONDS)
-                    .readTimeout(120, TimeUnit.SECONDS)
+                    .connectTimeout(240, TimeUnit.SECONDS)
+                    .writeTimeout(240, TimeUnit.SECONDS)
+                    .readTimeout(240, TimeUnit.SECONDS)
                     .build()
             )
             .build()
@@ -114,7 +114,7 @@ interface NumbersStorageApi {
             return try {
                 JSONObject(string).apply {
                     keys().forEach { key ->
-                        val array = getJSONArray(key)
+                        val array = getJSONArray(key as String)
                         for (i in 0 until array.length()) {
                             errorMessages.add("$key: ${array.getString(i)}")
                         }

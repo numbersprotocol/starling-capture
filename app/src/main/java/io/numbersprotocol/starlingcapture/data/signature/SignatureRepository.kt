@@ -8,5 +8,5 @@ class SignatureRepository(private val signatureDao: SignatureDao) {
 
     fun getByProofWithLiveData(proof: Proof) = signatureDao.queryByProofHashWithLiveData(proof.hash)
 
-    suspend fun add(signature: Signature) = signatureDao.insert(signature)
+    suspend fun add(vararg signature: Signature) = signatureDao.insert(*signature)
 }

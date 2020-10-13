@@ -1,4 +1,4 @@
-package io.numbersprotocol.starlingcapture.collector.signature.zion
+package io.numbersprotocol.starlingcapture.collector.zion
 
 import android.content.Context
 import io.numbersprotocol.starlingcapture.util.*

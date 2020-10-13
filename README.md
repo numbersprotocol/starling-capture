@@ -1,7 +1,13 @@
-# Starling Capture
+# Numbers Capture
 
 [![build](https://github.com/numbersprotocol/starling-capture/workflows/build/badge.svg)](https://github.com/numbersprotocol/starling-capture/actions?query=workflow%3Abuild)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1713765ab0ea4f068d40db53c44ca488)](https://www.codacy.com/gh/numbersprotocol/starling-capture?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=numbersprotocol/starling-capture&amp;utm_campaign=Badge_Grade)
+
+## Difference between Starling Capture
+
+* Numbers color and skin.
+* Application ID is different (`io.numbersprotocol.numberscapture`) though the package name is still `io.numbersprocotol.starlingcapture`.
+* Better integration with Numbers Storage Backend.
 
 ## Highlight Features
 
@@ -244,7 +250,12 @@ Example:
 1. Increase the `versionName` and `versionCode` in app/build.gradle file.
 1. Update the CHANGELOG.md file.
 1. Commit and push the update.
-1. Go to __Action > release > Run workflow > Branch: develop > Run workflow__ to automatically create GitHub Release with development tag and deploy apps on the Google Play Console.
+1. Go to __Action > release > Run workflow > Branch: develop > Run workflow__. The workflow will do the following things.
+    - Create GitHub Release page with master-debug and master-qa APKs.
+    - Show a Slack notification on release-reminders channel.
+    - Upload master-debug, master-qa, internal-debug and internal-qa APKs to private Google Drive.
+    - Deploy master-release to the internal testing on Google Play Console.
+    - Deploy internal-release to the alpha closed testing on Google Play Console.
 
 ## Caveat
 

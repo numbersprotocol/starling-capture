@@ -3,8 +3,8 @@ package io.numbersprotocol.starlingcapture.feature.zion
 import android.view.View
 import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.*
-import io.numbersprotocol.starlingcapture.collector.signature.zion.SessionSignature
-import io.numbersprotocol.starlingcapture.collector.signature.zion.ZionApi
+import io.numbersprotocol.starlingcapture.collector.zion.SessionSignature
+import io.numbersprotocol.starlingcapture.collector.zion.ZionApi
 import io.numbersprotocol.starlingcapture.util.Event
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.ticker

@@ -9,7 +9,7 @@ import androidx.preference.Preference.SummaryProvider
 import androidx.preference.PreferenceFragmentCompat
 import io.numbersprotocol.starlingcapture.BuildConfig.VERSION_NAME
 import io.numbersprotocol.starlingcapture.R
-import io.numbersprotocol.starlingcapture.collector.signature.zion.ZionApi
+import io.numbersprotocol.starlingcapture.collector.zion.ZionApi
 import io.numbersprotocol.starlingcapture.util.navigateSafely
 
 class PreferenceFragment : PreferenceFragmentCompat() {

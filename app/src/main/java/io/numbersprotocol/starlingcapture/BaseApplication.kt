@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import coil.Coil
 import coil.ImageLoader
 import coil.fetch.VideoFrameFileFetcher
-import io.numbersprotocol.starlingcapture.collector.signature.zion.ZionApi
+import io.numbersprotocol.starlingcapture.collector.zion.ZionApi
 import io.numbersprotocol.starlingcapture.data.preference.PreferenceRepository
 import io.numbersprotocol.starlingcapture.di.mainModule
 import io.numbersprotocol.starlingcapture.di.variantModule
