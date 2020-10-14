@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "377ebc659336fbe05a1502587b258cbf",
+    "identityHash": "be64543d86122baca7864df1d8f96927",
     "entities": [
       {
         "tableName": "Proof",
@@ -244,7 +244,7 @@
       },
       {
         "tableName": "AttachedImage",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`proofHash` TEXT NOT NULL, `fileHash` TEXT NOT NULL, `mimeType` TEXT NOT NULL, PRIMARY KEY(`proofHash`), FOREIGN KEY(`proofHash`) REFERENCES `Proof`(`hash`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`proofHash` TEXT NOT NULL, `fileHash` TEXT NOT NULL, `mimeType` TEXT NOT NULL, PRIMARY KEY(`proofHash`, `fileHash`), FOREIGN KEY(`proofHash`) REFERENCES `Proof`(`hash`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "proofHash",
@@ -267,7 +267,8 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "proofHash"
+            "proofHash",
+            "fileHash"
           ],
           "autoGenerate": false
         },
@@ -290,7 +291,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '377ebc659336fbe05a1502587b258cbf')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'be64543d86122baca7864df1d8f96927')"
     ]
   }
 }

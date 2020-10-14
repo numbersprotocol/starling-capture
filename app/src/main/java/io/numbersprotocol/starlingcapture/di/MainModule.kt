@@ -136,7 +136,7 @@ val mainModule = module {
     fragment { CameraFragment() }
 
     viewModel { ESignatureViewModel() }
-    fragment { ESignatureFragment() }
+    fragment { ESignatureFragment(get()) }
 
     single(named(CoilImageLoader.SmallThumb)) {
         ImageLoader.Builder(androidContext())

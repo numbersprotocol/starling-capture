@@ -29,8 +29,9 @@ class ProofCollector(
         val notificationId = notificationUtil.createNotificationId()
 
         val storedMediaFile = proofRepository.addRawFile(cachedMediaFile)
+        val proofHash = storedMediaFile.nameWithoutExtension
         val workData = workDataOf(
-            KEY_HASH to storedMediaFile.nameWithoutExtension,
+            KEY_HASH to proofHash,
             KEY_MIME_TYPE to mimeType.toString(),
             KEY_NOTIFICATION_ID to notificationId
         )
@@ -52,7 +53,7 @@ class ProofCollector(
             .then(finishCollectionRequest)
             .enqueue()
 
-        return storedMediaFile.nameWithoutExtension
+        return proofHash
     }
 
     suspend fun storeAndCollect(
@@ -72,10 +73,12 @@ class ProofCollector(
         attachedImageMimeType: MimeType
     ) {
         val storedAttachedImageFile = attachedImageRepository.addRawFile(cachedAttachedImageFile)
+        val attachedImageHash = storedAttachedImageFile.nameWithoutExtension
+        Timber.i("proofHash: $proofHash, attachedImageHash: $attachedImageHash")
         attachedImageRepository.add(
             AttachedImage(
                 proofHash,
-                storedAttachedImageFile.nameWithoutExtension,
+                attachedImageHash,
                 attachedImageMimeType
             )
         )

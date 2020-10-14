@@ -8,6 +8,7 @@ import java.util.*
 
 enum class MimeType(private val string: String, val extension: String) {
     JPEG("image/jpeg", "jpg"),
+    PNG("image/png", "png"),
     MP4("video/mp4", "mp4");
 
     override fun toString() = string

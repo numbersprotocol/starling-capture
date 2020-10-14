@@ -65,7 +65,7 @@
                         android:layout_height="match_parent"
                         android:saveEnabled="false"
                         app:clearOnDoubleClick="true"
-                        app:onSigned="@{fragment::onSigned}" />
+                        app:onStartSigning="@{fragment::onStartSigning}" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
@@ -90,6 +90,8 @@
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="@{viewModel.isOkEnabled}"
+                android:onClick="@{() -> viewModel.onOkClicked()}"
                 android:text="@android:string/ok" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
