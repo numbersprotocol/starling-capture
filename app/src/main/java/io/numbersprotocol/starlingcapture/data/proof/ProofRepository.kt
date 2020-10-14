@@ -1,13 +1,15 @@
 package io.numbersprotocol.starlingcapture.data.proof
 
 import android.content.Context
+import io.numbersprotocol.starlingcapture.data.attached_image.AttachedImageRepository
 import io.numbersprotocol.starlingcapture.util.sha256
 import timber.log.Timber
 import java.io.File
 
 class ProofRepository(
     context: Context,
-    private val proofDao: ProofDao
+    private val proofDao: ProofDao,
+    private val attachedImageRepository: AttachedImageRepository
 ) {
 
     private val rawFilesDir = context.filesDir.resolve("raw")
@@ -28,6 +30,7 @@ class ProofRepository(
 
     suspend fun remove(proof: Proof): Int {
         val deleteCount = proofDao.delete(proof)
+        attachedImageRepository.removeRawFileByProof(proof)
         removeRawFile(proof)
         return deleteCount
     }

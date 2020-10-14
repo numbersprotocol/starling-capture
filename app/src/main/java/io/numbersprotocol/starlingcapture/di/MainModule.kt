@@ -73,7 +73,7 @@ val mainModule = module {
     }
 
     single { get<AppDataBase>().proofDao() }
-    single { ProofRepository(androidContext(), get()) }
+    single { ProofRepository(androidContext(), get(), get()) }
 
     single { get<AppDataBase>().informationDao() }
     single { InformationRepository(get()) }
@@ -111,8 +111,8 @@ val mainModule = module {
     viewModel { StorageViewModel(get()) }
     fragment { StorageFragment(get()) }
 
-    viewModel { ProofViewModel(get(), get(), get(), get()) }
-    fragment { ProofFragment(get(), get(), get()) }
+    viewModel { ProofViewModel(get(), get(), get(), get(), get()) }
+    fragment { ProofFragment(get(), get(), get(), get()) }
 
     viewModel { InformationViewModel(get()) }
     fragment { InformationFragment() }

@@ -23,6 +23,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.stfalcon.imageviewer.StfalconImageViewer
 import io.numbersprotocol.starlingcapture.BuildConfig
 import io.numbersprotocol.starlingcapture.R
+import io.numbersprotocol.starlingcapture.data.attached_image.AttachedImageRepository
 import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
@@ -40,6 +41,7 @@ import org.koin.core.qualifier.named
 class ProofFragment(
     private val proofRepository: ProofRepository,
     private val informationRepository: InformationRepository,
+    private val attachedImageRepository: AttachedImageRepository,
     private val publisherManager: PublisherManager
 ) : Fragment() {
 
@@ -117,6 +119,9 @@ class ProofFragment(
         }
         proofViewModel.editCaptionEvent.observeEvent(viewLifecycleOwner) {
             showCaptionEditingDialog(it)
+        }
+        proofViewModel.attachedImage.observe(viewLifecycleOwner) {
+            it?.also { attachedImageView.load(attachedImageRepository.getRawFile(it)) }
         }
     }
 

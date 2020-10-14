@@ -1,6 +1,7 @@
 package io.numbersprotocol.starlingcapture.feature.proof
 
 import androidx.lifecycle.*
+import io.numbersprotocol.starlingcapture.data.attached_image.AttachedImageRepository
 import io.numbersprotocol.starlingcapture.data.caption.Caption
 import io.numbersprotocol.starlingcapture.data.caption.CaptionRepository
 import io.numbersprotocol.starlingcapture.data.information.InformationRepository
@@ -16,7 +17,8 @@ class ProofViewModel(
     private val informationRepository: InformationRepository,
     private val signatureRepository: SignatureRepository,
     private val captionRepository: CaptionRepository,
-    private val publishHistoryRepository: PublishHistoryRepository
+    private val publishHistoryRepository: PublishHistoryRepository,
+    private val attachedImageRepository: AttachedImageRepository
 ) : ViewModel() {
 
     val proof = MutableLiveData<Proof>()
@@ -37,6 +39,9 @@ class ProofViewModel(
     }
     val viewMediaEvent = MutableLiveData<Event<Unit>>()
     val editCaptionEvent = MutableLiveData<Event<String>>()
+    val attachedImage = proof.switchMap {
+        attachedImageRepository.getByProofWithFlow(it).asLiveData()
+    }
 
     fun viewMedia() {
         viewMediaEvent.value = Event(Unit)

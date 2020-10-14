@@ -10,6 +10,7 @@
     <string name="hash">Hash</string>
     <string name="mime_type">MIME Type</string>
     <string name="timestamp">Timestamp</string>
+    <string name="attached_image">Attached Image</string>
     <string name="information">Information</string>
     <string name="permission_denied">Permission Denied</string>
     <string name="hash_of_android_id">Hash of Android ID</string>
