@@ -61,7 +61,21 @@ interface NumbersStorageApi {
         @Part("caption") caption: String,
         @Part("signature") signatures: String,
         @Part("tag") tag: String
-    ): String
+    ): MediaCreate
+
+    @Multipart
+    @POST("api/v1/media/")
+    suspend fun createMedia(
+        @Header("Authorization") authToken: String,
+        @Part rawFile: MultipartBody.Part,
+        @Part("meta") information: String,
+        @Part("target_provider") targetProvider: String,
+        @Part("caption") caption: String,
+        @Part("signature") signatures: String,
+        @Part attachedImageFile: MultipartBody.Part,
+        @Part("tag") tag: String
+    ): MediaCreate
+
 
     companion object {
         fun create(): NumbersStorageApi = Retrofit.Builder()
@@ -141,4 +155,10 @@ data class User(
 data class TokenCreate(
     @Json(name = "auth_token")
     val authToken: String
+)
+
+// XXX: only partially parsed
+@JsonClass(generateAdapter = true)
+data class MediaCreate(
+    val id: String
 )

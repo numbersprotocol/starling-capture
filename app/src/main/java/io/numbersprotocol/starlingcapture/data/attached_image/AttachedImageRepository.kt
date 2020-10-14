@@ -11,7 +11,7 @@ class AttachedImageRepository(
     private val attachedImageDao: AttachedImageDao
 ) {
 
-    private suspend fun getByProof(proof: Proof) = attachedImageDao.queryByProofHash(proof.hash)
+    suspend fun getByProof(proof: Proof) = attachedImageDao.queryByProofHash(proof.hash)
 
     fun getByProofWithFlow(proof: Proof) = attachedImageDao.queryByProofHashWithFlow(proof.hash)
 
