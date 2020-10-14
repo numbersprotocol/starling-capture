@@ -24,6 +24,8 @@ import io.numbersprotocol.starlingcapture.feature.camera.CameraFragment
 import io.numbersprotocol.starlingcapture.feature.camera.CameraViewModel
 import io.numbersprotocol.starlingcapture.feature.ccapi.CcapiFragment
 import io.numbersprotocol.starlingcapture.feature.ccapi.CcapiViewModel
+import io.numbersprotocol.starlingcapture.feature.e_signature.ESignatureFragment
+import io.numbersprotocol.starlingcapture.feature.e_signature.ESignatureViewModel
 import io.numbersprotocol.starlingcapture.feature.information.InformationFragment
 import io.numbersprotocol.starlingcapture.feature.information.InformationViewModel
 import io.numbersprotocol.starlingcapture.feature.information_provider_config.InformationProviderConfigFragment
@@ -128,6 +130,9 @@ val mainModule = module {
 
     viewModel { CameraViewModel(get()) }
     fragment { CameraFragment() }
+
+    viewModel { ESignatureViewModel() }
+    fragment { ESignatureFragment() }
 
     single(named(CoilImageLoader.SmallThumb)) {
         ImageLoader.Builder(androidContext())

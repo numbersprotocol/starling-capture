@@ -31,7 +31,18 @@
             app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/toCameraFragment"
-            app:destination="@id/cameraFragment" />
+            app:destination="@id/cameraFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/toESignatureFragment"
+            app:destination="@id/eSignatureFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
 
     <fragment
@@ -106,4 +117,9 @@
         android:name="io.numbersprotocol.starlingcapture.feature.camera.CameraFragment"
         android:label="@string/camera"
         tools:layout="@layout/fragment_camera" />
+    <fragment
+        android:id="@+id/eSignatureFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.e_signature.ESignatureFragment"
+        android:label="E-Signature"
+        tools:layout="@layout/fragment_e_signature" />
 </navigation>

@@ -103,6 +103,8 @@
     <string name="media_captured">Media Captured</string>
     <string name="add_new_proof">Add New Proof</string>
     <string name="enabled">Enabled</string>
+    <string name="add_e_signature_beta">Add E-Signature (Beta)</string>
+    <string name="e_signature_beta">E-Signature (Beta)</string>
 
     <string name="message_are_you_sure">The action cannot be undone.</string>
     <string name="message_permissions">We need the camera, audio recording and location permissions to build proof. Please allow the permission request by enabling it in Android settings.</string>
