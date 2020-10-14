@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Update upstream Starling Capture to `1.7.0`.
 
+### Added
+
+- Add new proof type: e-signature (beta) [#76](https://github.com/numbersprotocol/starling-capture/issues/76)
+
 ## 1.6.5 - 2020-10-06
 
 ### Fixed
