@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:marginBottomSystemWindowInsets="@{true}"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_fiber_manual_record" />
+            tools:src="@drawable/ic_capture" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/switchModeButton"
