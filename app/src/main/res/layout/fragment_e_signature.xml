@@ -9,6 +9,10 @@
         <variable
             name="viewModel"
             type="io.numbersprotocol.starlingcapture.feature.e_signature.ESignatureViewModel" />
+
+        <variable
+            name="fragment"
+            type="io.numbersprotocol.starlingcapture.feature.e_signature.ESignatureFragment" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -53,12 +57,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <!-- To avoid TransactionTooLargeException caused by the library itself, set the saveEnabled to false.-->
+                    <!-- See issue: https://github.com/gcacace/android-signaturepad/issues/114 -->
                     <com.github.gcacace.signaturepad.views.SignaturePad
                         android:id="@+id/signaturePad"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:saveEnabled="false"
-                        app:clearOnDoubleClick="true" />
+                        app:clearOnDoubleClick="true"
+                        app:onSigned="@{fragment::onSigned}" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView

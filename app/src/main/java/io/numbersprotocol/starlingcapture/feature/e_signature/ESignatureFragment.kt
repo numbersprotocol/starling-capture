@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import io.numbersprotocol.starlingcapture.databinding.FragmentESignatureBinding
+import io.numbersprotocol.starlingcapture.util.observeEvent
 import kotlinx.android.synthetic.main.fragment_e_signature.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -37,10 +38,18 @@ class ESignatureFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initializeCameraView()
         toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+        eSignatureViewModel.onOkClickedEvent.observeEvent(viewLifecycleOwner) {
+            // Store signature.
+            // Take selfie.
+        }
     }
 
     private fun initializeCameraView() {
         cameraView.setLifecycleOwner(viewLifecycleOwner)
+    }
+
+    fun onSigned() {
+        eSignatureViewModel.isOkEnabled.value = true
     }
 
     override fun onDestroy() {

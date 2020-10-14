@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.work.*
 import io.numbersprotocol.starlingcapture.R
+import io.numbersprotocol.starlingcapture.data.attached_image.AttachedImage
+import io.numbersprotocol.starlingcapture.data.attached_image.AttachedImageRepository
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import io.numbersprotocol.starlingcapture.util.MimeType
@@ -16,13 +18,14 @@ import java.io.File
 class ProofCollector(
     private val context: Context,
     private val proofRepository: ProofRepository,
+    private val attachedImageRepository: AttachedImageRepository,
     private val notificationUtil: NotificationUtil
 ) {
 
     private val provideInformationAndSignatureRequestBuilders =
         mutableSetOf<OneTimeWorkRequest.Builder>()
 
-    fun storeAndCollect(cachedMediaFile: File, mimeType: MimeType) {
+    fun storeAndCollect(cachedMediaFile: File, mimeType: MimeType): String {
         val notificationId = notificationUtil.createNotificationId()
 
         val storedMediaFile = proofRepository.addRawFile(cachedMediaFile)
@@ -48,6 +51,34 @@ class ProofCollector(
             .then(provideInformationRequests)
             .then(finishCollectionRequest)
             .enqueue()
+
+        return storedMediaFile.nameWithoutExtension
+    }
+
+    suspend fun storeAndCollect(
+        cachedMediaFile: File,
+        mimeType: MimeType,
+        cachedAttachedImageFile: File,
+        attachedImageMimeType: MimeType
+    ): String {
+        val proofHash = storeAndCollect(cachedMediaFile, mimeType)
+        storeAttachedImage(proofHash, cachedAttachedImageFile, attachedImageMimeType)
+        return proofHash
+    }
+
+    private suspend fun storeAttachedImage(
+        proofHash: String,
+        cachedAttachedImageFile: File,
+        attachedImageMimeType: MimeType
+    ) {
+        val storedAttachedImageFile = attachedImageRepository.addRawFile(cachedAttachedImageFile)
+        attachedImageRepository.add(
+            AttachedImage(
+                proofHash,
+                storedAttachedImageFile.nameWithoutExtension,
+                attachedImageMimeType
+            )
+        )
     }
 
     fun addProvideInformationAndSignatureRequestBuilder(builder: OneTimeWorkRequest.Builder) =

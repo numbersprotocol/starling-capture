@@ -14,6 +14,7 @@ import io.numbersprotocol.starlingcapture.collector.infosnapshot.InfoSnapshotPro
 import io.numbersprotocol.starlingcapture.collector.zion.SessionSignature
 import io.numbersprotocol.starlingcapture.collector.zion.ZionApi
 import io.numbersprotocol.starlingcapture.data.AppDataBase
+import io.numbersprotocol.starlingcapture.data.attached_image.AttachedImageRepository
 import io.numbersprotocol.starlingcapture.data.caption.CaptionRepository
 import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import io.numbersprotocol.starlingcapture.data.preference.PreferenceRepository
@@ -86,10 +87,13 @@ val mainModule = module {
     single { get<AppDataBase>().publishHistoryDao() }
     single { PublishHistoryRepository(get()) }
 
+    single { get<AppDataBase>().attachedImageDao() }
+    single { AttachedImageRepository(androidContext(), get()) }
+
     single { PreferenceRepository(androidContext()) }
 
     single {
-        ProofCollector(androidContext(), get(), get()).apply {
+        ProofCollector(androidContext(), get(), get(), get()).apply {
             addProvideInformationAndSignatureRequestBuilder(OneTimeWorkRequestBuilder<InfoSnapshotProvider>())
             addProvideInformationAndSignatureRequestBuilder(OneTimeWorkRequestBuilder<AndroidOpenSslSignatureProvider>())
         }
