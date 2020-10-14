@@ -89,17 +89,18 @@ class CanonCameraControlService : Service(), CoroutineScope by CoroutineScope(Di
         }
     }
 
-    private fun storeAndCollect(mediaStream: MediaStream) {
-        val timestamp = System.currentTimeMillis()
-        val cachedFile = File.createTempFile(
-            "$timestamp",
-            ".${mediaStream.mimeType.extension}",
-            cacheDir
-        )
+    private suspend fun storeAndCollect(mediaStream: MediaStream) {
+        val cachedFile = createCachedFile(mediaStream)
         cachedFile.copyFromInputStream(mediaStream.inputStream)
         proofCollector.storeAndCollect(cachedFile, mediaStream.mimeType)
         cachedFile.delete()
     }
+
+    private fun createCachedFile(mediaStream: MediaStream) = File.createTempFile(
+        "${System.currentTimeMillis()}",
+        ".${mediaStream.mimeType.extension}",
+        cacheDir
+    )
 
     override fun onBind(intent: Intent?) = Binder(this)
 

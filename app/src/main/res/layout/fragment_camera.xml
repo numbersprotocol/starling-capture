@@ -37,7 +37,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:marginBottomSystemWindowInsets="@{true}" />
+            app:marginBottomSystemWindowInsets="@{true}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_capture" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/switchModeButton"
@@ -49,7 +51,9 @@
             app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/captureButton"
-            app:marginBottomSystemWindowInsets="@{true}" />
+            app:marginBottomSystemWindowInsets="@{true}"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_videocam" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/navBackButton"
@@ -60,6 +64,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:marginTopSystemWindowInsets="@{true}"
-            app:srcCompat="@drawable/ic_arrow_back" />
+            app:srcCompat="@drawable/ic_arrow_back"
+            tools:ignore="ContentDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

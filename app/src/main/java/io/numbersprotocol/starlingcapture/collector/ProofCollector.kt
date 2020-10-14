@@ -22,18 +22,20 @@ class ProofCollector(
     private val provideInformationAndSignatureRequestBuilders =
         mutableSetOf<OneTimeWorkRequest.Builder>()
 
-    fun storeAndCollect(cachedMediaFile: File, mimeType: MimeType) {
+    suspend fun storeAndCollect(cachedMediaFile: File, mimeType: MimeType): String {
         val notificationId = notificationUtil.createNotificationId()
 
         val storedMediaFile = proofRepository.addRawFile(cachedMediaFile)
+        val proofHash = storedMediaFile.nameWithoutExtension
+
+        proofRepository.add(Proof(proofHash, mimeType, System.currentTimeMillis()))
+
         val workData = workDataOf(
-            KEY_HASH to storedMediaFile.nameWithoutExtension,
+            KEY_HASH to proofHash,
             KEY_MIME_TYPE to mimeType.toString(),
             KEY_NOTIFICATION_ID to notificationId
         )
-        val storeProofRequest = OneTimeWorkRequestBuilder<StoreProofWorker>()
-            .setInputData(workData)
-            .build()
+
         val finishCollectionRequest = OneTimeWorkRequestBuilder<FinishCollectionWorker>()
             .setInputData(workData)
             .build()
@@ -44,10 +46,11 @@ class ProofCollector(
 
         notifyStartCollecting(notificationId)
         WorkManager.getInstance(context)
-            .beginWith(storeProofRequest)
-            .then(provideInformationRequests)
+            .beginWith(provideInformationRequests)
             .then(finishCollectionRequest)
             .enqueue()
+
+        return proofHash
     }
 
     fun addProvideInformationAndSignatureRequestBuilder(builder: OneTimeWorkRequest.Builder) =
@@ -74,31 +77,6 @@ class ProofCollector(
             NotificationCompat.Builder(context, NotificationUtil.CHANNEL_DEFAULT)
                 .setSmallIcon(R.drawable.ic_capture)
                 .setContentTitle(context.getString(R.string.collect_proof_information))
-    }
-}
-
-class StoreProofWorker(
-    context: Context,
-    params: WorkerParameters
-) : CoroutineWorker(context, params), KoinComponent {
-
-    private val proofRepository: ProofRepository by inject()
-    private lateinit var hash: String
-    private lateinit var mimeType: MimeType
-
-    private fun initialize() {
-        hash = inputData.getString(ProofCollector.KEY_HASH)!!
-        mimeType = MimeType.fromString(inputData.getString(ProofCollector.KEY_MIME_TYPE)!!)
-    }
-
-    override suspend fun doWork(): Result {
-        Timber.i("Start to store proof.")
-        initialize()
-
-        val proof = Proof(hash, mimeType, System.currentTimeMillis())
-
-        proofRepository.add(proof)
-        return Result.success()
     }
 }
 

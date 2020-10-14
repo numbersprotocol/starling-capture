@@ -53,6 +53,7 @@
             android:layout_margin="@dimen/keyline_3"
             android:onClick="@{() -> viewModel.addProof()}"
             app:marginBottomSystemWindowInsets="@{true}"
-            app:srcCompat="@drawable/ic_add" />
+            app:srcCompat="@drawable/ic_add"
+            tools:ignore="ContentDescription" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
