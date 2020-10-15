@@ -3,6 +3,7 @@
 package io.numbersprotocol.starlingcapture.util
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import kotlin.reflect.KProperty
 
@@ -114,7 +115,7 @@ class SharedPreferenceIntDelegate(
         sharedPrefs.getInt(key, defaultValue)
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) =
-        sharedPrefs.edit().putInt(key, value).apply()
+        sharedPrefs.edit { putInt(key, value) }
 }
 
 class SharedPreferenceStringDelegate(
@@ -126,7 +127,7 @@ class SharedPreferenceStringDelegate(
         sharedPrefs.getString(key, defaultValue)!!
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: String) =
-        sharedPrefs.edit().putString(key, value).apply()
+        sharedPrefs.edit { putString(key, value) }
 }
 
 class SharedPreferenceBooleanDelegate(
@@ -138,7 +139,7 @@ class SharedPreferenceBooleanDelegate(
         sharedPrefs.getBoolean(key, defaultValue)
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: Boolean) =
-        sharedPrefs.edit().putBoolean(key, value).apply()
+        sharedPrefs.edit { putBoolean(key, value) }
 }
 
 class SharedPreferenceFloatDelegate(
@@ -150,7 +151,7 @@ class SharedPreferenceFloatDelegate(
         sharedPrefs.getFloat(key, defaultValue)
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: Float) =
-        sharedPrefs.edit().putFloat(key, value).apply()
+        sharedPrefs.edit { putFloat(key, value) }
 }
 
 class SharedPreferenceLongDelegate(
@@ -162,7 +163,7 @@ class SharedPreferenceLongDelegate(
         sharedPrefs.getLong(key, defaultValue)
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: Long) =
-        sharedPrefs.edit().putLong(key, value).apply()
+        sharedPrefs.edit { putLong(key, value) }
 }
 
 class SharedPreferenceStringSetDelegate(
@@ -174,7 +175,7 @@ class SharedPreferenceStringSetDelegate(
         sharedPrefs.getStringSet(key, defaultValue)!!
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: Set<String>) =
-        sharedPrefs.edit().putStringSet(key, value).apply()
+        sharedPrefs.edit { putStringSet(key, value) }
 }
 
 fun SharedPreferences.intPref(key: String, defaultValue: Int = 0) =
