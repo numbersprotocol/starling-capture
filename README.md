@@ -248,7 +248,6 @@ Example:
     - Create GitHub Release page with master-debug and master-qa APKs.
     - Show a Slack notification on release-reminders channel.
     - Upload master-debug, master-qa, internal-debug and internal-qa APKs to private Google Drive.
-    - Deploy master-release to the internal testing on Google Play Console.
     - Deploy internal-release to the alpha closed testing on Google Play Console.
 
 ## Caveat
