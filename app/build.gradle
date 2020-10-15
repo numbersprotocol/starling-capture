@@ -160,7 +160,7 @@ dependencies {
     // not know how to resolve it, we force the version of android-libproofmode to 0.0.4. Error
     // details: https://stackoverflow.com/questions/64300437/duplicate-class-okio-in-module-com-eternitywalljava-opentimestamps1-17-with-pr
     //noinspection GradleDependency
-    implementation("org.witness:android-libproofmode:0.0.4") {
+    implementation("org.witness:android-libproofmode:0.6") {
         exclude group: "com.google.guava", module: "guava"
     }
 
