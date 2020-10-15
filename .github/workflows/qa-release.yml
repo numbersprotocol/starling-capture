@@ -102,7 +102,6 @@ jobs:
 
             *APKs*
             <https://drive.google.com/drive/folders/1NHQH1Xi47GXNy1_afNvRDrcUxiuLRl6E?usp=sharing|Google Drive (Master-Debug, Master-QA, Internal-Debug and Internal-QA)>
-            <https://play.google.com/apps/internaltest/MODIFY_LATER|Google Play Internal Testing (Master-Release)>
             <https://play.google.com/apps/testing/io.numbersprotocol.numberscapture|Google Play Closed Alpha Testing (Internal-Release)>
 
             *Notes*
@@ -127,12 +126,6 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: Test and build master-release bundle (AAB)
-        if: steps.extract_branch.outputs.branch == 'numbers'
-        run: |
-          ./gradlew testMasterRelease
-          ./gradlew bundleMasterRelease
-
       - name: Test and build internal-release bundle (AAB)
         if: steps.extract_branch.outputs.branch == 'numbers'
         env:
@@ -140,16 +133,6 @@ jobs:
         run: |
           ./gradlew testInternalRelease
           ./gradlew bundleInternalRelease
-
-      - name: Sign master-release AAB
-        if: steps.extract_branch.outputs.branch == 'numbers'
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: ./app/build/outputs/bundle/masterRelease
-          signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
-          alias: ${{ secrets.KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Sign internal-release AAB
         if: steps.extract_branch.outputs.branch == 'numbers'
@@ -165,16 +148,7 @@ jobs:
         if: steps.extract_branch.outputs.branch == 'numbers'
         run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
 
-      - name: Deploy to Play Store (internal)
-        if: steps.extract_branch.outputs.branch == 'numbers'
-        uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJson: service_account.json
-          packageName: io.numbersprotocol.numberscapture
-          releaseFile: ./app/build/outputs/bundle/masterRelease/app-master-release.aab
-          track: internal
-
-      - name: Deploy to Play Store (alpha)
+      - name: Deploy to Play Store (closed alpha track)
         if: steps.extract_branch.outputs.branch == 'numbers'
         uses: r0adkll/upload-google-play@v1
         with:

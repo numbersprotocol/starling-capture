@@ -17,8 +17,8 @@ android {
         applicationId "io.numbersprotocol.numberscapture"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 7
-        versionName "1.7.0-numbers"
+        versionCode 2
+        versionName "1.7.0-numbers-rc1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
