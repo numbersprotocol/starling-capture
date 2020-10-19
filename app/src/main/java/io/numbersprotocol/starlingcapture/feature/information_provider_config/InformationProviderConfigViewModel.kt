@@ -9,6 +9,7 @@ import io.numbersprotocol.starlingcapture.collector.proofmode.ProofModeConfig
 class InformationProviderConfigViewModel : ViewModel() {
 
     val infoSnapshotCollectDeviceInfo = InfoSnapshotConfig.collectDeviceInfoLiveData
+    val infoSnapshotCollectLocaleInfo = InfoSnapshotConfig.collectLocaleInfoLiveData
     val infoSnapshotCollectLocationInfo = InfoSnapshotConfig.collectLocationInfoLiveData
     val infoSnapshotCollectSensorInfo = InfoSnapshotConfig.collectSensorInfoLiveData
     val proofModeSupported = ProofModeConfig.isSupported
@@ -16,6 +17,10 @@ class InformationProviderConfigViewModel : ViewModel() {
 
     fun onInfoSnapshotCollectDeviceInfoClick(view: View) {
         InfoSnapshotConfig.collectDeviceInfo = (view as SwitchCompat).isChecked
+    }
+
+    fun onInfoSnapshotCollectLocaleInfoClick(view: View) {
+        InfoSnapshotConfig.collectLocaleInfo = (view as SwitchCompat).isChecked
     }
 
     fun onInfoSnapshotCollectLocationInfoClick(view: View) {

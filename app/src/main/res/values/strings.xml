@@ -29,6 +29,11 @@
     <string name="current_gps_bearing">Current GPS Bearing</string>
     <string name="current_gps_speed">Current GPS Speed</string>
     <string name="current_gps_timestamp">Current GPS Timestamp</string>
+    <string name="name">Name</string>
+    <string name="country">Country</string>
+    <string name="variant">Variant</string>
+    <string name="language">Language</string>
+    <string name="script">Script</string>
     <string name="board">Board</string>
     <string name="brand">Brand</string>
     <string name="device_name">Device Name</string>
@@ -90,6 +95,7 @@
     <string name="view_all">View All</string>
     <string name="location">Location</string>
     <string name="device">Device</string>
+    <string name="locale">Locale</string>
     <string name="sensor">Sensor</string>
     <string name="others">Others</string>
     <string name="slate">Slate</string>
@@ -97,6 +103,7 @@
     <string name="photographer">Photographer</string>
     <string name="information_provider">Information Provider</string>
     <string name="collect_device_info">Collect Device Info</string>
+    <string name="collect_locale_info">Collect Locale Info</string>
     <string name="collect_location_info">Collect Location Info</string>
     <string name="collect_sensor_info">Collect Sensor Info</string>
     <string name="camera">Camera</string>
