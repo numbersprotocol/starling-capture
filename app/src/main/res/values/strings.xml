@@ -100,7 +100,6 @@
     <string name="collect_location_info">Collect Location Info</string>
     <string name="collect_sensor_info">Collect Sensor Info</string>
     <string name="camera">Camera</string>
-    <string name="media_captured">Media Captured</string>
     <string name="add_new_proof">Add New Proof</string>
     <string name="enabled">Enabled</string>
 
