@@ -30,7 +30,7 @@ class InfoSnapshotProvider(
 
         informationSet.add(
             Information(
-                hash, name, context.getString(R.string.timestamp),
+                hash, name, "Timestamp",
                 Instant.now().toString(),
                 Information.Importance.LOW
             )
@@ -39,7 +39,7 @@ class InfoSnapshotProvider(
         snapshot.settingsInfo.value?.androidIdHash?.value?.let {
             informationSet.add(
                 Information(
-                    hash, name, context.getString(R.string.hash_of_android_id),
+                    hash, name, "Hash of Android ID",
                     it, Information.Importance.HIGH
                 )
             )
@@ -50,7 +50,7 @@ class InfoSnapshotProvider(
                 address.value?.apply {
                     informationSet.add(
                         Information(
-                            hash, name, context.getString(R.string.last_knwon_gps_address), this,
+                            hash, name, "Last Known GPS Address", this,
                             Information.Importance.HIGH, locationType
                         )
                     )
@@ -58,31 +58,31 @@ class InfoSnapshotProvider(
                 informationSet.addAll(
                     setOf(
                         Information(
-                            hash, name, context.getString(R.string.last_knwon_gps_latitude),
+                            hash, name, "Last Known GPS Latitude",
                             "$latitude", Information.Importance.HIGH, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.last_knwon_gps_longitude),
+                            hash, name, "Last Known GPS Longitude",
                             "$longitude", Information.Importance.HIGH, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.last_knwon_gps_accuracy),
+                            hash, name, "Last Known GPS Accuracy",
                             "$accuracy", Information.Importance.LOW, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.last_knwon_gps_altitude),
+                            hash, name, "Last Known GPS Altitude",
                             "$altitude", Information.Importance.LOW, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.last_knwon_gps_bearing),
+                            hash, name, "Last Known GPS Bearing",
                             "$bearing", Information.Importance.LOW, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.last_knwon_gps_speed),
+                            hash, name, "Last Known GPS Speed",
                             "$speed", Information.Importance.LOW, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.last_knwon_gps_timestamp),
+                            hash, name, "Last Known GPS Timestamp",
                             "${Instant.ofEpochMilli(time)}",
                             Information.Importance.LOW, locationType
                         )
@@ -93,7 +93,7 @@ class InfoSnapshotProvider(
                 address.value?.apply {
                     informationSet.add(
                         Information(
-                            hash, name, context.getString(R.string.current_gps_address), this,
+                            hash, name, "Current GPS Address", this,
                             Information.Importance.HIGH, locationType
                         )
                     )
@@ -101,31 +101,31 @@ class InfoSnapshotProvider(
                 informationSet.addAll(
                     setOf(
                         Information(
-                            hash, name, context.getString(R.string.current_gps_latitude),
+                            hash, name, "Current GPS Latitude",
                             "$latitude", Information.Importance.HIGH, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.current_gps_longitude),
+                            hash, name, "Current GPS Longitude",
                             "$longitude", Information.Importance.HIGH, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.current_gps_accuracy),
+                            hash, name, "Current GPS Accuracy",
                             "$accuracy", Information.Importance.LOW, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.current_gps_altitude),
+                            hash, name, "Current GPS Altitude",
                             "$altitude", Information.Importance.LOW, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.current_gps_bearing),
+                            hash, name, "Current GPS Bearing",
                             "$bearing", Information.Importance.LOW, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.current_gps_speed),
+                            hash, name, "Current GPS Speed",
                             "$speed", Information.Importance.LOW, locationType
                         ),
                         Information(
-                            hash, name, context.getString(R.string.current_gps_timestamp),
+                            hash, name, "Current GPS Timestamp",
                             "${Instant.ofEpochMilli(time)}",
                             Information.Importance.LOW, locationType
                         )
@@ -138,52 +138,52 @@ class InfoSnapshotProvider(
             informationSet.addAll(
                 setOf(
                     Information(
-                        hash, name, context.getString(R.string.board), board,
+                        hash, name, "Board", board,
                         Information.Importance.LOW, deviceType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.brand), brand,
+                        hash, name, "Brand", brand,
                         Information.Importance.LOW, deviceType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.device_name),
+                        hash, name, "Device Name",
                         device, Information.Importance.LOW, deviceType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.device_build_id),
+                        hash, name, "Device Build ID",
                         display, Information.Importance.LOW, deviceType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.device_build_fingerprint),
+                        hash, name, "Device Build Fingerprint",
                         fingerprint, Information.Importance.LOW, deviceType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.hardware),
+                        hash, name, "Hardware",
                         hardware, Information.Importance.LOW, deviceType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.manufacturer),
+                        hash, name, "Manufacturer",
                         manufacturer, Information.Importance.LOW, deviceType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.end_product_name),
+                        hash, name, "End Product Name",
                         model, Information.Importance.LOW, deviceType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.overall_product_name),
+                        hash, name, "Overall Product Name",
                         product, Information.Importance.LOW, deviceType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.device_build_tags),
+                        hash, name, "Device Build Tags",
                         tags, Information.Importance.LOW, deviceType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.device_build_time),
+                        hash, name, "Device Build Time",
                         buildTime.let { DateFormat.getInstance().format(it) }.toString(),
                         Information.Importance.LOW, deviceType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.device_build_type),
+                        hash, name, "Device Build Type",
                         type, Information.Importance.LOW, deviceType
                     )
                 )
@@ -194,47 +194,47 @@ class InfoSnapshotProvider(
             informationSet.addAll(
                 setOf(
                     Information(
-                        hash, name, context.getString(R.string.accelerometer),
+                        hash, name, "Accelerometer",
                         "${accelerometer.value?.value ?: accelerometer.nullReason}",
                         Information.Importance.LOW, sensorType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.gravity),
+                        hash, name, "Gravity",
                         "${gravity.value?.value ?: gravity.nullReason}",
                         Information.Importance.LOW, sensorType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.gyroscope),
+                        hash, name, "Gyroscope",
                         "${gyroscope.value?.value ?: gyroscope.nullReason}",
                         Information.Importance.LOW, sensorType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.light),
+                        hash, name, "Light",
                         "${light.value?.value ?: light.nullReason}",
                         Information.Importance.LOW, sensorType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.linear_accelerometer),
+                        hash, name, "Linear Accelerometer",
                         "${linearAcceleration.value?.value ?: linearAcceleration.nullReason}",
                         Information.Importance.LOW, sensorType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.game_rotation_vector),
+                        hash, name, "Game Rotation Vector",
                         "${gameRotationVector.value?.value ?: gameRotationVector.nullReason}",
                         Information.Importance.LOW, sensorType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.geomagnetic_rotation_vector),
+                        hash, name, "Geomagnetic Rotation Vector",
                         "${geomagneticRotationVector.value?.value ?: geomagneticRotationVector.nullReason}",
                         Information.Importance.LOW, sensorType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.magnetic_field),
+                        hash, name, "Magnetic Field",
                         "${magneticField.value?.value ?: magneticField.nullReason}",
                         Information.Importance.LOW, sensorType
                     ),
                     Information(
-                        hash, name, context.getString(R.string.rotation_vector),
+                        hash, name, "Rotation Vector",
                         "${rotationVector.value?.value ?: rotationVector.nullReason}",
                         Information.Importance.LOW, sensorType
                     )
