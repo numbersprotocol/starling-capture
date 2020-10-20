@@ -24,7 +24,7 @@ class InfoSnapshotProvider(
             duration = 10000
             enableDeviceInfo = InfoSnapshotConfig.collectDeviceInfo
             enableLocationInfo = InfoSnapshotConfig.collectLocationInfo
-            enableLocaleInfo = false
+            enableLocaleInfo = InfoSnapshotConfig.collectLocaleInfo
             enableSensorInfo = InfoSnapshotConfig.collectSensorInfo
         }.snap()
 
@@ -190,6 +190,33 @@ class InfoSnapshotProvider(
             )
         }
 
+        snapshot.localeInfo.value?.also {
+            informationSet.addAll(
+                setOf(
+                    Information(
+                        hash, name, context.getString(R.string.name), it.name,
+                        Information.Importance.LOW, localeType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.country), it.country,
+                        Information.Importance.LOW, localeType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.variant), it.variant,
+                        Information.Importance.LOW, localeType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.language), it.language,
+                        Information.Importance.LOW, localeType
+                    ),
+                    Information(
+                        hash, name, context.getString(R.string.script), it.script,
+                        Information.Importance.LOW, localeType
+                    )
+                )
+            )
+        }
+
         snapshot.sensorInfo.value?.apply {
             informationSet.addAll(
                 setOf(
@@ -248,6 +275,7 @@ class InfoSnapshotProvider(
     companion object {
         val locationType = Information.Type(R.string.location, R.drawable.ic_location)
         val deviceType = Information.Type(R.string.device, R.drawable.ic_device_information)
+        val localeType = Information.Type(R.string.locale, R.drawable.ic_language)
         val sensorType = Information.Type(R.string.sensor, R.drawable.ic_settings_input_antenna)
     }
 }
