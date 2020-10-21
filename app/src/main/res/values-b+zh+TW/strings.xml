@@ -54,6 +54,7 @@
     <string name="view_all">顯示全部</string>
     <string name="location">位置</string>
     <string name="device">裝置</string>
+    <string name="locale">地區</string>
     <string name="sensor">感應器</string>
     <string name="others">其他</string>
     <string name="slate">電影打板</string>
@@ -61,6 +62,7 @@
     <string name="photographer">攝影師</string>
     <string name="information_provider">資訊來源</string>
     <string name="collect_device_info">蒐集裝置資訊</string>
+    <string name="collect_locale_info">蒐集地區資訊</string>
     <string name="collect_location_info">蒐集位置資訊</string>
     <string name="collect_sensor_info">蒐集感應器資訊</string>
     <string name="camera">相機</string>

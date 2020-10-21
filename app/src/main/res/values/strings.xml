@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="starling_capture">Starling Capture</string>
     <string name="storage">Storage</string>
@@ -54,6 +53,7 @@
     <string name="view_all">View All</string>
     <string name="location">Location</string>
     <string name="device">Device</string>
+    <string name="locale">Locale</string>
     <string name="sensor">Sensor</string>
     <string name="others">Others</string>
     <string name="slate">Slate</string>
@@ -61,6 +61,7 @@
     <string name="photographer">Photographer</string>
     <string name="information_provider">Information Provider</string>
     <string name="collect_device_info">Collect Device Info</string>
+    <string name="collect_locale_info">Collect Locale Info</string>
     <string name="collect_location_info">Collect Location Info</string>
     <string name="collect_sensor_info">Collect Sensor Info</string>
     <string name="camera">Camera</string>
@@ -81,5 +82,5 @@
     <string name="message_will_generate_on_proof_created">Will be generated on the next proof created.</string>
     <string name="message_monitoring_canon_camera">Monitoring new media assets from Canon Camera with CCAPI.</string>
     <string name="message_enable_publishers_in_settings">Enable publishers in settings.</string>
-    <string name="message_proofmode_requires_api_less_or_equal_to_28">ProofMode requires Android device API less or equal to 28 (9 Pie).</string>
+    <string name="message_proofmode_requires_api_less_or_equal_to_28">ProofMode requires Android device API less or equal to 28.</string>
 </resources>
