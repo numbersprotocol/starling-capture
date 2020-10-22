@@ -100,11 +100,13 @@ jobs:
             Version: ${{ steps.extract_version.outputs.versionName }} (${{ steps.extract_version.outputs.versionCode }})
             <https://github.com/numbersprotocol/starling-capture/releases/tag/${{ steps.extract_version.outputs.versionName }}|GitHub Release Note>
 
-            *APKs*
+            APKs
+
             <https://drive.google.com/drive/folders/1NHQH1Xi47GXNy1_afNvRDrcUxiuLRl6E?usp=sharing|Google Drive (Master-Debug, Master-QA, Internal-Debug and Internal-QA)>
             <https://play.google.com/apps/testing/io.numbersprotocol.numberscapture|Google Play Closed Alpha Testing (Internal-Release)>
 
-            *Notes*
+            Notes
+
             - Publishing process usually requires some time to complete, and thus the link provided above might still display the old version of the app. Please check the app version before download and install the app.
             - This message is automatically sent from GitHub Action.
 
