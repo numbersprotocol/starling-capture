@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "be64543d86122baca7864df1d8f96927",
+    "identityHash": "809295320c5b8cd4dacb34716acae944",
     "entities": [
       {
         "tableName": "Proof",
@@ -286,12 +286,70 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "PublisherResponse",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`proofHash` TEXT NOT NULL, `publisher` TEXT NOT NULL, `name` INTEGER NOT NULL, `type` TEXT NOT NULL, `content` TEXT NOT NULL, PRIMARY KEY(`proofHash`, `publisher`, `name`), FOREIGN KEY(`proofHash`) REFERENCES `Proof`(`hash`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "proofHash",
+            "columnName": "proofHash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publisher",
+            "columnName": "publisher",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "proofHash",
+            "publisher",
+            "name"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Proof",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "proofHash"
+            ],
+            "referencedColumns": [
+              "hash"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'be64543d86122baca7864df1d8f96927')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '809295320c5b8cd4dacb34716acae944')"
     ]
   }
 }

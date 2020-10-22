@@ -7,6 +7,7 @@ import io.numbersprotocol.starlingcapture.data.caption.CaptionRepository
 import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.publish_history.PublishHistoryRepository
+import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponseRepository
 import io.numbersprotocol.starlingcapture.data.signature.SignatureRepository
 import io.numbersprotocol.starlingcapture.util.Event
 import io.numbersprotocol.starlingcapture.util.MimeType
@@ -18,29 +19,27 @@ class ProofViewModel(
     private val signatureRepository: SignatureRepository,
     private val captionRepository: CaptionRepository,
     private val publishHistoryRepository: PublishHistoryRepository,
-    private val attachedImageRepository: AttachedImageRepository
+    private val attachedImageRepository: AttachedImageRepository,
+    private val publisherResponseRepository: PublisherResponseRepository
 ) : ViewModel() {
 
     val proof = MutableLiveData<Proof>()
     val informationProviders = proof.switchMap {
         informationRepository.getProvidersByProofWithLiveData(it)
     }
-    val signatures = proof.switchMap {
-        signatureRepository.getByProofWithLiveData(it)
-    }
-    val isVideo = proof.map {
-        it.mimeType == MimeType.MP4
-    }
+    val signatures = proof.switchMap { signatureRepository.getByProofWithLiveData(it) }
+    val isVideo = proof.map { it.mimeType == MimeType.MP4 }
     val hasPublished = proof.switchMap { proof ->
         publishHistoryRepository.getByProofWithFlow(proof).map { it.isNotEmpty() }.asLiveData()
     }
-    val caption = proof.switchMap {
-        captionRepository.getByProofWithLiveData(it)
-    }
+    val caption = proof.switchMap { captionRepository.getByProofWithLiveData(it) }
     val viewMediaEvent = MutableLiveData<Event<Unit>>()
     val editCaptionEvent = MutableLiveData<Event<String>>()
     val attachedImage = proof.switchMap {
         attachedImageRepository.getByProofWithFlow(it).asLiveData()
+    }
+    val publishers = proof.switchMap {
+        publisherResponseRepository.getPublishersByProofWithLiveData(it)
     }
 
     fun viewMedia() {

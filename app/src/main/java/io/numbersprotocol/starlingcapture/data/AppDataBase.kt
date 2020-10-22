@@ -13,6 +13,8 @@ import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.proof.ProofDao
 import io.numbersprotocol.starlingcapture.data.publish_history.PublishHistory
 import io.numbersprotocol.starlingcapture.data.publish_history.PublishHistoryDao
+import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponse
+import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponseDao
 import io.numbersprotocol.starlingcapture.data.signature.Signature
 import io.numbersprotocol.starlingcapture.data.signature.SignatureDao
 import io.numbersprotocol.starlingcapture.util.MimeType
@@ -24,10 +26,15 @@ import io.numbersprotocol.starlingcapture.util.MimeType
         Signature::class,
         Caption::class,
         PublishHistory::class,
-        AttachedImage::class
+        AttachedImage::class,
+        PublisherResponse::class
     ], version = 1
 )
-@TypeConverters(MimeType.RoomTypeConverter::class, Information.Importance.RoomTypeConverter::class)
+@TypeConverters(
+    MimeType.RoomTypeConverter::class,
+    Information.Importance.RoomTypeConverter::class,
+    PublisherResponse.Type.RoomTypeConverter::class
+)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun proofDao(): ProofDao
@@ -36,4 +43,5 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun captionDao(): CaptionDao
     abstract fun publishHistoryDao(): PublishHistoryDao
     abstract fun attachedImageDao(): AttachedImageDao
+    abstract fun publisherResponseDao(): PublisherResponseDao
 }

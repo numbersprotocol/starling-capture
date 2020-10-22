@@ -61,7 +61,7 @@ interface NumbersStorageApi {
         @Part("caption") caption: String,
         @Part("signature") signatures: String,
         @Part("tag") tag: String
-    ): MediaCreate
+    ): Media
 
     @Multipart
     @POST("api/v1/media/")
@@ -74,7 +74,7 @@ interface NumbersStorageApi {
         @Part("signature") signatures: String,
         @Part attachedImageFile: MultipartBody.Part,
         @Part("tag") tag: String
-    ): MediaCreate
+    ): Media
 
 
     companion object {
@@ -159,6 +159,8 @@ data class TokenCreate(
 
 // XXX: only partially parsed
 @JsonClass(generateAdapter = true)
-data class MediaCreate(
-    val id: String
+data class Media(
+    val id: String,
+    @Json(name = "certificate_qrcode")
+    val certificateQrCode: String?
 )

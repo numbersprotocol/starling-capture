@@ -8,6 +8,8 @@ import io.numbersprotocol.starlingcapture.data.attached_image.AttachedImageRepos
 import io.numbersprotocol.starlingcapture.data.caption.CaptionRepository
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
+import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponse
+import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponseRepository
 import io.numbersprotocol.starlingcapture.data.serialization.Serialization
 import io.numbersprotocol.starlingcapture.publisher.ProofPublisher
 import io.numbersprotocol.starlingcapture.util.MimeType
@@ -30,53 +32,69 @@ class NumbersStoragePublisher(
     private val proofRepository: ProofRepository by inject()
     private val captionRepository: CaptionRepository by inject()
     private val attachedImageRepository: AttachedImageRepository by inject()
+    private val publisherResponseRepository: PublisherResponseRepository by inject()
     private val numbersStorageApi: NumbersStorageApi by inject()
 
     override suspend fun publish(proof: Proof): Result {
-        var retryTimes = 3
+        val retryTimes = 3
         val retryWaitingTimeMillis = 5000L
-        var exception: Throwable
         val metaJson = Serialization.generateInformationJson(proof)
         val signatureJson = Serialization.generateSignaturesJson(proof)
         val captionText = captionRepository.getByProof(proof)?.text ?: ""
         val attachedImage = attachedImageRepository.getByProof(proof)
+        var result: Media? = null
 
-        while (true) {
+        repeat(retryTimes) {
             try {
-                val result = if (attachedImage == null) {
-                    numbersStorageApi.createMedia(
-                        authToken = numbersStoragePublisherConfig.authToken,
-                        rawFile = getProofRawMediaFileBodyPart(proof),
-                        targetProvider = TargetProvider.Numbers.toString(),
-                        information = metaJson,
-                        signatures = signatureJson,
-                        caption = captionText,
-                        tag = ""
-                    )
-                } else {
-                    Timber.i("Upload with attached image: $attachedImage")
-                    numbersStorageApi.createMedia(
-                        authToken = numbersStoragePublisherConfig.authToken,
-                        rawFile = getProofRawMediaFileBodyPart(proof),
-                        targetProvider = TargetProvider.Signature.toString(),
-                        information = metaJson,
-                        signatures = signatureJson,
-                        caption = captionText,
-                        attachedImageFile = getAttachedImageFileBodyPart(attachedImage),
-                        tag = "dotted-sign"
-                    )
-                }
+                result = createMedia(proof, metaJson, captionText, signatureJson, attachedImage)
                 Timber.i("Publish result: $result")
-                return Result.success()
+                return@repeat
             } catch (e: Exception) {
-                Timber.e("[retry ${3 - retryTimes}] ${e.message}")
-                exception = e
-                retryTimes -= 1
-                if (retryTimes <= 0) break
+                Timber.e("[retry $it] ${e.message}")
+                if (it == retryTimes - 1) throw e
                 delay(retryWaitingTimeMillis)
             }
         }
-        throw exception
+
+        storeCreateMediaResponse(result!!)
+        return Result.success()
+    }
+
+    private suspend fun createMedia(
+        proof: Proof,
+        information: String,
+        caption: String,
+        signatures: String,
+        attachedImage: AttachedImage? = null,
+    ): Media = if (attachedImage == null) numbersStorageApi.createMedia(
+        authToken = numbersStoragePublisherConfig.authToken,
+        rawFile = getProofRawMediaFileBodyPart(proof),
+        targetProvider = TargetProvider.Numbers.toString(),
+        information = information,
+        signatures = signatures,
+        caption = caption,
+        tag = ""
+    ) else numbersStorageApi.createMedia(
+        authToken = numbersStoragePublisherConfig.authToken,
+        rawFile = getProofRawMediaFileBodyPart(proof),
+        targetProvider = TargetProvider.Signature.toString(),
+        information = information,
+        signatures = signatures,
+        caption = caption,
+        attachedImageFile = getAttachedImageFileBodyPart(attachedImage),
+        tag = "dotted-sign"
+    )
+
+    private suspend fun storeCreateMediaResponse(response: Media) {
+        publisherResponseRepository.add(
+            PublisherResponse(
+                proofHash,
+                name,
+                R.string.dashboard_link,
+                PublisherResponse.Type.Url,
+                "$DASHBOARD_URL?mid=${response.id}"
+            )
+        )
     }
 
     private fun getProofRawMediaFileBodyPart(proof: Proof): MultipartBody.Part {
@@ -100,6 +118,8 @@ class NumbersStoragePublisher(
     }
 
     companion object {
+        private const val DASHBOARD_URL = "https://numbersprotocol.io/dia-certificate"
+
         enum class TargetProvider(private val string: String) {
             Numbers("Numbers"),
             Signature("Signature");

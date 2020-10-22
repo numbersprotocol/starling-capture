@@ -43,9 +43,7 @@ class InformationProviderAdapter(
             informationRepository
                 .getByProofAndProviderWithFlow(proof, item, Information.Importance.HIGH)
                 .asLiveData(timeoutInMs = 0)
-                .observe(viewLifecycleOwner) {
-                    adapter.submitList(it)
-                }
+                .observe(viewLifecycleOwner) { adapter.submitList(it) }
             binding.viewAllButton.setOnClickListener { listener.onItemClick(item, itemView) }
             binding.executePendingBindings()
         }

@@ -27,6 +27,7 @@ import io.numbersprotocol.starlingcapture.data.attached_image.AttachedImageRepos
 import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
+import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponseRepository
 import io.numbersprotocol.starlingcapture.data.serialization.SaveProofRelatedDataWorker
 import io.numbersprotocol.starlingcapture.databinding.FragmentProofBinding
 import io.numbersprotocol.starlingcapture.di.CoilImageLoader
@@ -42,6 +43,7 @@ class ProofFragment(
     private val proofRepository: ProofRepository,
     private val informationRepository: InformationRepository,
     private val attachedImageRepository: AttachedImageRepository,
+    private val publisherResponseRepository: PublisherResponseRepository,
     private val publisherManager: PublisherManager
 ) : Fragment() {
 
@@ -113,6 +115,7 @@ class ProofFragment(
     private fun bindViewLifecycle() {
         bindInformationProviderViewPager()
         bindSignatureViewPager()
+        bindPublisherViewPager()
         proofViewModel.viewMediaEvent.observeEvent(viewLifecycleOwner) {
             if (proofViewModel.isVideo.value != true) showImageViewer()
             else dispatchViewVideoIntent()
@@ -217,6 +220,17 @@ class ProofFragment(
         proofViewModel.signatures.observe(viewLifecycleOwner) { signatureAdapter.submitList(it) }
     }
 
+    private fun bindPublisherViewPager() {
+        val publisherAdapter = PublisherAdapter(
+            viewLifecycleOwner,
+            publisherResponseRepository,
+            proof
+        )
+        publisherViewPager.adapter = publisherAdapter
+        publisherViewPager.enableCardPreview()
+        proofViewModel.publishers.observe(viewLifecycleOwner) { publisherAdapter.submitList(it) }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != RESULT_OK) {
@@ -235,6 +249,7 @@ class ProofFragment(
         super.onDestroyView()
         informationProviderViewPager.adapter = null
         signatureViewPager.adapter = null
+        publisherViewPager.adapter = null
     }
 
     companion object {

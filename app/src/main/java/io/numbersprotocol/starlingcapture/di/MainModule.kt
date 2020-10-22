@@ -20,6 +20,7 @@ import io.numbersprotocol.starlingcapture.data.information.InformationRepository
 import io.numbersprotocol.starlingcapture.data.preference.PreferenceRepository
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import io.numbersprotocol.starlingcapture.data.publish_history.PublishHistoryRepository
+import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponseRepository
 import io.numbersprotocol.starlingcapture.data.signature.SignatureRepository
 import io.numbersprotocol.starlingcapture.feature.camera.CameraFragment
 import io.numbersprotocol.starlingcapture.feature.camera.CameraViewModel
@@ -90,6 +91,9 @@ val mainModule = module {
     single { get<AppDataBase>().attachedImageDao() }
     single { AttachedImageRepository(androidContext(), get()) }
 
+    single { get<AppDataBase>().publisherResponseDao() }
+    single { PublisherResponseRepository(get()) }
+
     single { PreferenceRepository(androidContext()) }
 
     single {
@@ -111,8 +115,8 @@ val mainModule = module {
     viewModel { StorageViewModel(get()) }
     fragment { StorageFragment(get()) }
 
-    viewModel { ProofViewModel(get(), get(), get(), get(), get()) }
-    fragment { ProofFragment(get(), get(), get(), get()) }
+    viewModel { ProofViewModel(get(), get(), get(), get(), get(), get()) }
+    fragment { ProofFragment(get(), get(), get(), get(), get()) }
 
     viewModel { InformationViewModel(get()) }
     fragment { InformationFragment() }
