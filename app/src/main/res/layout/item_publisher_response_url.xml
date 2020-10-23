@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,26 +12,51 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/keyline_5"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/keyline_1"
-        android:paddingBottom="@dimen/keyline_1">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/keyline_2"
-            android:text="@{response.name}"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
-            tools:text="@tools:sample/lorem" />
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/keyline_1"
+            android:paddingBottom="@dimen/keyline_1">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/keyline_2"
+                android:text="@{response.name}"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                tools:text="@tools:sample/lorem" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/keyline_2"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{response.content}"
+                android:textIsSelectable="true"
+                tools:text="@tools:sample/lorem" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/openInBrowserButton"
+            style="@style/Widget.MyTheme.Button.TextButton.IconOnly"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/keyline_2"
-            android:text="@{response.content}"
-            android:textIsSelectable="true"
-            tools:text="@tools:sample/lorem" />
+            android:layout_gravity="center_vertical"
+            android:tooltipText="@string/open_in_browser"
+            app:icon="@drawable/ic_open_in_browser" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/copyButton"
+            style="@style/Widget.MyTheme.Button.TextButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:tooltipText="@string/copy"
+            app:icon="@drawable/ic_content_copy" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

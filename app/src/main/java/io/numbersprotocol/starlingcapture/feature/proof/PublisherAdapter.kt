@@ -12,6 +12,8 @@ import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherRespo
 import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponseRepository
 import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponseUrlBinding
 import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponsesBinding
+import io.numbersprotocol.starlingcapture.util.copyToClipboard
+import io.numbersprotocol.starlingcapture.util.openLinkInBrowser
 
 class PublisherAdapter(
     private val viewLifecycleOwner: LifecycleOwner,
@@ -47,9 +49,7 @@ class PublisherAdapter(
     class PublisherResponseAdapter :
         ListAdapter<PublisherResponse, PublisherResponseAdapter.ViewHolder>(diffCallback) {
 
-        override fun getItemViewType(position: Int): Int {
-            return getItem(position).type.ordinal
-        }
+        override fun getItemViewType(position: Int) = getItem(position).type.ordinal
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
@@ -80,6 +80,8 @@ class PublisherAdapter(
 
             override fun bind(item: PublisherResponse) {
                 binding.response = item
+                binding.copyButton.setOnClickListener { it.context.copyToClipboard(item.content) }
+                binding.openInBrowserButton.setOnClickListener { it.context.openLinkInBrowser(item.content) }
             }
         }
 
