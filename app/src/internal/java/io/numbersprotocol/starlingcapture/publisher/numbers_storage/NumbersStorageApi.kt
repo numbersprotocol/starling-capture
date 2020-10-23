@@ -46,7 +46,7 @@ interface NumbersStorageApi {
         @Header("Authorization") authToken: String
     ): Response<Unit>
 
-    @GET("auth/users/me")
+    @GET("auth/users/me/")
     suspend fun getUserInformation(
         @Header("Authorization") authToken: String
     ): User
@@ -74,6 +74,12 @@ interface NumbersStorageApi {
         @Part("signature") signatures: String,
         @Part attachedImageFile: MultipartBody.Part,
         @Part("tag") tag: String
+    ): Media
+
+    @GET("api/v1/media/{id}")
+    suspend fun getMedia(
+        @Header("Authorization") authToken: String,
+        @Path("id") id: String
     ): Media
 
 

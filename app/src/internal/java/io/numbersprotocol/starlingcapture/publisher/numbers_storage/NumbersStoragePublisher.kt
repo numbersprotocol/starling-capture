@@ -36,28 +36,32 @@ class NumbersStoragePublisher(
     private val numbersStorageApi: NumbersStorageApi by inject()
 
     override suspend fun publish(proof: Proof): Result {
+        val createdMedia = createMedia(proof)
+        val response = pollingMediaResponseWithCertifiedQrCode(createdMedia.id)
+        storeCreateMediaResponse(response)
+        return Result.success()
+    }
+
+    private suspend fun createMedia(proof: Proof): Media {
         val retryTimes = 3
         val retryWaitingTimeMillis = 5000L
         val metaJson = Serialization.generateInformationJson(proof)
         val signatureJson = Serialization.generateSignaturesJson(proof)
         val captionText = captionRepository.getByProof(proof)?.text ?: ""
         val attachedImage = attachedImageRepository.getByProof(proof)
-        var result: Media? = null
 
         repeat(retryTimes) {
             try {
-                result = createMedia(proof, metaJson, captionText, signatureJson, attachedImage)
-                Timber.i("Publish result: $result")
-                return@repeat
+                val media = createMedia(proof, metaJson, captionText, signatureJson, attachedImage)
+                Timber.i("Publish result: $media")
+                return media
             } catch (e: Exception) {
                 Timber.e("[retry $it] ${e.message}")
                 if (it == retryTimes - 1) throw e
                 delay(retryWaitingTimeMillis)
             }
         }
-
-        storeCreateMediaResponse(result!!)
-        return Result.success()
+        throw IllegalStateException("Fail to create media on $name.")
     }
 
     private suspend fun createMedia(
@@ -66,7 +70,7 @@ class NumbersStoragePublisher(
         caption: String,
         signatures: String,
         attachedImage: AttachedImage? = null,
-    ): Media = if (attachedImage == null) numbersStorageApi.createMedia(
+    ) = if (attachedImage == null) numbersStorageApi.createMedia(
         authToken = numbersStoragePublisherConfig.authToken,
         rawFile = getProofRawMediaFileBodyPart(proof),
         targetProvider = TargetProvider.Numbers.toString(),
@@ -84,6 +88,18 @@ class NumbersStoragePublisher(
         attachedImageFile = getAttachedImageFileBodyPart(attachedImage),
         tag = "dotted-sign"
     )
+
+    private suspend fun pollingMediaResponseWithCertifiedQrCode(mediaId: String): Media {
+        val pollingTimes = 100
+        val pollingDelayInMillis = 3000L
+        repeat(pollingTimes) {
+            val media = numbersStorageApi.getMedia(numbersStoragePublisherConfig.authToken, mediaId)
+            Timber.i("Polling media response: $media")
+            if (media.certificateQrCode != null) return media
+            delay(pollingDelayInMillis)
+        }
+        throw IllegalStateException("Fail to poll the media response with certified QR code.")
+    }
 
     private suspend fun storeCreateMediaResponse(response: Media) {
         publisherResponseRepository.add(
