@@ -43,9 +43,7 @@ class ZionApi(private val context: Context) : KoinComponent {
             val result = zkma.init(context)
             if (result != RESULT.SUCCESS) error("Bad result when initializing Zion: $result")
             uniqueId = registerWallet(context.getString(R.string.numbers_capture))
-            proofCollector.addProvideInformationAndSignatureRequestBuilder(
-                provideZionSignatureRequestBuilder
-            )
+            proofCollector.addProvideSignatureRequestBuilder(provideZionSignatureRequestBuilder)
             true
         }
     }
@@ -104,9 +102,7 @@ class ZionApi(private val context: Context) : KoinComponent {
     suspend fun disable() = withContext(Dispatchers.Default) {
         synchronized(this) {
             sessionSignature.disable()
-            proofCollector.removeProvideInformationAndSignatureRequestBuilder(
-                provideZionSignatureRequestBuilder
-            )
+            proofCollector.removeProvideSignatureRequestBuilder(provideZionSignatureRequestBuilder)
             val result = zkma.deinit()
             if (result != RESULT.SUCCESS) error("Bad result when destroying Zion: $result")
             isEnabled = false

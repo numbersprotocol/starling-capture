@@ -52,6 +52,8 @@ import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import org.koin.experimental.builder.create
+import org.koin.experimental.builder.single
 
 val mainModule = module {
 
@@ -74,73 +76,73 @@ val mainModule = module {
     }
 
     single { get<AppDataBase>().proofDao() }
-    single { ProofRepository(androidContext(), get(), get()) }
+    single<ProofRepository>()
 
     single { get<AppDataBase>().informationDao() }
-    single { InformationRepository(get()) }
+    single<InformationRepository>()
 
     single { get<AppDataBase>().signatureDao() }
-    single { SignatureRepository(get()) }
+    single<SignatureRepository>()
 
     single { get<AppDataBase>().captionDao() }
-    single { CaptionRepository(get()) }
+    single<CaptionRepository>()
 
     single { get<AppDataBase>().publishHistoryDao() }
-    single { PublishHistoryRepository(get()) }
+    single<PublishHistoryRepository>()
 
     single { get<AppDataBase>().attachedImageDao() }
-    single { AttachedImageRepository(androidContext(), get()) }
+    single { create<AttachedImageRepository>() }
 
     single { get<AppDataBase>().publisherResponseDao() }
-    single { PublisherResponseRepository(get()) }
+    single { create<PublisherResponseRepository>() }
 
-    single { PreferenceRepository(androidContext()) }
+    single<PreferenceRepository>()
 
     single {
-        ProofCollector(androidContext(), get(), get(), get()).apply {
-            addProvideInformationAndSignatureRequestBuilder(OneTimeWorkRequestBuilder<InfoSnapshotProvider>())
-            addProvideInformationAndSignatureRequestBuilder(OneTimeWorkRequestBuilder<AndroidOpenSslSignatureProvider>())
+        create<ProofCollector>().apply {
+            addProvideInformationRequestBuilder(OneTimeWorkRequestBuilder<InfoSnapshotProvider>())
+            addProvideSignatureRequestBuilder(OneTimeWorkRequestBuilder<AndroidOpenSslSignatureProvider>())
         }
     }
 
-    single { ZionApi(androidContext()) }
-    single { SessionSignature(get(), get()) }
+    single<ZionApi>()
+    single<SessionSignature>()
 
-    single { PublisherManager(androidContext()) }
+    single<PublisherManager>()
 
-    single { CanonCameraControlProvider(androidContext()) }
+    single<CanonCameraControlProvider>()
 
     fragment { NavHostFragment() }
 
-    viewModel { StorageViewModel(get()) }
-    fragment { StorageFragment(get()) }
+    viewModel { create<StorageViewModel>() }
+    fragment { create<StorageFragment>() }
 
-    viewModel { ProofViewModel(get(), get(), get(), get(), get(), get()) }
-    fragment { ProofFragment(get(), get(), get(), get(), get()) }
+    viewModel { create<ProofViewModel>() }
+    fragment { create<ProofFragment>() }
 
-    viewModel { InformationViewModel(get()) }
-    fragment { InformationFragment() }
+    viewModel { create<InformationViewModel>() }
+    fragment { create<InformationFragment>() }
 
-    fragment { SettingFragment() }
-    fragment { PreferenceFragment() }
+    fragment { create<SettingFragment>() }
+    fragment { create<PreferenceFragment>() }
 
-    viewModel { InformationProviderConfigViewModel() }
-    fragment { InformationProviderConfigFragment() }
+    viewModel { create<InformationProviderConfigViewModel>() }
+    fragment { create<InformationProviderConfigFragment>() }
 
-    viewModel { PublisherConfigViewModel() }
-    fragment { PublisherConfigFragment() }
+    viewModel { create<PublisherConfigViewModel>() }
+    fragment { create<PublisherConfigFragment>() }
 
-    viewModel { ZionViewModel(get(), get()) }
-    fragment { ZionFragment(get(), get()) }
+    viewModel { create<ZionViewModel>() }
+    fragment { create<ZionFragment>() }
 
-    viewModel { CcapiViewModel(get()) }
-    fragment { CcapiFragment() }
+    viewModel { create<CcapiViewModel>() }
+    fragment { create<CcapiFragment>() }
 
-    viewModel { CameraViewModel(get()) }
-    fragment { CameraFragment() }
+    viewModel { create<CameraViewModel>() }
+    fragment { create<CameraFragment>() }
 
-    viewModel { ESignatureViewModel() }
-    fragment { ESignatureFragment(get()) }
+    viewModel { create<ESignatureViewModel>() }
+    fragment { create<ESignatureFragment>() }
 
     single(named(CoilImageLoader.SmallThumb)) {
         ImageLoader.Builder(androidContext())

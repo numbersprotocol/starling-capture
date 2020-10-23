@@ -22,8 +22,8 @@ class ProofCollector(
     private val notificationUtil: NotificationUtil
 ) {
 
-    private val provideInformationAndSignatureRequestBuilders =
-        mutableSetOf<OneTimeWorkRequest.Builder>()
+    private val provideInformationRequestBuilders = mutableSetOf<OneTimeWorkRequest.Builder>()
+    private val provideSignatureRequestBuilders = mutableSetOf<OneTimeWorkRequest.Builder>()
 
     suspend fun storeAndCollect(cachedMediaFile: File, mimeType: MimeType): String {
         val notificationId = notificationUtil.createNotificationId()
@@ -43,13 +43,16 @@ class ProofCollector(
             .setInputData(workData)
             .build()
 
-        val provideInformationRequests = provideInformationAndSignatureRequestBuilders.map {
-            it.setInputData(workData).build()
-        }
+        val provideInformationRequests =
+            provideInformationRequestBuilders.map { it.setInputData(workData).build() }
+
+        val provideSignatureRequests =
+            provideSignatureRequestBuilders.map { it.setInputData(workData).build() }
 
         notifyStartCollecting(notificationId)
         WorkManager.getInstance(context)
             .beginWith(provideInformationRequests)
+            .then(provideSignatureRequests)
             .then(finishCollectionRequest)
             .enqueue()
 
@@ -76,19 +79,21 @@ class ProofCollector(
         val attachedImageHash = storedAttachedImageFile.nameWithoutExtension
         Timber.i("proofHash: $proofHash, attachedImageHash: $attachedImageHash")
         attachedImageRepository.add(
-            AttachedImage(
-                proofHash,
-                attachedImageHash,
-                attachedImageMimeType
-            )
+            AttachedImage(proofHash, attachedImageHash, attachedImageMimeType)
         )
     }
 
-    fun addProvideInformationAndSignatureRequestBuilder(builder: OneTimeWorkRequest.Builder) =
-        provideInformationAndSignatureRequestBuilders.add(builder)
+    fun addProvideInformationRequestBuilder(builder: OneTimeWorkRequest.Builder) =
+        provideInformationRequestBuilders.add(builder)
 
-    fun removeProvideInformationAndSignatureRequestBuilder(builder: OneTimeWorkRequest.Builder) =
-        provideInformationAndSignatureRequestBuilders.remove(builder)
+    fun removeProvideInformationRequestBuilder(builder: OneTimeWorkRequest.Builder) =
+        provideInformationRequestBuilders.remove(builder)
+
+    fun addProvideSignatureRequestBuilder(builder: OneTimeWorkRequest.Builder) =
+        provideSignatureRequestBuilders.add(builder)
+
+    fun removeProvideSignatureRequestBuilder(builder: OneTimeWorkRequest.Builder) =
+        provideSignatureRequestBuilders.remove(builder)
 
     private fun notifyStartCollecting(notificationId: Int) {
         val builder = getNotificationBuilder(context).apply {
@@ -97,6 +102,26 @@ class ProofCollector(
             setOngoing(true)
         }
         notificationUtil.notify(notificationId, builder)
+    }
+
+    class FinishCollectionWorker(
+        context: Context,
+        params: WorkerParameters
+    ) : CoroutineWorker(context, params), KoinComponent {
+
+        private val notificationUtil: NotificationUtil by inject()
+
+        override suspend fun doWork(): Result {
+            val illegalNotificationId = NotificationUtil.NOTIFICATION_ID_MIN - 1
+            val notificationId =
+                inputData.getInt(KEY_NOTIFICATION_ID, illegalNotificationId)
+            if (notificationId == illegalNotificationId) {
+                Timber.e("Cannot get notification ID from input data.")
+                return Result.failure()
+            }
+            notificationUtil.cancel(notificationId)
+            return Result.success()
+        }
     }
 
     companion object {
@@ -108,25 +133,5 @@ class ProofCollector(
             NotificationCompat.Builder(context, NotificationUtil.CHANNEL_DEFAULT)
                 .setSmallIcon(R.drawable.ic_capture)
                 .setContentTitle(context.getString(R.string.collect_proof_information))
-    }
-}
-
-class FinishCollectionWorker(
-    context: Context,
-    params: WorkerParameters
-) : CoroutineWorker(context, params), KoinComponent {
-
-    private val notificationUtil: NotificationUtil by inject()
-
-    override suspend fun doWork(): Result {
-        val illegalNotificationId = NotificationUtil.NOTIFICATION_ID_MIN - 1
-        val notificationId =
-            inputData.getInt(ProofCollector.KEY_NOTIFICATION_ID, illegalNotificationId)
-        if (notificationId == illegalNotificationId) {
-            Timber.e("Cannot get notification ID from input data.")
-            return Result.failure()
-        }
-        notificationUtil.cancel(notificationId)
-        return Result.success()
     }
 }

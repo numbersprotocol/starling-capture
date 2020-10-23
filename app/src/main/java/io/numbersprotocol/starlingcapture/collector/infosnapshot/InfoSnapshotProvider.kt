@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.WorkerParameters
 import io.numbers.infosnapshot.InfoSnapshotBuilder
 import io.numbersprotocol.starlingcapture.R
-import io.numbersprotocol.starlingcapture.collector.InformationAndSignatureProvider
+import io.numbersprotocol.starlingcapture.collector.InformationProvider
 import io.numbersprotocol.starlingcapture.data.information.Information
 import org.koin.core.KoinComponent
 import java.text.DateFormat
@@ -13,13 +13,13 @@ import java.time.Instant
 class InfoSnapshotProvider(
     context: Context,
     params: WorkerParameters
-) : InformationAndSignatureProvider(context, params), KoinComponent {
+) : InformationProvider(context, params), KoinComponent {
 
     override val name = InfoSnapshotConfig.name
 
     private val informationSet = mutableSetOf<Information>()
 
-    override suspend fun provideInformation(): Collection<Information>? {
+    override suspend fun provide(): Collection<Information> {
         val snapshot = InfoSnapshotBuilder(context).apply {
             duration = 10000
             enableDeviceInfo = InfoSnapshotConfig.collectDeviceInfo

@@ -2,7 +2,7 @@ package io.numbersprotocol.starlingcapture.collector.android_open_ssl
 
 import android.content.Context
 import androidx.work.WorkerParameters
-import io.numbersprotocol.starlingcapture.collector.InformationAndSignatureProvider
+import io.numbersprotocol.starlingcapture.collector.SignatureProvider
 import io.numbersprotocol.starlingcapture.data.preference.PreferenceRepository
 import io.numbersprotocol.starlingcapture.data.signature.Signature
 import io.numbersprotocol.starlingcapture.util.androidOpenSslSignatureProvider
@@ -13,13 +13,13 @@ import org.koin.core.inject
 class AndroidOpenSslSignatureProvider(
     context: Context,
     params: WorkerParameters
-) : InformationAndSignatureProvider(context, params), KoinComponent {
+) : SignatureProvider(context, params), KoinComponent {
 
     override val name = androidOpenSslSignatureProvider
 
     private val preferenceRepository: PreferenceRepository by inject()
 
-    override suspend fun provideSignature(serialized: String): Collection<Signature>? {
+    override suspend fun provide(serialized: String): Collection<Signature> {
         val privateKey = preferenceRepository.defaultPrivateKey
         val publicKey = preferenceRepository.defaultPublicKey
         val signature = serialized.signWithSha256AndEcdsa(privateKey)
