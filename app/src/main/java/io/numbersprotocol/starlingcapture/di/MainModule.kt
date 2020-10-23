@@ -88,8 +88,8 @@ val mainModule = module {
 
     single {
         ProofCollector(androidContext(), get(), get()).apply {
-            addProvideInformationAndSignatureRequestBuilder(OneTimeWorkRequestBuilder<InfoSnapshotProvider>())
-            addProvideInformationAndSignatureRequestBuilder(OneTimeWorkRequestBuilder<AndroidOpenSslSignatureProvider>())
+            addProvideInformationRequestBuilder(OneTimeWorkRequestBuilder<InfoSnapshotProvider>())
+            addProvideSignatureRequestBuilder(OneTimeWorkRequestBuilder<AndroidOpenSslSignatureProvider>())
         }
     }
 
