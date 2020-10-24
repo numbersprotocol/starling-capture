@@ -3,6 +3,7 @@ package io.numbersprotocol.starlingcapture.feature.proof
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +52,7 @@ class ProofFragment(
     private val imageLoader: ImageLoader by inject(named(CoilImageLoader.LargeTransitionThumb))
     private val args: ProofFragmentArgs by navArgs()
     private lateinit var proof: Proof
+    var pickDirToSaveResponseImageAsCallback: (Uri) -> Unit = {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,7 +107,7 @@ class ProofFragment(
                         viewLifecycleOwner
                     )
                 }
-                R.id.saveAs -> dispatchPickFolderIntent()
+                R.id.saveAs -> dispatchPickDirIntent(REQUEST_PICK_DIR_TO_SAVE_PROOF_AS)
                 R.id.delete -> showConfirmDialog { deleteProof() }
             }
             true
@@ -152,13 +154,13 @@ class ProofFragment(
         startActivity(viewVideoIntent)
     }
 
-    private fun dispatchPickFolderIntent() {
+    fun dispatchPickDirIntent(requestCode: Int) {
         val pickFolderIntent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
         if (pickFolderIntent.resolveActivity(requireContext().packageManager) == null) {
             snack("No provider can handle ${Intent.ACTION_OPEN_DOCUMENT_TREE}.")
             return
         }
-        startActivityForResult(pickFolderIntent, REQUEST_PICK_FOLDER)
+        startActivityForResult(pickFolderIntent, requestCode)
     }
 
     private fun showCaptionEditingDialog(prefill: String) {
@@ -222,6 +224,7 @@ class ProofFragment(
 
     private fun bindPublisherViewPager() {
         val publisherAdapter = PublisherAdapter(
+            this,
             viewLifecycleOwner,
             publisherResponseRepository,
             proof
@@ -238,8 +241,11 @@ class ProofFragment(
             return
         }
         when (requestCode) {
-            REQUEST_PICK_FOLDER -> SaveProofRelatedDataWorker.saveProofAs(
+            REQUEST_PICK_DIR_TO_SAVE_PROOF_AS -> SaveProofRelatedDataWorker.saveProofAs(
                 requireContext(), proof, data!!.data!!
+            )
+            REQUEST_PICK_DIR_TO_SAVE_RESPONSE_IMAGE_AS -> pickDirToSaveResponseImageAsCallback(
+                data!!.data!!
             )
             else -> snack("Unknown request code ($requestCode) from activity result.")
         }
@@ -253,6 +259,7 @@ class ProofFragment(
     }
 
     companion object {
-        const val REQUEST_PICK_FOLDER = 1
+        private const val REQUEST_PICK_DIR_TO_SAVE_PROOF_AS = 1
+        const val REQUEST_PICK_DIR_TO_SAVE_RESPONSE_IMAGE_AS = 2
     }
 }

@@ -37,8 +37,10 @@ enum class MimeType(private val string: String, val extension: String) {
             error("Cannot find the MIME type with given string: $string")
         }
 
-        fun fromUrl(url: String): MimeType {
-            val extension = File(url).extension
+        fun fromUrl(url: String) = from(File(url))
+
+        fun from(file: File): MimeType {
+            val extension = file.extension
             values().forEach {
                 if (it.extension.toLowerCase(Locale.ROOT) == extension.toLowerCase(Locale.ROOT)) return it
             }

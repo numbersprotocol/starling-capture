@@ -2,6 +2,7 @@ package io.numbersprotocol.starlingcapture.feature.proof
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,17 +12,20 @@ import coil.load
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponse
 import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponseRepository
+import io.numbersprotocol.starlingcapture.data.serialization.SaveResponseImageWorker
 import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponseImageBinding
 import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponseUrlBinding
 import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponsesBinding
 import io.numbersprotocol.starlingcapture.util.copyToClipboard
 import io.numbersprotocol.starlingcapture.util.openLinkInBrowser
+import timber.log.Timber
 
 class PublisherAdapter(
+    private val fragment: ProofFragment,
     private val viewLifecycleOwner: LifecycleOwner,
     private val publisherResponseRepository: PublisherResponseRepository,
     private val proof: Proof
-) : ListAdapter<String, PublisherAdapter.ViewHolder>(diffCallback) {
+) : ListAdapter<String, PublisherAdapter.ViewHolder>(diffStringCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -48,8 +52,10 @@ class PublisherAdapter(
         }
     }
 
-    class PublisherResponseAdapter :
-        ListAdapter<PublisherResponse, PublisherResponseAdapter.ViewHolder>(diffCallback) {
+    inner class PublisherResponseAdapter :
+        ListAdapter<PublisherResponse, PublisherResponseAdapter.ViewHolder>(
+            diffPublisherResponseCallback
+        ) {
 
         override fun getItemViewType(position: Int) = getItem(position).type.ordinal
 
@@ -69,13 +75,13 @@ class PublisherAdapter(
         override fun onBindViewHolder(holder: ViewHolder, position: Int) =
             holder.bind(getItem(position))
 
-        abstract class ViewHolder(
+        abstract inner class ViewHolder(
             binding: ViewBinding
         ) : RecyclerView.ViewHolder(binding.root) {
             abstract fun bind(item: PublisherResponse)
         }
 
-        class UrlViewHolder(
+        inner class UrlViewHolder(
             private val binding: ItemPublisherResponseUrlBinding
         ) : ViewHolder(binding) {
 
@@ -86,19 +92,35 @@ class PublisherAdapter(
             }
         }
 
-        class ImageViewHolder(
+        inner class ImageViewHolder(
             private val binding: ItemPublisherResponseImageBinding
         ) : ViewHolder(binding) {
 
             override fun bind(item: PublisherResponse) {
                 binding.response = item
                 binding.responseImageView.load(item.content)
-                // TODO: save file from cache to ext https://github.com/coil-kt/coil/issues/528
+                Timber.i(item.content)
+                binding.saveAsButton.setOnClickListener {
+                    fragment.pickDirToSaveResponseImageAsCallback = {
+                        SaveResponseImageWorker.saveImageAs(
+                            binding.root.context,
+                            item.content.toUri(),
+                            it
+                        )
+                    }
+                    fragment.dispatchPickDirIntent(ProofFragment.REQUEST_PICK_DIR_TO_SAVE_RESPONSE_IMAGE_AS)
+                }
             }
         }
+    }
 
-        companion object {
-            private val diffCallback = object : DiffUtil.ItemCallback<PublisherResponse>() {
+    companion object {
+        private val diffStringCallback = object : DiffUtil.ItemCallback<String>() {
+            override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
+            override fun areContentsTheSame(oldItem: String, newItem: String) = oldItem == newItem
+        }
+        private val diffPublisherResponseCallback =
+            object : DiffUtil.ItemCallback<PublisherResponse>() {
                 override fun areItemsTheSame(
                     oldItem: PublisherResponse,
                     newItem: PublisherResponse
@@ -111,13 +133,5 @@ class PublisherAdapter(
                     newItem: PublisherResponse
                 ) = oldItem == newItem
             }
-        }
-    }
-
-    companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<String>() {
-            override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
-            override fun areContentsTheSame(oldItem: String, newItem: String) = oldItem == newItem
-        }
     }
 }

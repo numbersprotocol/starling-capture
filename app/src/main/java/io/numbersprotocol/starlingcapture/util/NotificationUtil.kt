@@ -61,6 +61,7 @@ class NotificationUtil(private val context: Context) {
     companion object {
         const val CHANNEL_DEFAULT = "CHANNEL_DEFAULT"
         const val NOTIFICATION_SAVE_PROOF_RELATED_DATA = 1
+        const val NOTIFICATION_SAVE_RESPONSE_IMAGE = 2
         const val NOTIFICATION_ID_MIN = 1000
     }
 }

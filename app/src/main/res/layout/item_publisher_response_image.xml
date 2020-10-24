@@ -43,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/keyline_3"
                 android:src="@drawable/ic_save_alt"
                 android:tooltipText="@string/save_as"
                 app:fabSize="mini"

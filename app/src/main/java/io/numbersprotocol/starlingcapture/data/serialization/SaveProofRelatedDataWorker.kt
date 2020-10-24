@@ -3,6 +3,7 @@ package io.numbersprotocol.starlingcapture.data.serialization
 import android.content.Context
 import android.net.Uri
 import androidx.core.app.NotificationCompat
+import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.work.*
 import io.numbersprotocol.starlingcapture.R
@@ -15,7 +16,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import timber.log.Timber
 
 class SaveProofRelatedDataWorker(
     private val context: Context,
@@ -37,7 +37,7 @@ class SaveProofRelatedDataWorker(
         proofHash = inputData.getString(KEY_PROOF_HASH)!!
         saveDirectory = DocumentFile.fromTreeUri(
             context,
-            Uri.parse(inputData.getString(KEY_SAVE_DIRECTORY_URI))
+            inputData.getString(KEY_SAVE_DIRECTORY_URI)!!.toUri()
         )!!
     }
 
@@ -79,28 +79,26 @@ class SaveProofRelatedDataWorker(
             notifyWorkerSuccess()
             Result.success()
         } catch (e: Exception) {
-            Timber.e(e)
             notificationUtil.notifyException(e, NOTIFICATION_SAVE_PROOF_RELATED_DATA)
             Result.failure()
         }
     }
 
     private fun notifyWorkerStart() {
-        notificationBuilder.setContentText(context.getString(R.string.message_saving_proof_to_external))
+        notificationBuilder.setContentText(context.getString(R.string.message_saving_data_to_external))
         notificationBuilder.setProgress(0, 0, true)
         notificationUtil.notify(NOTIFICATION_SAVE_PROOF_RELATED_DATA, notificationBuilder)
     }
 
     private fun notifyWorkerSuccess() {
-        notificationBuilder.setContentText(context.getString(R.string.message_saved_proof_to_external))
+        notificationBuilder.setContentText(context.getString(R.string.message_saved_data_to_external))
         notificationBuilder.setProgress(0, 0, false)
         notificationUtil.notify(NOTIFICATION_SAVE_PROOF_RELATED_DATA, notificationBuilder)
-
     }
 
     companion object {
-        const val KEY_PROOF_HASH = "KEY_PROOF_HASH"
-        const val KEY_SAVE_DIRECTORY_URI = "KEY_SAVE_DIRECTORY_URI"
+        private const val KEY_PROOF_HASH = "KEY_PROOF_HASH"
+        private const val KEY_SAVE_DIRECTORY_URI = "KEY_SAVE_DIRECTORY_URI"
 
         fun saveProofAs(context: Context, proof: Proof, saveDirectory: Uri) {
             val inputData = workDataOf(

@@ -110,11 +110,12 @@
     <string name="publisher_responses">Publisher Responses</string>
     <string name="open_in_browser">Open in Browser</string>
     <string name="copy">Copy</string>
+    <string name="save_response_image">Save Response Image</string>
 
     <string name="message_are_you_sure">The action cannot be undone.</string>
     <string name="message_permissions">We need the camera, audio recording and location permissions to build proof. Please allow the permission request by enabling it in Android settings.</string>
-    <string name="message_saving_proof_to_external">Saving proof to external storage</string>
-    <string name="message_saved_proof_to_external">Proof has been saved to external storage</string>
+    <string name="message_saving_data_to_external">Saving data to external storage</string>
+    <string name="message_saved_data_to_external">Data has been saved to external storage</string>
     <string name="message_collecting_proof_information">Collecting proof information</string>
     <string name="message_signing_proof_information">Signing proof information</string>
     <string name="message_publishing_proof">Publishing proof…</string>

@@ -1,11 +1,13 @@
 package io.numbersprotocol.starlingcapture.publisher.numbers_storage
 
 import android.content.Context
+import android.net.Uri
 import androidx.work.WorkerParameters
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.data.attached_image.AttachedImage
 import io.numbersprotocol.starlingcapture.data.attached_image.AttachedImageRepository
 import io.numbersprotocol.starlingcapture.data.caption.CaptionRepository
+import io.numbersprotocol.starlingcapture.data.certified_qr_code.CertifiedQrCodeRepository
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponse
@@ -33,6 +35,7 @@ class NumbersStoragePublisher(
     private val captionRepository: CaptionRepository by inject()
     private val attachedImageRepository: AttachedImageRepository by inject()
     private val publisherResponseRepository: PublisherResponseRepository by inject()
+    private val certifiedQrCodeRepository: CertifiedQrCodeRepository by inject()
     private val numbersStorageApi: NumbersStorageApi by inject()
 
     override suspend fun publish(proof: Proof): Result {
@@ -115,9 +118,15 @@ class NumbersStoragePublisher(
                 name,
                 R.string.certificate_qr_code,
                 PublisherResponse.Type.Image,
-                response.certificateQrCode!!
+                storeCertifiedQrCode(response.certificateQrCode!!)
             )
         )
+    }
+
+    private suspend fun storeCertifiedQrCode(httpUrl: String): String {
+        val inputStream = numbersStorageApi.getContent(httpUrl).byteStream()
+        val storedFile = certifiedQrCodeRepository.add(inputStream, MimeType.PNG)
+        return Uri.fromFile(storedFile).toString()
     }
 
     private fun getProofRawMediaFileBodyPart(proof: Proof): MultipartBody.Part {
