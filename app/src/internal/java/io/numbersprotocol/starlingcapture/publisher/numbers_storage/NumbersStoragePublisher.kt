@@ -97,7 +97,7 @@ class NumbersStoragePublisher(
         val pollingDelayInMillis = 3000L
         repeat(pollingTimes) {
             val media = numbersStorageApi.getMedia(numbersStoragePublisherConfig.authToken, mediaId)
-            Timber.i("Polling media response: $media")
+            Timber.v("Polling media response: $media")
             if (media.certificateQrCode != null) return media
             delay(pollingDelayInMillis)
         }

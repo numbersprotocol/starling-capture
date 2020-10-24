@@ -18,7 +18,6 @@ import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponseUrlBi
 import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponsesBinding
 import io.numbersprotocol.starlingcapture.util.copyToClipboard
 import io.numbersprotocol.starlingcapture.util.openLinkInBrowser
-import timber.log.Timber
 
 class PublisherAdapter(
     private val fragment: ProofFragment,
@@ -99,7 +98,6 @@ class PublisherAdapter(
             override fun bind(item: PublisherResponse) {
                 binding.response = item
                 binding.responseImageView.load(item.content)
-                Timber.i(item.content)
                 binding.saveAsButton.setOnClickListener {
                     fragment.pickDirToSaveResponseImageAsCallback = {
                         SaveResponseImageWorker.saveImageAs(
