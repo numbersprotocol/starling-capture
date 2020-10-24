@@ -11,6 +11,7 @@
     <string name="required">Required</string>
     <string name="logout">Logout</string>
     <string name="dashboard_link">Dashboard Link</string>
+    <string name="certificate_qr_code">Certificate QR Code</string>
 
     <string name="message_invalid_email">Invalid email address.</string>
     <string name="message_too_short">The value is too short.</string>

@@ -28,6 +28,7 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/responseImageView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
@@ -37,17 +38,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-            <com.google.android.material.button.MaterialButton
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/saveAsButton"
-                style="@style/Widget.MyTheme.Button.TextButton.IconOnly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_save_alt"
                 android:tooltipText="@string/save_as"
-                app:icon="@drawable/ic_save_alt"
-                app:iconTint="@color/white_50"
+                app:fabSize="mini"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="ContentDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import coil.load
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponse
 import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponseRepository
+import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponseImageBinding
 import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponseUrlBinding
 import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponsesBinding
 import io.numbersprotocol.starlingcapture.util.copyToClipboard
@@ -55,11 +57,10 @@ class PublisherAdapter(
             val layoutInflater = LayoutInflater.from(parent.context)
             return when (viewType) {
                 PublisherResponse.Type.Url.ordinal -> UrlViewHolder(
-                    ItemPublisherResponseUrlBinding.inflate(
-                        layoutInflater,
-                        parent,
-                        false
-                    )
+                    ItemPublisherResponseUrlBinding.inflate(layoutInflater, parent, false)
+                )
+                PublisherResponse.Type.Image.ordinal -> ImageViewHolder(
+                    ItemPublisherResponseImageBinding.inflate(layoutInflater, parent, false)
                 )
                 else -> throw IllegalStateException("Unknown view type: ${viewType}.")
             }
@@ -82,6 +83,17 @@ class PublisherAdapter(
                 binding.response = item
                 binding.copyButton.setOnClickListener { it.context.copyToClipboard(item.content) }
                 binding.openInBrowserButton.setOnClickListener { it.context.openLinkInBrowser(item.content) }
+            }
+        }
+
+        class ImageViewHolder(
+            private val binding: ItemPublisherResponseImageBinding
+        ) : ViewHolder(binding) {
+
+            override fun bind(item: PublisherResponse) {
+                binding.response = item
+                binding.responseImageView.load(item.content)
+                // TODO: save file from cache to ext https://github.com/coil-kt/coil/issues/528
             }
         }
 

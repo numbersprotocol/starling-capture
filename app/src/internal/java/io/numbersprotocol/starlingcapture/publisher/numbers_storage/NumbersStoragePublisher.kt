@@ -109,6 +109,13 @@ class NumbersStoragePublisher(
                 R.string.dashboard_link,
                 PublisherResponse.Type.Url,
                 "$DASHBOARD_URL?mid=${response.id}"
+            ),
+            PublisherResponse(
+                proofHash,
+                name,
+                R.string.certificate_qr_code,
+                PublisherResponse.Type.Image,
+                response.certificateQrCode!!
             )
         )
     }

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -82,6 +83,9 @@ interface NumbersStorageApi {
         @Path("id") id: String
     ): Media
 
+    @GET
+    @Streaming
+    suspend fun getContent(@Url url: String): ResponseBody
 
     companion object {
         fun create(): NumbersStorageApi = Retrofit.Builder()
