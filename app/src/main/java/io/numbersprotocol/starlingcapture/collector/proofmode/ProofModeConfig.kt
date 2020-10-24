@@ -27,11 +27,11 @@ object ProofModeConfig : KoinComponent {
 
     fun enable() {
         isEnabled = true
-        proofCollector.addProvideInformationAndSignatureRequestBuilder(proofModeProviderBuilder)
+        proofCollector.addProvideInformationRequestBuilder(proofModeProviderBuilder)
     }
 
     fun disable() {
-        proofCollector.removeProvideInformationAndSignatureRequestBuilder(proofModeProviderBuilder)
+        proofCollector.removeProvideInformationRequestBuilder(proofModeProviderBuilder)
         isEnabled = false
     }
 }
