@@ -28,7 +28,7 @@ class SaveResponseImageWorker(
     private val notificationBuilder =
         NotificationCompat.Builder(context, NotificationUtil.CHANNEL_DEFAULT)
             .setSmallIcon(R.drawable.ic_save_alt)
-            .setContentTitle(context.getString(R.string.save_response_image))
+            .setContentTitle(context.getString(R.string.save_image))
 
     private fun initialize() {
         imageFile = inputData.getString(KEY_IMAGE_URI)!!.toUri().toFile()
