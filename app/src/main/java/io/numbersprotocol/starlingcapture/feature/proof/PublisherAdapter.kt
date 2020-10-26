@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import coil.load
+import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.data.proof.Proof
 import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponse
 import io.numbersprotocol.starlingcapture.data.publisher_response.PublisherResponseRepository
@@ -18,6 +19,7 @@ import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponseUrlBi
 import io.numbersprotocol.starlingcapture.databinding.ItemPublisherResponsesBinding
 import io.numbersprotocol.starlingcapture.util.copyToClipboard
 import io.numbersprotocol.starlingcapture.util.openLinkInBrowser
+import io.numbersprotocol.starlingcapture.util.snack
 
 class PublisherAdapter(
     private val fragment: ProofFragment,
@@ -86,7 +88,10 @@ class PublisherAdapter(
 
             override fun bind(item: PublisherResponse) {
                 binding.response = item
-                binding.copyButton.setOnClickListener { it.context.copyToClipboard(item.content) }
+                binding.copyButton.setOnClickListener {
+                    it.context.copyToClipboard(item.content)
+                    fragment.snack(R.string.message_copied_to_clipboard)
+                }
                 binding.openInBrowserButton.setOnClickListener { it.context.openLinkInBrowser(item.content) }
             }
         }

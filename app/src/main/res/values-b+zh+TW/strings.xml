@@ -91,4 +91,5 @@
     <string name="message_monitoring_canon_camera">透過 CCAPI 等待新媒體於 Canon 相機產生。</string>
     <string name="message_enable_publishers_in_settings">請於設定啟用發布來源。</string>
     <string name="message_proofmode_requires_api_less_or_equal_to_28">ProofMode 需要安卓 9 Pie（API level 28）以下的裝置。</string>
+    <string name="message_copied_to_clipboard">已複製至剪貼簿。</string>
 </resources>
