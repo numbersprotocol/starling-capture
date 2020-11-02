@@ -165,7 +165,7 @@ dependencies {
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.5"
 
-    internalImplementation "com.google.firebase:firebase-analytics-ktx:17.6.0"
+    internalImplementation "com.google.firebase:firebase-analytics-ktx:18.0.0"
     internalImplementation "com.google.firebase:firebase-crashlytics:17.2.2"
 
     testImplementation "junit:junit:4.13.1"
