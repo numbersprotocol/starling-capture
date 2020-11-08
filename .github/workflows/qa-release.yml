@@ -102,8 +102,8 @@ jobs:
 
             APKs
 
-            <https://drive.google.com/drive/folders/1Ed77Mkg1XGIRa6PZuyW6ua92MSmXSIfB?usp=sharing|Google Drive (Master-Debug, Master-QA, Internal-Debug and Internal-QA)>
-            <https://play.google.com/apps/testing/io.numbersprotocol.starlingcapture|Google Play Closed Alpha Testing (Internal-Release)>
+            - <https://drive.google.com/drive/folders/1Ed77Mkg1XGIRa6PZuyW6ua92MSmXSIfB?usp=sharing|Google Drive (Master-Debug, Master-QA, Internal-Debug and Internal-QA)>
+            - <https://play.google.com/apps/testing/io.numbersprotocol.starlingcapture|Google Play Closed Alpha Testing (Internal-Release)>
 
             Notes
 
