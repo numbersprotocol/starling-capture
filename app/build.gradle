@@ -126,7 +126,7 @@ dependencies {
     implementation "org.koin:koin-core-ext:2.1.6"
     implementation "org.koin:koin-androidx-viewmodel:2.1.6"
     implementation "org.koin:koin-androidx-fragment:2.1.6"
-    testImplementation "org.koin:koin-test:2.1.6"
+    testImplementation "org.koin:koin-test:2.2.2"
 
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
