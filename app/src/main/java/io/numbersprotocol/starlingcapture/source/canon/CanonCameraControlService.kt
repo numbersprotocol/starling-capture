@@ -34,7 +34,7 @@ class CanonCameraControlService : Service(), CoroutineScope by CoroutineScope(Di
 
     @FlowPreview
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        bindProcessToWiFiNetwork()
+//        bindProcessToWiFiNetwork()
         initializeCanonCameraControlApi(intent)
         startForeground()
         connectToCamera()
