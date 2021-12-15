@@ -19,19 +19,19 @@
         android:id="@+id/numbersStoragePublisherLoginFragment"
         android:name="io.numbersprotocol.starlingcapture.publisher.numbers_storage.NumbersStoragePublisherFragment"
         android:label="@string/login"
-        tools:layout="@layout/fragment_starling_integrity_publisher_login">
-<!--        <action-->
-<!--            android:id="@+id/toNumbersStoragePublisherSignUpFragment"-->
-<!--            app:destination="@id/numbersStoragePublisherSignUpFragment"-->
-<!--            app:enterAnim="@android:anim/fade_in"-->
-<!--            app:exitAnim="@android:anim/fade_out"-->
-<!--            app:popEnterAnim="@android:anim/fade_in"-->
-<!--            app:popExitAnim="@android:anim/fade_out" />-->
+        tools:layout="@layout/fragment_numbers_storage_publisher_login">
+        <action
+            android:id="@+id/toNumbersStoragePublisherSignUpFragment"
+            app:destination="@id/numbersStoragePublisherSignUpFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/numbersStoragePublisherSignUpFragment"-->
-<!--        android:name="io.numbersprotocol.starlingcapture.publisher.numbers_storage.sign_up.NumbersStoragePublisherSignUpFragment"-->
-<!--        android:label="@string/sign_up"-->
-<!--        tools:layout="@layout/fragment_numbers_storage_publisher_signup" />-->
+    <fragment
+        android:id="@+id/numbersStoragePublisherSignUpFragment"
+        android:name="io.numbersprotocol.starlingcapture.publisher.numbers_storage.sign_up.NumbersStoragePublisherSignUpFragment"
+        android:label="@string/sign_up"
+        tools:layout="@layout/fragment_numbers_storage_publisher_signup" />
 </navigation>

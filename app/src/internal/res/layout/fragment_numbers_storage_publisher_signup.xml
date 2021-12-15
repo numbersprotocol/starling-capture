@@ -4,130 +4,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".publisher.numbers_storage.sign_up.NumbersStoragePublisherSignUpFragment">
 
-<!--    <data>-->
+    <data>
 
-<!--        <import type="android.view.View" />-->
+        <import type="android.view.View" />
 
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="io.numbersprotocol.starlingcapture.publisher.numbers_storage.sign_up.NumbersStoragePublisherSignUpViewModel" />-->
-<!--    </data>-->
+        <variable
+            name="viewModel"
+            type="io.numbersprotocol.starlingcapture.publisher.numbers_storage.sign_up.NumbersStoragePublisherSignUpViewModel" />
+    </data>
 
-<!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:paddingBottomSystemWindowInsets="@{true}"-->
-<!--        app:paddingEndSystemWindowInsets="@{true}"-->
-<!--        app:paddingStartSystemWindowInsets="@{true}"-->
-<!--        app:paddingTopSystemWindowInsets="@{true}">-->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:paddingBottomSystemWindowInsets="@{true}"
+        app:paddingEndSystemWindowInsets="@{true}"
+        app:paddingStartSystemWindowInsets="@{true}"
+        app:paddingTopSystemWindowInsets="@{true}">
 
-<!--        <com.google.android.material.appbar.AppBarLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?android:attr/actionBarSize">-->
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize">
 
-<!--            <com.google.android.material.appbar.MaterialToolbar-->
-<!--                android:id="@+id/toolbar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:navigationIcon="@drawable/ic_arrow_back"-->
-<!--                app:title="@string/sign_up" />-->
-<!--        </com.google.android.material.appbar.AppBarLayout>-->
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:title="@string/sign_up" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-<!--        <androidx.core.widget.NestedScrollView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">-->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-<!--            <androidx.appcompat.widget.LinearLayoutCompat-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:paddingStart="@dimen/keyline_3"-->
-<!--                android:paddingEnd="@dimen/keyline_3"-->
-<!--                android:paddingBottom="@dimen/keyline_3">-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/keyline_3"
+                android:paddingEnd="@dimen/keyline_3"
+                android:paddingBottom="@dimen/keyline_3">
 
-<!--                <androidx.appcompat.widget.AppCompatImageView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_margin="@dimen/keyline_5"-->
-<!--                    app:srcCompat="@drawable/ic_numbers" />-->
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/keyline_5"
+                    app:srcCompat="@drawable/ic_numbers" />
 
-<!--                <com.google.android.material.textfield.TextInputLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginBottom="@dimen/keyline_2"-->
-<!--                    android:enabled="@{!viewModel.isWaitingForServerResponse}"-->
-<!--                    android:hint="@string/user_name"-->
-<!--                    app:errorText="@{viewModel.userNameError}"-->
-<!--                    app:startIconDrawable="@drawable/ic_person">-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/keyline_2"
+                    android:enabled="@{!viewModel.isWaitingForServerResponse}"
+                    android:hint="@string/user_name"
+                    app:errorText="@{viewModel.userNameError}"
+                    app:startIconDrawable="@drawable/ic_person">
 
-<!--                    <com.google.android.material.textfield.TextInputEditText-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:inputType="textEmailAddress"-->
-<!--                        android:text="@={viewModel.userName}" />-->
-<!--                </com.google.android.material.textfield.TextInputLayout>-->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:text="@={viewModel.userName}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-<!--                <com.google.android.material.textfield.TextInputLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginBottom="@dimen/keyline_2"-->
-<!--                    android:enabled="@{!viewModel.isWaitingForServerResponse}"-->
-<!--                    android:hint="@string/email"-->
-<!--                    app:errorText="@{viewModel.emailError}"-->
-<!--                    app:startIconDrawable="@drawable/ic_email">-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/keyline_2"
+                    android:enabled="@{!viewModel.isWaitingForServerResponse}"
+                    android:hint="@string/email"
+                    app:errorText="@{viewModel.emailError}"
+                    app:startIconDrawable="@drawable/ic_email">
 
-<!--                    <com.google.android.material.textfield.TextInputEditText-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:inputType="textEmailAddress"-->
-<!--                        android:text="@={viewModel.email}" />-->
-<!--                </com.google.android.material.textfield.TextInputLayout>-->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:text="@={viewModel.email}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-<!--                <com.google.android.material.textfield.TextInputLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginBottom="@dimen/keyline_2"-->
-<!--                    android:enabled="@{!viewModel.isWaitingForServerResponse}"-->
-<!--                    android:hint="@string/password"-->
-<!--                    app:endIconMode="password_toggle"-->
-<!--                    app:errorText="@{viewModel.passwordError}"-->
-<!--                    app:startIconDrawable="@drawable/ic_key">-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/keyline_2"
+                    android:enabled="@{!viewModel.isWaitingForServerResponse}"
+                    android:hint="@string/password"
+                    app:endIconMode="password_toggle"
+                    app:errorText="@{viewModel.passwordError}"
+                    app:startIconDrawable="@drawable/ic_key">
 
-<!--                    <com.google.android.material.textfield.TextInputEditText-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:inputType="textPassword"-->
-<!--                        android:text="@={viewModel.password}" />-->
-<!--                </com.google.android.material.textfield.TextInputLayout>-->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:text="@={viewModel.password}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content">-->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-<!--                    <com.google.android.material.button.MaterialButton-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:enabled="@{viewModel.isValid &amp;&amp; !viewModel.isWaitingForServerResponse}"-->
-<!--                        android:onClick="@{() -> viewModel.createAccount()}"-->
-<!--                        android:text="@string/create_account"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        tools:enabled="false" />-->
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.isValid &amp;&amp; !viewModel.isWaitingForServerResponse}"
+                        android:onClick="@{() -> viewModel.createAccount()}"
+                        android:text="@string/create_account"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:enabled="false" />
 
-<!--                    <ProgressBar-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:visibility="@{viewModel.isWaitingForServerResponse ? View.VISIBLE : View.GONE}"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--            </androidx.appcompat.widget.LinearLayoutCompat>-->
-<!--        </androidx.core.widget.NestedScrollView>-->
-<!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.isWaitingForServerResponse ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
