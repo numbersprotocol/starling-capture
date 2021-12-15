@@ -11,14 +11,14 @@
         android:label="@string/publisher"
         tools:layout="@layout/fragment_publisher_config">
         <action
-            android:id="@+id/toNumbersStoragePublisherLoginFragment"
-            app:destination="@id/numbersStoragePublisherLoginFragment" />
+            android:id="@+id/toStarlingIntegrityPublisherLoginFragment"
+            app:destination="@id/starlingIntegrityPublisherLoginFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/numbersStoragePublisherLoginFragment"
-        android:name="io.numbersprotocol.starlingcapture.publisher.numbers_storage.NumbersStoragePublisherFragment"
-        android:label="@string/login"
+        android:id="@+id/starlingIntegrityPublisherLoginFragment"
+        android:name="org.starlinglab.starlingcapture.publisher.starling_integrity.StarlingIntegrityPublisherFragment"
+        android:label="@string/starling_integrity"
         tools:layout="@layout/fragment_starling_integrity_publisher_login">
 <!--        <action-->
 <!--            android:id="@+id/toNumbersStoragePublisherSignUpFragment"-->

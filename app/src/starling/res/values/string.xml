@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="starling_integrity">Starling Integrity</string>
+    <string name="login_token">Login Token</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+</resources>

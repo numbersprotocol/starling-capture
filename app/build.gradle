@@ -14,7 +14,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "io.numbersprotocol.starlingcapture"
+        applicationId "org.starlinglab.starlingcapture"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 8
@@ -31,7 +31,16 @@ android {
             }
         }
 
-        buildConfigField("String", "NUMBERS_STORAGE_BASE_URL", "\"${System.env.NUMBERS_STORAGE_BASE_URL}\"")
+        productFlavors {
+            internal {
+                buildConfigField("String", "NUMBERS_STORAGE_BASE_URL", "\"${System.env.NUMBERS_STORAGE_BASE_URL}\"")
+            }
+            starling {
+                applicationId "org.starlinglab.starlingcapture"
+                versionCode 1
+                buildConfigField("String", "STARLING_INTEGRITY_BASE_URL", "\"https://integrity-api.starlinglab.org\"")
+            }
+        }
     }
 
     buildTypes {
@@ -60,6 +69,9 @@ android {
             versionNameSuffix "-master"
         }
         internal {
+            dimension "mode"
+        }
+        starling {
             dimension "mode"
         }
     }
