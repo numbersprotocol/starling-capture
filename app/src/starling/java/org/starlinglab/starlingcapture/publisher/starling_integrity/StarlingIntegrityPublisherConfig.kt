@@ -6,7 +6,6 @@ import androidx.work.workDataOf
 import io.numbersprotocol.starlingcapture.R
 import io.numbersprotocol.starlingcapture.publisher.ProofPublisher
 import io.numbersprotocol.starlingcapture.publisher.PublisherConfig
-import io.numbersprotocol.starlingcapture.util.stringLiveData
 import io.numbersprotocol.starlingcapture.util.stringPref
 
 class StarlingIntegrityPublisherConfig : PublisherConfig(
@@ -24,15 +23,9 @@ class StarlingIntegrityPublisherConfig : PublisherConfig(
 
     // FIXME: use encrypted shared preferences to store the token
     var authToken by sharedPreference.stringPref(KEY_AUTH_TOKEN)
-//    var userName by sharedPreference.stringPref(KEY_USER_NAME)
-//    val userNameLiveData = sharedPreference.stringLiveData(KEY_USER_NAME)
-//    var email by sharedPreference.stringPref(KEY_EMAIL)
-//    val emailLiveData = sharedPreference.stringLiveData(KEY_EMAIL)
 
     companion object {
         private const val KEY_AUTH_TOKEN = "KEY_AUTH_TOKEN"
-//        private const val KEY_USER_NAME = "KEY_USER_NAME"
-//        private const val KEY_EMAIL = "KEY_EMAIL"
     }
 }
 

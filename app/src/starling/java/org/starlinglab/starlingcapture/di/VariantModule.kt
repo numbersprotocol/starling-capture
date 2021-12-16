@@ -13,9 +13,6 @@ val variantModule = module {
 
     single { StarlingIntegrityApi.create() }
 
-    viewModel { StarlingIntegrityPublisherViewModel(get()) }
+    viewModel { StarlingIntegrityPublisherViewModel() }
     fragment { StarlingIntegrityPublisherFragment() }
-
-//    viewModel { NumbersStoragePublisherSignUpViewModel(get()) }
-//    fragment { NumbersStoragePublisherSignUpFragment() }
 }
