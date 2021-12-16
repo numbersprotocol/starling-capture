@@ -11,7 +11,7 @@ import io.numbersprotocol.starlingcapture.util.stringPref
 
 class StarlingIntegrityPublisherConfig : PublisherConfig(
     R.string.starling_integrity,
-    R.drawable.ic_n,
+    R.drawable.ic_starling,
     R.id.toStarlingIntegrityPublisherLoginFragment,
     { context, proofs ->
         proofs.forEach { proof ->

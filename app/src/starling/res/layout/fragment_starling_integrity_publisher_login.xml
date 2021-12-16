@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/keyline_5"
-                    app:srcCompat="@drawable/ic_numbers" />
+                    app:srcCompat="@drawable/logo_starling" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
