@@ -34,32 +34,6 @@
                 tools:title="@string/starling_integrity" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="@{viewModel.isValid &amp;&amp; !viewModel.isWaitingForServerResponse}"
-                android:onClick="@{() -> viewModel.login()}"
-                android:text="@string/login"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:enabled="false" />
-
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="@{viewModel.isWaitingForServerResponse ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,12 +47,12 @@
                 android:paddingEnd="@dimen/keyline_3"
                 android:paddingBottom="@dimen/keyline_3">
 
-<!--                <androidx.appcompat.widget.AppCompatImageView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_margin="@dimen/keyline_5"-->
-<!--                    app:srcCompat="@drawable/ic_numbers" />-->
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/keyline_5"
+                    app:srcCompat="@drawable/ic_numbers" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -91,33 +65,85 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/keyline_2"
-                        android:enabled="@{!viewModel.isWaitingForServerResponse}"
-                        android:hint="@string/login_token" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="@{viewModel.hasLoggedIn ? View.VISIBLE : View.GONE}">
-
-<!--                    <com.google.android.material.textview.MaterialTextView-->
-<!--                        android:layout_width="wrap_content"-->
+                        android:enabled="@{true}"
+                        android:hint="@string/login_token"
+                        app:endIconMode="password_toggle"
+                        app:startIconDrawable="@drawable/ic_key">
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:layout_width="match_parent"-->
 <!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="@string/user_name"-->
-<!--                        android:textAppearance="?attr/textAppearanceSubtitle1" />-->
+<!--                        android:layout_marginBottom="@dimen/keyline_2"-->
+<!--                        android:enabled="@{!viewModel.isWaitingForServerResponse}"-->
+<!--                        android:hint="@string/login_token"-->
+<!--                        app:endIconMode="password_toggle"-->
+<!--                        app:errorText="@{viewModel.passwordError}"-->
+<!--                        app:startIconDrawable="@drawable/ic_key">-->
 
-<!--                    <com.google.android.material.textview.MaterialTextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginBottom="@dimen/keyline_3"-->
-<!--                        android:text="@{viewModel.emailDisplay}"-->
-<!--                        tools:text="@tools:sample/lorem" />-->
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:text="@={viewModel.authToken}" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="@{true}"
+                            android:onClick="@{() -> viewModel.login()}"
+                            android:text="@string/login"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:enabled="false" />
+<!--                        <com.google.android.material.button.MaterialButton-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:enabled="@{viewModel.isValid &amp;&amp; !viewModel.isWaitingForServerResponse}"-->
+<!--                            android:onClick="@{() -> viewModel.login()}"-->
+<!--                            android:text="@string/login"-->
+<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"-->
+<!--                            tools:enabled="false" />-->
+
+<!--                        <ProgressBar-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:visibility="@{viewModel.isWaitingForServerResponse ? View.VISIBLE : View.GONE}"-->
+<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent" />-->
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.hasLoggedIn ? View.VISIBLE : View.GONE}">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="@{true}"
+                            android:onClick="@{() -> viewModel.logout()}"
+                            android:text="@string/logout"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:enabled="false" />
 <!--                        <com.google.android.material.button.MaterialButton-->
 <!--                            android:layout_width="match_parent"-->
 <!--                            android:layout_height="wrap_content"-->
@@ -130,14 +156,14 @@
 <!--                            app:layout_constraintTop_toTopOf="parent"-->
 <!--                            tools:enabled="false" />-->
 
-                        <ProgressBar
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="@{viewModel.isWaitingForServerResponse ? View.VISIBLE : View.GONE}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+<!--                        <ProgressBar-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:visibility="@{viewModel.isWaitingForServerResponse ? View.VISIBLE : View.GONE}"-->
+<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent" />-->
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>

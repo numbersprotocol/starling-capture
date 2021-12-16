@@ -44,7 +44,7 @@ class StarlingIntegrityPublisher(
                     information = metaJson,
                     signatures = signatureJson,
                     caption = captionText,
-                    tag = "intern-camp"
+                    tag = "starling-capture"
                 )
                 Timber.i("Publish result: $result")
                 return Result.success()

@@ -19,19 +19,5 @@
         android:id="@+id/starlingIntegrityPublisherLoginFragment"
         android:name="org.starlinglab.starlingcapture.publisher.starling_integrity.StarlingIntegrityPublisherFragment"
         android:label="@string/starling_integrity"
-        tools:layout="@layout/fragment_starling_integrity_publisher_login">
-<!--        <action-->
-<!--            android:id="@+id/toNumbersStoragePublisherSignUpFragment"-->
-<!--            app:destination="@id/numbersStoragePublisherSignUpFragment"-->
-<!--            app:enterAnim="@android:anim/fade_in"-->
-<!--            app:exitAnim="@android:anim/fade_out"-->
-<!--            app:popEnterAnim="@android:anim/fade_in"-->
-<!--            app:popExitAnim="@android:anim/fade_out" />-->
-    </fragment>
-
-<!--    <fragment-->
-<!--        android:id="@+id/numbersStoragePublisherSignUpFragment"-->
-<!--        android:name="io.numbersprotocol.starlingcapture.publisher.numbers_storage.sign_up.NumbersStoragePublisherSignUpFragment"-->
-<!--        android:label="@string/sign_up"-->
-<!--        tools:layout="@layout/fragment_numbers_storage_publisher_signup" />-->
+        tools:layout="@layout/fragment_starling_integrity_publisher_login" />
 </navigation>

@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-//import io.numbersprotocol.starlingcapture.databinding.FragmentNumbersStoragePublisherLoginBinding
+import androidx.navigation.fragment.findNavController
 import io.numbersprotocol.starlingcapture.databinding.FragmentStarlingIntegrityPublisherLoginBinding
 import io.numbersprotocol.starlingcapture.util.observeEvent
 import io.numbersprotocol.starlingcapture.util.scopedLayoutFullScreen
 import io.numbersprotocol.starlingcapture.util.snack
-//import kotlinx.android.synthetic.internal.fragment_numbers_storage_publisher_login.*
+import kotlinx.android.synthetic.starling.fragment_starling_integrity_publisher_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StarlingIntegrityPublisherFragment : Fragment() {
@@ -36,14 +36,11 @@ class StarlingIntegrityPublisherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
-//        bindViewLifecycle()
+        toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+        bindViewLifecycle()
     }
 
     private fun bindViewLifecycle() {
-//        numbersStoragePublisherViewModel.signUpEvent.observeEvent(viewLifecycleOwner) {
-//            findNavController().navigateSafely(R.id.toNumbersStoragePublisherSignUpFragment)
-//        }
-//        starlingIntegrityPublisherViewModel.errorEvent.observeEvent(viewLifecycleOwner) { snack(it) }
+        starlingIntegrityPublisherViewModel.errorEvent.observeEvent(viewLifecycleOwner) { snack(it) }
     }
 }
