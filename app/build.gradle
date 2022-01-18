@@ -41,8 +41,8 @@ android {
             starling {
                 applicationId "org.starlinglab.starlingcapture"
                 versionCode 1
-                versionName "1.0.0"
-                buildConfigField("String", "STARLING_INTEGRITY_BASE_URL", "\"https://integrity-api.starlinglab.org\"")
+                versionName "1.0.1"
+                buildConfigField("String", "STARLING_INTEGRITY_BASE_URL", "\"https://integrity-api-2.starlinglab.org\"")
             }
         }
     }
