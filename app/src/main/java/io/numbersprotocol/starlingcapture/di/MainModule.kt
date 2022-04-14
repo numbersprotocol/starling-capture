@@ -20,6 +20,8 @@ import io.numbersprotocol.starlingcapture.data.preference.PreferenceRepository
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import io.numbersprotocol.starlingcapture.data.publish_history.PublishHistoryRepository
 import io.numbersprotocol.starlingcapture.data.signature.SignatureRepository
+import io.numbersprotocol.starlingcapture.feature.audio.AudioFragment
+import io.numbersprotocol.starlingcapture.feature.audio.AudioViewModel
 import io.numbersprotocol.starlingcapture.feature.camera.CameraFragment
 import io.numbersprotocol.starlingcapture.feature.camera.CameraViewModel
 import io.numbersprotocol.starlingcapture.feature.ccapi.CcapiFragment
@@ -130,6 +132,9 @@ val mainModule = module {
 
     viewModel { create<CameraViewModel>() }
     fragment { create<CameraFragment>() }
+
+    viewModel { AudioViewModel(get()) }
+    fragment { AudioFragment() }
 
     single(named(CoilImageLoader.SmallThumb)) {
         ImageLoader.Builder(androidContext())

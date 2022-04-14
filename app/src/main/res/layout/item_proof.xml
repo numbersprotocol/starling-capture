@@ -34,6 +34,21 @@
                 tools:src="@tools:sample/backgrounds/scenic" />
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/audioIndicator"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/keyline_2"
+                android:layout_marginBottom="@dimen/keyline_2"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".3"
+                app:layout_constraintWidth_percent=".3"
+                app:srcCompat="@drawable/ic_microphone"
+                app:tint="@color/white_50" />
+
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/videoIndicator"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

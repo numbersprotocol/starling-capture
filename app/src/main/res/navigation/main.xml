@@ -32,6 +32,9 @@
         <action
             android:id="@+id/toCameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/toAudioFragment"
+            app:destination="@id/audioFragment" />
     </fragment>
 
     <fragment
@@ -106,4 +109,9 @@
         android:name="io.numbersprotocol.starlingcapture.feature.camera.CameraFragment"
         android:label="@string/camera"
         tools:layout="@layout/fragment_camera" />
+    <fragment
+        android:id="@+id/audioFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.audio.AudioFragment"
+        android:label="audio_fragment"
+        tools:layout="@layout/fragment_audio" />
 </navigation>

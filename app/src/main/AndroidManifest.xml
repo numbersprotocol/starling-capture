@@ -20,7 +20,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".BaseActivity"
-            android:theme="@style/Theme.Splash">
+            android:theme="@style/Theme.Splash"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

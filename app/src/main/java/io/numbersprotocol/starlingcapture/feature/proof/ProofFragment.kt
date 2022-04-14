@@ -88,7 +88,11 @@ class ProofFragment(
 
     private fun initializeSharedElements() {
         scrollView.transitionName = "$proof"
-        thumbImageView.load(proofRepository.getRawFile(proof), imageLoader = imageLoader)
+        if (proof.mimeType == MimeType.MP3) {
+            thumbImageView.load(R.drawable.sound_wave, imageLoader = imageLoader)
+        } else {
+            thumbImageView.load(proofRepository.getRawFile(proof), imageLoader = imageLoader)
+        }
     }
 
     private fun setOptionsMenuListener() {
@@ -112,8 +116,11 @@ class ProofFragment(
         bindInformationProviderViewPager()
         bindSignatureViewPager()
         proofViewModel.viewMediaEvent.observeEvent(viewLifecycleOwner) {
-            if (proofViewModel.isVideo.value != true) showImageViewer()
-            else dispatchViewVideoIntent()
+            when {
+                proofViewModel.isAudio.value == true -> dispatchPlayAudioIntent()
+                proofViewModel.isVideo.value == true -> dispatchViewVideoIntent()
+                else -> showImageViewer()
+            }
         }
         proofViewModel.editCaptionEvent.observeEvent(viewLifecycleOwner) {
             showCaptionEditingDialog(it)
@@ -124,6 +131,24 @@ class ProofFragment(
         StfalconImageViewer.Builder(requireContext(), listOf(proof)) { view, proof ->
             view.load(proofRepository.getRawFile(proof))
         }.show()
+    }
+
+    private fun dispatchPlayAudioIntent() {
+        val audioFile = proofRepository.getRawFile(proof)
+        val audioUri = FileProvider.getUriForFile(
+            requireContext(),
+            "${BuildConfig.APPLICATION_ID}.provider",
+            audioFile
+        )
+        val playAudioIntent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(audioUri, "audio/*")
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        if (playAudioIntent.resolveActivity(requireContext().packageManager) == null) {
+            snack("No provider can handle ${Intent.ACTION_VIEW} with audio/* MIME type")
+            return
+        }
+        startActivity(playAudioIntent)
     }
 
     private fun dispatchViewVideoIntent() {
