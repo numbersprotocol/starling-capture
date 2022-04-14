@@ -26,6 +26,9 @@ class ProofViewModel(
     val signatures = proof.switchMap {
         signatureRepository.getByProofWithLiveData(it)
     }
+    val isAudio = proof.map {
+        it.mimeType == MimeType.MP3
+    }
     val isVideo = proof.map {
         it.mimeType == MimeType.MP4
     }

@@ -72,6 +72,7 @@ class StorageAdapter(
 
         private val thumbCardView: MaterialCardView = itemView.findViewById(R.id.thumbCardView)
         private val thumbImageView: ImageView = itemView.findViewById(R.id.thumbImageView)
+        private val audioIndicator: ImageView = itemView.findViewById(R.id.audioIndicator)
         private val videoIndicator: ImageView = itemView.findViewById(R.id.videoIndicator)
         private val publishedIndicator: ImageView = itemView.findViewById(R.id.publishedIndicator)
 
@@ -84,6 +85,7 @@ class StorageAdapter(
                 bindListener(item)
                 thumbCardView.transitionName = "$item"
                 bindThumbImage(item)
+                bindAudioIndicator(item)
                 bindVideoIndicator(item)
                 bindPublishedIndicator(item)
             }
@@ -107,7 +109,16 @@ class StorageAdapter(
 
         private fun bindThumbImage(proof: Proof) {
             val rawMediaFile = proofRepository.getRawFile(proof)
-            thumbImageView.load(rawMediaFile, imageLoader = imageLoader)
+            if (proof.mimeType == MimeType.MP3) thumbImageView.load(
+                R.drawable.sound_wave,
+                imageLoader = imageLoader
+            )
+            else thumbImageView.load(rawMediaFile, imageLoader = imageLoader)
+        }
+
+        private fun bindAudioIndicator(proof: Proof) {
+            if (proof.mimeType == MimeType.MP3) audioIndicator.visibility = VISIBLE
+            else audioIndicator.visibility = GONE
         }
 
         private fun bindVideoIndicator(proof: Proof) {

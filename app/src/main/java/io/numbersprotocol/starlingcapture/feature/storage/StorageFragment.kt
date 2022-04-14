@@ -103,14 +103,21 @@ class StorageFragment(private val publisherManager: PublisherManager) : Fragment
     private fun openNewProofOptionDialog() {
         val items = arrayOf(
             getString(R.string.built_in_camera),
+            getString(R.string.built_in_mic),
             getString(R.string.canon_ccapi)
         )
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.add_new_proof)
             .setItems(items) { _, which ->
-                if (items[which] == getString(R.string.built_in_camera)) {
-                    findNavController().navigateSafely(R.id.toCameraFragment)
-                } else findNavController().navigateSafely(R.id.toCcapiFragment)
+                when {
+                    items[which] == getString(R.string.built_in_camera) -> {
+                        findNavController().navigateSafely(R.id.toCameraFragment)
+                    }
+                    items[which] == getString(R.string.built_in_mic) -> {
+                        findNavController().navigateSafely(R.id.toAudioFragment)
+                    }
+                    else -> findNavController().navigateSafely(R.id.toCcapiFragment)
+                }
             }
             .show()
     }

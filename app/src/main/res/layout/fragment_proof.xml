@@ -49,6 +49,19 @@
                     android:layout_height="0dp"
                     android:layout_marginEnd="@dimen/keyline_2"
                     android:layout_marginBottom="@dimen/keyline_2"
+                    android:visibility="@{viewModel.isAudio ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintWidth_percent=".15"
+                    app:srcCompat="@drawable/ic_microphone"
+                    app:tint="@color/white_50" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="@dimen/keyline_2"
+                    android:layout_marginBottom="@dimen/keyline_2"
                     android:visibility="@{viewModel.isVideo ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
