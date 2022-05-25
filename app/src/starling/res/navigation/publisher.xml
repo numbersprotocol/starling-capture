@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/publisher_graph"
+    app:startDestination="@id/publisherFragment">
+
+    <fragment
+        android:id="@+id/publisherFragment"
+        android:name="io.numbersprotocol.starlingcapture.feature.publisher_config.PublisherConfigFragment"
+        android:label="@string/publisher"
+        tools:layout="@layout/fragment_publisher_config">
+        <action
+            android:id="@+id/toStarlingIntegrityPublisherLoginFragment"
+            app:destination="@id/starlingIntegrityPublisherLoginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/starlingIntegrityPublisherLoginFragment"
+        android:name="org.starlinglab.starlingcapture.publisher.starling_integrity.StarlingIntegrityPublisherFragment"
+        android:label="@string/starling_integrity"
+        tools:layout="@layout/fragment_starling_integrity_publisher_login" />
+</navigation>

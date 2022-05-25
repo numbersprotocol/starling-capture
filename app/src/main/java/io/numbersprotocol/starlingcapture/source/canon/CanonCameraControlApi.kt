@@ -63,7 +63,7 @@ suspend fun CanonCameraControlApi.waitUntilConnected(
 
 @JsonClass(generateAdapter = true)
 data class Api(
-    val url: String,
+    val path: String,
     val get: Boolean,
     val post: Boolean,
     val put: Boolean,

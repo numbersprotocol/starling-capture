@@ -31,7 +31,20 @@ android {
             }
         }
 
-        buildConfigField("String", "NUMBERS_STORAGE_BASE_URL", "\"${System.env.NUMBERS_STORAGE_BASE_URL}\"")
+        productFlavors {
+            internal {
+                applicationId "io.numbersprotocol.starlingcapture"
+                versionCode 8
+                versionName "1.8.0"
+                buildConfigField("String", "NUMBERS_STORAGE_BASE_URL", "\"${System.env.NUMBERS_STORAGE_BASE_URL}\"")
+            }
+            starling {
+                applicationId "org.starlinglab.starlingcapture"
+                versionCode 1
+                versionName "1.0.1"
+                buildConfigField("String", "STARLING_INTEGRITY_BASE_URL", "\"https://integrity-api-2.starlinglab.org\"")
+            }
+        }
     }
 
     buildTypes {
@@ -60,6 +73,9 @@ android {
             versionNameSuffix "-master"
         }
         internal {
+            dimension "mode"
+        }
+        starling {
             dimension "mode"
         }
     }
@@ -116,9 +132,10 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.1"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.1"
 
-    implementation "androidx.room:room-runtime:2.2.5"
-    implementation "androidx.room:room-ktx:2.2.5"
-    kapt "androidx.room:room-compiler:2.2.5"
+    implementation "androidx.room:room-runtime:2.3.0"
+    implementation "androidx.room:room-ktx:2.3.0"
+    kapt "androidx.room:room-compiler:2.3.0"
+    kapt "org.xerial:sqlite-jdbc:3.34.0"
 
     implementation "com.google.android.material:material:1.3.0-alpha03"
 
