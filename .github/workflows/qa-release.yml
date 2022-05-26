@@ -24,6 +24,10 @@ jobs:
           ./gradlew assembleMasterQa
           ./gradlew testMasterDebugUnitTest
           ./gradlew assembleMasterDebug
+          ./gradlew testStarlingQaUnitTest
+          ./gradlew assembleStarlingQa
+          ./gradlew testStarlingDebugUnitTest
+          ./gradlew assembleStarlingDebug
 
       - name: Extract app version
         id: extract_version
@@ -86,6 +90,50 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./app/build/outputs/apk/master/debug/output-metadata.json
           asset_name: output-metadata-master-debug.json
+          asset_content_type: application/json
+
+      - name: Upload starling-qa APK to release assets
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/starling/qa/app-starling-qa.apk
+          asset_name: app-starling-qa.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload starling-qa metadata.json to release assets
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/starling/qa/output-metadata.json
+          asset_name: output-metadata-starling-qa.json
+          asset_content_type: application/json
+
+      - name: Upload starling-debug APK to release assets
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/starling/debug/app-starling-debug.apk
+          asset_name: app-starling-debug.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload starling-debug metadata.json to release assets
+        if: steps.extract_branch.outputs.branch == 'develop'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/starling/debug/output-metadata.json
+          asset_name: output-metadata-starling-debug.json
           asset_content_type: application/json
 
       - name: Send Slack notification
