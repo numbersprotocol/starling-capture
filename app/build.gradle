@@ -31,20 +31,7 @@ android {
             }
         }
 
-        productFlavors {
-            internal {
-                applicationId "io.numbersprotocol.starlingcapture"
-                versionCode 8
-                versionName "1.8.0"
-                buildConfigField("String", "NUMBERS_STORAGE_BASE_URL", "\"${System.env.NUMBERS_STORAGE_BASE_URL}\"")
-            }
-            starling {
-                applicationId "org.starlinglab.starlingcapture"
-                versionCode 1
-                versionName "1.0.1"
-                buildConfigField("String", "STARLING_INTEGRITY_BASE_URL", "\"https://integrity-api-2.starlinglab.org\"")
-            }
-        }
+        buildConfigField("String", "NUMBERS_STORAGE_BASE_URL", "\"${System.env.NUMBERS_STORAGE_BASE_URL}\"")
     }
 
     buildTypes {
@@ -77,6 +64,10 @@ android {
         }
         starling {
             dimension "mode"
+            applicationId "org.starlinglab.starlingcapture"
+            versionCode 1
+            versionName "1.0.1"
+            buildConfigField("String", "STARLING_INTEGRITY_BASE_URL", "\"https://integrity-api-2.starlinglab.org\"")
         }
     }
 
