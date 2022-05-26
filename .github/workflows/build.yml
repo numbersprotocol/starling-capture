@@ -73,17 +73,17 @@ jobs:
       - name: Lint
         env:
           STARLING_INTEGRITY_BASE_URL: ${{ secrets.STARLING_INTEGRITY_BASE_URL }}
-        run: ./gradlew lintInternalQa
+        run: ./gradlew lintStarlingQa
 
       - name: Unit Test
         env:
           STARLING_INTEGRITY_BASE_URL: ${{ secrets.STARLING_INTEGRITY_BASE_URL }}
-        run: ./gradlew testInternalQaUnitTest
+        run: ./gradlew testStarlingQaUnitTest
 
       - name: Build APK
         env:
           STARLING_INTEGRITY_BASE_URL: ${{ secrets.STARLING_INTEGRITY_BASE_URL }}
-        run: ./gradlew assembleInternalQa
+        run: ./gradlew assembleStarlingQa
 
       - name: Upload reports to artifact
         if: ${{ always() }}
