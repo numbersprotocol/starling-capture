@@ -60,6 +60,38 @@ jobs:
           name: internal-qa reports
           path: ./app/build/reports/
 
+  starling-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Lint
+        env:
+          STARLING_INTEGRITY_BASE_URL: ${{ secrets.STARLING_INTEGRITY_BASE_URL }}
+        run: ./gradlew lintInternalQa
+
+      - name: Unit Test
+        env:
+          STARLING_INTEGRITY_BASE_URL: ${{ secrets.STARLING_INTEGRITY_BASE_URL }}
+        run: ./gradlew testInternalQaUnitTest
+
+      - name: Build APK
+        env:
+          STARLING_INTEGRITY_BASE_URL: ${{ secrets.STARLING_INTEGRITY_BASE_URL }}
+        run: ./gradlew assembleInternalQa
+
+      - name: Upload reports to artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: starling-qa reports
+          path: ./app/build/reports/
+
   util-verification:
     runs-on: ubuntu-latest
     defaults:
