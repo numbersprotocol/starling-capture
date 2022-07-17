@@ -46,5 +46,5 @@ See the [tests](./tests/test_verification.py) for details.
 To run tests,
 
 ``` bash
-pytest
+poetry run pytest
 ```
