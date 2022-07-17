@@ -167,9 +167,15 @@ dependencies {
     // not know how to resolve it, we force the version of android-libproofmode to 0.0.4. Error
     // details: https://stackoverflow.com/questions/64300437/duplicate-class-okio-in-module-com-eternitywalljava-opentimestamps1-17-with-pr
     //noinspection GradleDependency
-    implementation("org.witness:android-libproofmode:0.0.4") {
-        exclude group: "com.google.guava", module: "guava"
-    }
+    //implementation("org.witness:android-libproofmode:0.0.4") {
+    //    exclude group: "com.google.guava", module: "guava"
+    //}
+
+    //implementation 'com.github.guardianproject:proofmode:0.8-library' // with type mismatch (compatibility) issue
+    //implementation 'com.github.guardianproject:proofmode:library-0.0.5' // with duplicate class issue
+    //implementation 'com.github.guardianproject:proofmode:library-0.4' // with duplicate class issue
+    //implementation 'com.github.guardianproject:proofmode:0.0.5' // with could not find issue
+    //implementation 'com.github.guardianproject:proofmode:0.0.4' // with could not find issue
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.5"
 

@@ -8,9 +8,10 @@ import io.numbersprotocol.starlingcapture.data.information.Information
 import io.numbersprotocol.starlingcapture.data.proof.ProofRepository
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import org.witness.proofmode.ProofMode
+//import org.witness.proofmode.ProofMode
 import java.io.File
 
+/*
 class ProofModeProvider(
     context: Context,
     params: WorkerParameters
@@ -71,3 +72,4 @@ class ProofModeProvider(
         const val RAW_FILE_SIGNATURE_FILE_SUFFIX = ProofMode.OPENPGP_FILE_TAG
     }
 }
+*/
