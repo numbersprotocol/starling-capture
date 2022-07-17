@@ -75,11 +75,15 @@ class ZionApi(private val context: Context) : KoinComponent {
 
     suspend fun signWithSha256AndEthereum(message: String) = withContext(Dispatchers.Default) {
         synchronized(this) {
+            /* JSON schema is from the ZKMA doc:
+             * https://github.com/htczion/ZKMA/wiki#a-ethereum-coin
+             */
             val json = JSONObject().apply {
                 put("path", "m/44'/60'/0'/0/0")
                 put("message", JSONObject().apply {
                     put("version", "45")
-                    put("data", message.sha256())
+                    // HEX string of message's sha256, not sha256 itself
+                    put("data", message.sha256().toByteArray().asHex())
                 })
             }
             val signature = ByteArrayHolder()
