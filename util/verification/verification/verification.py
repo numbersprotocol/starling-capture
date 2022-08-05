@@ -9,6 +9,59 @@ import ecdsa.util
 from eth_account.messages import encode_defunct
 from web3.auto import w3
 
+import verification
+
+
+class VerificationSummary(object):
+    def __init__(self):
+        self.sw_key_verification = False
+        self.hw_key_verification = False
+        self.hw_key_verification_classic = False
+
+    def show(self):
+        result = 'Pass' if self.sw_key_verification or self.hw_key_verification or self.hw_key_verification_classic else 'Fail'
+        print(f'Verification result: {result}\n')
+
+        print('Summary:')
+        print(f'\tSW key verification: {self.sw_key_verification}')
+        print(f'\tHW key verification (Zion): {self.hw_key_verification}')
+        print(f'\tHW key verification classic (Zion): {self.hw_key_verification_classic}')
+        print('\nNote: For the HW key verifications, only one of them will be True.')
+
+
+def verify_v2(information_json_filename: str,
+             signature_json_filename: str,
+             signer_wallet_address: str):
+    '''
+    '''
+    verification_summary = VerificationSummary()
+    signatures = list(read_json_file(signature_json_filename))
+
+    for signature in signatures:
+        if signature['provider'] == 'AndroidOpenSSL':
+            message = read_text_file(information_json_filename)
+            verification_summary.sw_key_verification = verify_ecdsa_with_sha256(
+                message=message,
+                signature_hex=signature['signature'],
+                public_key_hex=signature['publicKey']
+            )
+        elif signature['provider'] == 'Zion':
+            information_sha256sum = generate_sha256_from_filepath(information_json_filename)
+            signature = get_signature_from_information_file(signature_json_filename)
+
+            # Zion verirication
+            message = information_sha256sum
+            recovered_wallet_address = verify_ethereum_signature(message, signature)
+            verification_summary.hw_key_verification = (recovered_wallet_address == signer_wallet_address)
+
+            # Zion verirication classic
+            message_classic = hex_string_to_bytes(information_sha256sum)
+            recovered_wallet_address_classic = verify_ethereum_signature(message_classic, signature)
+            verification_summary.hw_key_verification_classic = (recovered_wallet_address_classic == signer_wallet_address)
+        else:
+            print(f'ERROR: Unknown provider: {signature["provider"]}, skip')
+    verification_summary.show()
+
 
 def verify(information_json_filename: str, signature_json_filename: str) -> bool:
     message = read_text_file(information_json_filename)
@@ -55,14 +108,16 @@ def verify_ecdsa_with_sha256(message: str, signature_hex: str, public_key_hex: s
 
 
 def verify_ethereum_signature(message, signature):
-    """Verify Ethereum-compatible signature
+    """Verify Ethereum-compatible signature (EIP-191).
+
+    Zion's Ethereum signature follows EIP-191.
 
     Args:
-    ¦   message (str): the signed message
-    ¦   signature (str): the signature generated from the signed message with leading '0x'
+    ¦   message: raw content for signing and verifying
+    ¦   signature: signature of the raw content (message above) with leading '0x'
 
     Returns:
-    ¦   str: the recovered Ethereum wallet address
+    ¦   str: recovered (Signer's) Ethereum wallet address
     """
     if type(message) is not str:
       print('encode_defunct, case primitive')
@@ -116,9 +171,6 @@ def hex_string_to_bytes(hex_string):
 
 
 if __name__ == '__main__':
-    import web3
-    print(f'web3.py version: ${web3.__version__}')
-
     # preparation
     sha256sum = '06e4c344ac75d3176e6ad94434e45440761094aa51673919ea3f1805eb7e655a'
     msg = hex_string_to_bytes(sha256sum)
