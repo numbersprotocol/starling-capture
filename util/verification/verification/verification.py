@@ -17,6 +17,9 @@ class VerificationSummary(object):
         self.sw_key_verification = False
         self.hw_key_verification = False
         self.hw_key_verification_classic = False
+        self.signer_wallet = None
+        self.recovered_wallet = None
+        self.recovered_wallet_classic = None
 
     def show(self):
         result = 'Pass' if self.sw_key_verification or self.hw_key_verification or self.hw_key_verification_classic else 'Fail'
@@ -24,9 +27,14 @@ class VerificationSummary(object):
 
         print('Summary:')
         print(f'\tSW key verification: {self.sw_key_verification}')
-        print(f'\tHW key verification (Zion): {self.hw_key_verification}')
-        print(f'\tHW key verification classic (Zion): {self.hw_key_verification_classic}')
-        print('\nNote: For the HW key verifications, only one of them will be True.')
+        if self.signer_wallet != None:
+            print(f'\tHW key verification (Zion): {self.hw_key_verification}')
+            print(f'\tHW key verification classic (Zion): {self.hw_key_verification_classic}')
+            print('\nNote: For the HW key verifications, only one of them will be True.')
+        else:
+            print(f'\tHW key verification (Zion): {self.recovered_wallet}')
+            print(f'\tHW key verification classic (Zion): {self.recovered_wallet_classic}')
+            print('\nNote: You do not provide signer wallet. One of the recovered wallets should be the same as the signer wallet.')
 
 
 def verify(information_json_filename: str,
@@ -35,16 +43,21 @@ def verify(information_json_filename: str,
     '''
     '''
     verification_summary = VerificationSummary()
+    verification_summary.signer_wallet = signer_wallet_address
     signatures = list(read_json_file(signature_json_filename))
 
     for signature in signatures:
         if signature['provider'] == 'AndroidOpenSSL':
             message = read_text_file(information_json_filename)
-            verification_summary.sw_key_verification = verify_ecdsa_with_sha256(
-                message=message,
-                signature_hex=signature['signature'],
-                public_key_hex=signature['publicKey']
-            )
+            try:
+                verification_summary.sw_key_verification = verify_ecdsa_with_sha256(
+                    message=message,
+                    signature_hex=signature['signature'],
+                    public_key_hex=signature['publicKey']
+                )
+            except Exception as e:
+                print(f'{e}')
+                verification_summary.sw_key_verification = False
         elif signature['provider'] == 'Zion':
             information_sha256sum = generate_sha256_from_filepath(information_json_filename)
             signature = get_signature_from_information_file(signature_json_filename)
@@ -53,11 +66,13 @@ def verify(information_json_filename: str,
             message = information_sha256sum
             recovered_wallet_address = verify_ethereum_signature(message, signature)
             verification_summary.hw_key_verification = (recovered_wallet_address == signer_wallet_address)
+            verification_summary.recovered_wallet = recovered_wallet_address
 
             # Zion verirication classic
             message_classic = hex_string_to_bytes(information_sha256sum)
             recovered_wallet_address_classic = verify_ethereum_signature(message_classic, signature)
             verification_summary.hw_key_verification_classic = (recovered_wallet_address_classic == signer_wallet_address)
+            verification_summary.recovered_wallet_classic = recovered_wallet_address_classic
         else:
             print(f'ERROR: Unknown provider: {signature["provider"]}, skip')
     verification_summary.show()
