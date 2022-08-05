@@ -29,7 +29,7 @@ class VerificationSummary(object):
         print('\nNote: For the HW key verifications, only one of them will be True.')
 
 
-def verify_v2(information_json_filename: str,
+def verify(information_json_filename: str,
              signature_json_filename: str,
              signer_wallet_address: str):
     '''
@@ -61,37 +61,6 @@ def verify_v2(information_json_filename: str,
         else:
             print(f'ERROR: Unknown provider: {signature["provider"]}, skip')
     verification_summary.show()
-
-
-def verify(information_json_filename: str, signature_json_filename: str) -> bool:
-    message = read_text_file(information_json_filename)
-    signatures = list(read_json_file(signature_json_filename))
-    all_verified = True
-    for signature in signatures:
-        if signature['provider'] == 'AndroidOpenSSL':
-            verified = verify_ecdsa_with_sha256(
-                message=message,
-                signature_hex=signature['signature'],
-                public_key_hex=signature['publicKey']
-            )
-            print(f'provider: AndroidOpenSSL, verified: {verified}')
-            if not verified:
-                all_verified = False
-        #elif signature['provider'] == 'Zion':
-        #    parsed_public_key = signature['publicKey'].split('\n')
-        #    print(f'Parsed public key: {parsed_public_key}')
-        #    verified = verify_ecdsa_with_sha256(
-        #        message=message,
-        #        signature_hex=signature['signature'],
-        #        public_key_hex=signature['publicKey']
-        #    )
-        #    if not verified:
-        #        all_verified = False
-        else:
-            # unknown provider
-            print(f'provider: {signature["provider"]}, skip')
-            #all_verified = False
-    return all_verified
 
 
 def verify_ecdsa_with_sha256(message: str, signature_hex: str, public_key_hex: str) -> bool:
