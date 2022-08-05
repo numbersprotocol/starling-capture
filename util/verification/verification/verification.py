@@ -54,7 +54,7 @@ def verify_ecdsa_with_sha256(message: str, signature_hex: str, public_key_hex: s
     )
 
 
-def verify_ethereum_signature(message: str, signature: str) -> str:
+def verify_ethereum_signature(message, signature):
     """Verify Ethereum-compatible signature
 
     Args:
@@ -64,7 +64,15 @@ def verify_ethereum_signature(message: str, signature: str) -> str:
     Returns:
     ¦   str: the recovered Ethereum wallet address
     """
-    encoded_message = encode_defunct(text=message)
+    if type(message) is not str:
+      print('encode_defunct, case primitive')
+      encoded_message = encode_defunct(message)
+    elif message[:2] != '0x':
+      print('encode_defunct, case text')
+      encoded_message = encode_defunct(text=message)
+    else:
+      print('encode_defunct, case hexstr')
+      encoded_message = encode_defunct(hexstr=message)
     return w3.eth.account.recover_message(encoded_message, signature=signature)
 
 
@@ -101,3 +109,26 @@ def get_signature_from_information_file(filepath: str) -> str:
             signature_hex = '0x' + signature['signature']
             return signature_hex
     return ''
+
+
+def hex_string_to_bytes(hex_string):
+    return bytes.fromhex(hex_string)
+
+
+if __name__ == '__main__':
+    import web3
+    print(f'web3.py version: ${web3.__version__}')
+
+    # preparation
+    sha256sum = '06e4c344ac75d3176e6ad94434e45440761094aa51673919ea3f1805eb7e655a'
+    msg = hex_string_to_bytes(sha256sum)
+    private_key = b"\xb2\\}\xb3\x1f\xee\xd9\x12''\xbf\t9\xdcv\x9a\x96VK-\xe4\xc4rm\x03[6\xec\xf1\xe5\xb3d"
+
+    # sign
+    message = encode_defunct(msg)
+    signed_message = w3.eth.account.sign_message(message, private_key=private_key)
+    print(f'Signed message: {signed_message}')
+
+    # verify
+    signer_wallet = w3.eth.account.recover_message(message, signature=signed_message.signature)
+    print(f'Signer wallet: {signer_wallet}')
