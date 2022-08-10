@@ -583,6 +583,14 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "pysha3"
+version = "1.0.2"
+description = "SHA-3 (Keccak) for Python 2.7 - 3.5"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "pytest"
 version = "6.1.1"
 description = "pytest: simple powerful testing with Python"
@@ -783,7 +791,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "46a1bfa9e488bd9a00b849e7f359b2997921d1088f4532aa2ca5cd424c632618"
+content-hash = "307bfe569b8366acc83945af0cb32025cd3c3a3b0408a192c4978cd20e6c010a"
 
 [metadata.files]
 aiohttp = [
@@ -928,6 +936,7 @@ pyparsing = [
     {file = "pyparsing-2.4.7.tar.gz", hash = "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1"},
 ]
 pyrsistent = []
+pysha3 = []
 pytest = []
 pywin32 = []
 requests = []
