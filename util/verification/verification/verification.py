@@ -1,6 +1,7 @@
 import json
 
 from hashlib import sha256
+from sha3 import keccak_256
 from typing import Union
 
 import ecdsa
@@ -59,20 +60,40 @@ def verify(information_json_filename: str,
                 print(f'{e}')
                 verification_summary.sw_key_verification = False
         elif signature['provider'] == 'Zion':
-            information_sha256sum = generate_sha256_from_filepath(information_json_filename)
-            signature = get_signature_from_information_file(signature_json_filename)
+            # The signature is Zion signature (not session-based)
+            if len(signature['signature']) == 130:
+                information_sha256sum = generate_sha256_from_filepath(information_json_filename)
+                signature = get_signature_from_information_file(signature_json_filename)
 
-            # Zion verirication
-            message = information_sha256sum
-            recovered_wallet_address = verify_ethereum_signature(message, signature)
-            verification_summary.hw_key_verification = (recovered_wallet_address == signer_wallet_address)
-            verification_summary.recovered_wallet = recovered_wallet_address
+                # Zion verirication
+                message = information_sha256sum
+                recovered_wallet_address = verify_ethereum_signature(message, signature)
+                verification_summary.hw_key_verification = (recovered_wallet_address == signer_wallet_address)
+                verification_summary.recovered_wallet = recovered_wallet_address
 
-            # Zion verirication classic
-            message_classic = hex_string_to_bytes(information_sha256sum)
-            recovered_wallet_address_classic = verify_ethereum_signature(message_classic, signature)
-            verification_summary.hw_key_verification_classic = (recovered_wallet_address_classic == signer_wallet_address)
-            verification_summary.recovered_wallet_classic = recovered_wallet_address_classic
+                # Zion verirication classic
+                message_classic = hex_string_to_bytes(information_sha256sum)
+                recovered_wallet_address_classic = verify_ethereum_signature(message_classic, signature)
+                verification_summary.hw_key_verification_classic = (recovered_wallet_address_classic == signer_wallet_address)
+                verification_summary.recovered_wallet_classic = recovered_wallet_address_classic
+            # The signature is Zion session-based signature
+            elif len(signature['signature']) == 144:
+                message = read_text_file(information_json_filename)
+                session_public_key = signature['publicKey'].split('\n')[1]
+                try:
+                    verification_summary.hw_key_verification_classic = verify_ecdsa_with_sha256(
+                        message=message,
+                        signature_hex=signature['signature'],
+                        public_key_hex=session_public_key
+                    )
+                    print(f'Session-based verification classic: {verification_summary.hw_key_verification_classic}')
+                except Exception as e:
+                    print(f'{e}')
+                    verification_summary.sw_key_verification = False
+                # hack: show verification result instead of wallet address forcbly
+                verification_summary.signer_wallet = 'a' * 59
+            else:
+                print(f'ERROR: Unknown signature with length {len(signature["signature"])}, skip')
         else:
             print(f'ERROR: Unknown provider: {signature["provider"]}, skip')
     verification_summary.show()
@@ -154,6 +175,22 @@ def hex_string_to_bytes(hex_string):
     return bytes.fromhex(hex_string)
 
 
+def public_key_to_wallet_address(eth_public_key):
+    '''Calculate Ethereum wallet address from Zion's compressed public key
+
+    The Zion public key is compressed public key (66-byte). The high-level steps are
+    1. Compute the uncompressed public key.
+    2. Get keccak256 hash of the uncompressed public key.
+    3. Get the last 20-byte to be the wallet address.
+    '''
+    vk = ecdsa.keys.VerifyingKey.from_string(bytes.fromhex(eth_public_key), curve=ecdsa.curves.SECP256k1)
+    # strip the leading 04
+    public_key_bytes = vk.to_string('uncompressed')[1:]
+    wallet_address = '0x' + keccak_256(public_key_bytes).digest()[-20:].hex()
+    print(f'public key: {public_key_bytes.hex()}, wallet address: {wallet_address}')
+    return wallet_address
+
+
 if __name__ == '__main__':
     # preparation
     sha256sum = '06e4c344ac75d3176e6ad94434e45440761094aa51673919ea3f1805eb7e655a'
@@ -168,3 +205,6 @@ if __name__ == '__main__':
     # verify
     signer_wallet = w3.eth.account.recover_message(message, signature=signed_message.signature)
     print(f'Signer wallet: {signer_wallet}')
+
+    compressed_public_key = '03aced43f9dddc120291f5cdf73580fbb592b5b21054ce61eb73cbaf98efcbe82e'
+    public_key_to_wallet_address(compressed_public_key)
