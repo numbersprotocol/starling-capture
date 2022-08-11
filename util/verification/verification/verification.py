@@ -16,14 +16,24 @@ import verification
 class VerificationSummary(object):
     def __init__(self):
         self.sw_key_verification = False
+
         self.hw_key_verification = False
         self.hw_key_verification_classic = False
+
+        self.hw_session_key_verification = False
+        self.hw_session_key_verification_classic = False
+
         self.signer_wallet = None
         self.recovered_wallet = None
         self.recovered_wallet_classic = None
 
     def show(self):
-        result = 'Pass' if self.sw_key_verification or self.hw_key_verification or self.hw_key_verification_classic else 'Fail'
+        result = 'Pass' if (
+            self.sw_key_verification or
+            self.hw_key_verification or
+            self.hw_key_verification_classic or
+            self.hw_session_key_verification or
+            self.hw_session_key_verification_classic) else 'Fail'
         print(f'Verification result: {result}\n')
 
         print('Summary:')
@@ -31,11 +41,18 @@ class VerificationSummary(object):
         if self.signer_wallet != None:
             print(f'\tHW key verification (Zion): {self.hw_key_verification}')
             print(f'\tHW key verification classic (Zion): {self.hw_key_verification_classic}')
-            print('\nNote: For the HW key verifications, only one of them will be True.')
+            print(f'\tHW session key verification (Zion): {self.hw_session_key_verification}')
+            print(f'\tHW session key verification classic (Zion): {self.hw_session_key_verification_classic}')
+
+            print('\nWallet Addresses:')
+            print(f'\tZion singer wallet address: {self.signer_wallet.lower()}')
+            print(f'\tRecovered wallet address: {self.recovered_wallet.lower()}')
+            print(f'\tRecovered wallet address classic: {self.recovered_wallet_classic.lower()}')
+
+            print('\nNote')
+            print('\t1. For the HW key verifications, only one of them will be True.')
         else:
-            print(f'\tHW key verification (Zion): {self.recovered_wallet}')
-            print(f'\tHW key verification classic (Zion): {self.recovered_wallet_classic}')
-            print('\nNote: You do not provide signer wallet. One of the recovered wallets should be the same as the signer wallet.')
+            print(f'\tHW key verification: No HW signature')
 
 
 def verify(information_json_filename: str,
@@ -44,7 +61,6 @@ def verify(information_json_filename: str,
     '''
     '''
     verification_summary = VerificationSummary()
-    verification_summary.signer_wallet = signer_wallet_address
     signatures = list(read_json_file(signature_json_filename))
 
     for signature in signatures:
@@ -60,6 +76,10 @@ def verify(information_json_filename: str,
                 print(f'{e}')
                 verification_summary.sw_key_verification = False
         elif signature['provider'] == 'Zion':
+            parsed_public_keys = parse_zion_public_key_from_signature(signature['publicKey'])
+            zion_signer_wallet_address = public_key_to_wallet_address(parsed_public_keys['send'])
+            verification_summary.signer_wallet = zion_signer_wallet_address
+
             # The signature is Zion signature (not session-based)
             if len(signature['signature']) == 130:
                 information_sha256sum = generate_sha256_from_filepath(information_json_filename)
@@ -68,30 +88,29 @@ def verify(information_json_filename: str,
                 # Zion verirication
                 message = information_sha256sum
                 recovered_wallet_address = verify_ethereum_signature(message, signature)
-                verification_summary.hw_key_verification = (recovered_wallet_address == signer_wallet_address)
+                verification_summary.hw_key_verification = (recovered_wallet_address.lower() == zion_signer_wallet_address.lower())
                 verification_summary.recovered_wallet = recovered_wallet_address
 
                 # Zion verirication classic
                 message_classic = hex_string_to_bytes(information_sha256sum)
                 recovered_wallet_address_classic = verify_ethereum_signature(message_classic, signature)
-                verification_summary.hw_key_verification_classic = (recovered_wallet_address_classic == signer_wallet_address)
+                verification_summary.hw_key_verification_classic = (recovered_wallet_address_classic.lower() == zion_signer_wallet_address.lower())
                 verification_summary.recovered_wallet_classic = recovered_wallet_address_classic
             # The signature is Zion session-based signature
-            elif len(signature['signature']) == 144:
+            elif 'Session' in signature['publicKey']:
+                print('Case: Zion session-based signature')
+                # Zion session-based verification classic
                 message = read_text_file(information_json_filename)
                 session_public_key = signature['publicKey'].split('\n')[1]
                 try:
-                    verification_summary.hw_key_verification_classic = verify_ecdsa_with_sha256(
+                    verification_summary.hw_session_key_verification_classic = verify_ecdsa_with_sha256(
                         message=message,
                         signature_hex=signature['signature'],
                         public_key_hex=session_public_key
                     )
-                    print(f'Session-based verification classic: {verification_summary.hw_key_verification_classic}')
                 except Exception as e:
                     print(f'{e}')
-                    verification_summary.sw_key_verification = False
-                # hack: show verification result instead of wallet address forcbly
-                verification_summary.signer_wallet = 'a' * 59
+                    verification_summary.hw_session_key_verification_classic = False
             else:
                 print(f'ERROR: Unknown signature with length {len(signature["signature"])}, skip')
         else:
@@ -187,8 +206,16 @@ def public_key_to_wallet_address(eth_public_key):
     # strip the leading 04
     public_key_bytes = vk.to_string('uncompressed')[1:]
     wallet_address = '0x' + keccak_256(public_key_bytes).digest()[-20:].hex()
-    print(f'public key: {public_key_bytes.hex()}, wallet address: {wallet_address}')
     return wallet_address
+
+
+def parse_zion_public_key_from_signature(signature_publickey_value: str):
+    '''Parse the value of the publicKey field in the signature.json to a dict.
+    '''
+    items = list(filter(None, signature_publickey_value.split('\n')))
+    keys = [i.replace(':', '').lower() for i in items[::2]]
+    values = items[1::2]
+    return dict(zip(keys, values))
 
 
 if __name__ == '__main__':
@@ -206,5 +233,12 @@ if __name__ == '__main__':
     signer_wallet = w3.eth.account.recover_message(message, signature=signed_message.signature)
     print(f'Signer wallet: {signer_wallet}')
 
+    # generate Ethereum wallet address from Zion compressed public key
     compressed_public_key = '03aced43f9dddc120291f5cdf73580fbb592b5b21054ce61eb73cbaf98efcbe82e'
     public_key_to_wallet_address(compressed_public_key)
+
+    public_key = "Session:\n3059301306072a8648ce3d020106082a8648ce3d03010703420004f749217e283ee7d09b1fddd2c7b23cb9a54dabca82af243c5587810aab5967dd74678581d845715e3f309e681a254da21492a2b09e0b0478157b7302408e875b\n\nReceive:\n03aced43f9dddc120291f5cdf73580fbb592b5b21054ce61eb73cbaf98efcbe82e\n\nSend:\n03aced43f9dddc120291f5cdf73580fbb592b5b21054ce61eb73cbaf98efcbe82e"
+    parsed_public_keys = parse_zion_public_key_from_signature(public_key)
+    signer_wallet = public_key_to_wallet_address(parsed_public_keys['send'])
+    print(f'Parsed public keys: {parsed_public_keys}')
+    print(f'Zion signer wallet: {signer_wallet}')
