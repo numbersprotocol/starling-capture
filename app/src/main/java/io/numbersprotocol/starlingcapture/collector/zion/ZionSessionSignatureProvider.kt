@@ -17,6 +17,8 @@ class ZionSessionSignatureProvider(
     private val zionApi: ZionApi by inject()
     private val sessionSignature: SessionSignature by inject()
 
+    /* param serialized: compact content of metadata file (information.json)
+     */
     override suspend fun provide(serialized: String): Collection<Signature> {
         val signature =
             if (sessionSignature.isEnabled) sessionSignature.signWithSha256AndEcdsa(serialized)
@@ -25,6 +27,9 @@ class ZionSessionSignatureProvider(
             Session:
             ${sessionSignature.publicKey}
             
+            SessionSignature:
+            ${sessionSignature.publicKeySignature}
+
             Receive:
             ${zionApi.getEthereumReceivePublicKey()}
             

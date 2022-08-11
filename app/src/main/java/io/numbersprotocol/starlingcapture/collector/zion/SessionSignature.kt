@@ -20,7 +20,7 @@ class SessionSignature(context: Context, private val zionApi: ZionApi) {
     var duration by sharedPreferences.longPref(KEY_DURATION)
         private set
 
-    private var publicKeySignature by sharedPreferences.stringPref(KEY_PUBLIC_KEY_SIGNATURE)
+    var publicKeySignature by sharedPreferences.stringPref(KEY_PUBLIC_KEY_SIGNATURE)
     val publicKeySignatureLiveData = sharedPreferences.stringLiveData(KEY_PUBLIC_KEY_SIGNATURE)
 
     var publicKey by sharedPreferences.stringPref(KEY_PUBLIC_KEY)
