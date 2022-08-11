@@ -46,8 +46,10 @@ class VerificationSummary(object):
 
             print('\nWallet Addresses:')
             print(f'\tZion singer wallet address: {self.signer_wallet.lower()}')
-            print(f'\tRecovered wallet address: {self.recovered_wallet.lower()}')
-            print(f'\tRecovered wallet address classic: {self.recovered_wallet_classic.lower()}')
+            if self.recovered_wallet:
+                print(f'\tRecovered wallet address: {self.recovered_wallet.lower()}')
+            if self.recovered_wallet_classic:
+                print(f'\tRecovered wallet address classic: {self.recovered_wallet_classic.lower()}')
 
             print('\nNote')
             print('\t1. For the HW key verifications, only one of them will be True.')
