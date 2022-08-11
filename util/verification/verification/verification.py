@@ -1,4 +1,5 @@
 import json
+import sys
 
 from hashlib import sha256
 from sha3 import keccak_256
@@ -52,22 +53,29 @@ class VerificationSummary(object):
                 print(f'\tRecovered wallet address classic: {self.recovered_wallet_classic.lower()}')
 
             print('\nNote')
-            print('\t1. For the HW key verifications, only one of them will be True.')
+            print('\t1. For the HW-related verifications, only one of them will be True.')
         else:
             print(f'\tHW key verification: No HW signature')
 
 
-def verify(information_json_filename: str,
-             signature_json_filename: str,
-             signer_wallet_address: str):
+def verify(information_json_filename: str, signature_json_filename: str):
     '''
     '''
     verification_summary = VerificationSummary()
-    signatures = list(read_json_file(signature_json_filename))
+
+    try:
+        signatures = list(read_json_file(signature_json_filename))
+    except TypeError as e:
+        print('CRITICAL: Cannot read signature.json correctly. Please double check if the provided signature.json is valid.')
+        sys.exit(1)
 
     for signature in signatures:
         if signature['provider'] == 'AndroidOpenSSL':
-            message = read_text_file(information_json_filename)
+            try:
+                message = read_text_file(information_json_filename)
+            except TypeError as e:
+                print('CRITICAL: Cannot read information.json correctly. Please double check if the provided information.json is valid.')
+                sys.exit(1)
             try:
                 verification_summary.sw_key_verification = verify_ecdsa_with_sha256(
                     message=message,
@@ -98,10 +106,8 @@ def verify(information_json_filename: str,
                 recovered_wallet_address_classic = verify_ethereum_signature(message_classic, signature)
                 verification_summary.hw_key_verification_classic = (recovered_wallet_address_classic.lower() == zion_signer_wallet_address.lower())
                 verification_summary.recovered_wallet_classic = recovered_wallet_address_classic
-            # The signature is Zion session-based signature
-            elif 'Session' in signature['publicKey']:
-                print('Case: Zion session-based signature')
-                # Zion session-based verification classic
+            # The signature is Zion session-based classic signature
+            elif 'Session' in signature['publicKey'] and 'SessionSignature' not in signature['publicKey']:
                 message = read_text_file(information_json_filename)
                 session_public_key = signature['publicKey'].split('\n')[1]
                 try:
@@ -113,6 +119,33 @@ def verify(information_json_filename: str,
                 except Exception as e:
                     print(f'{e}')
                     verification_summary.hw_session_key_verification_classic = False
+            # The signature is Zion session-based signature
+            elif 'Session' in signature['publicKey'] and 'SessionSignature' in signature['publicKey']:
+                message = read_text_file(information_json_filename)
+                session_public_key = signature['publicKey'].split('\n')[1]
+
+                session_sw_key_verification = False
+                session_hw_key_verification = False
+
+                try:
+                    session_sw_key_verification = verify_ecdsa_with_sha256(
+                        message=message,
+                        signature_hex=signature['signature'],
+                        public_key_hex=session_public_key
+                    )
+                except Exception as e:
+                    print(f'{e}')
+                    session_sw_key_verification = False
+
+                # verify if session public key is signed by Zion signer
+                session_public_key_zion_signature = parsed_public_keys['sessionsignature']
+                message = sha256(session_public_key.encode('utf-8')).hexdigest()
+                signature = '0x' + session_public_key_zion_signature
+                recovered_wallet_address = verify_ethereum_signature(message, signature)
+
+                session_hw_key_verification = True if recovered_wallet_address.lower() == zion_signer_wallet_address else False
+                verification_summary.hw_session_key_verification = session_sw_key_verification and session_hw_key_verification
+                verification_summary.recovered_wallet = recovered_wallet_address
             else:
                 print(f'ERROR: Unknown signature with length {len(signature["signature"])}, skip')
         else:
@@ -146,26 +179,31 @@ def verify_ethereum_signature(message, signature):
     ¦   str: recovered (Signer's) Ethereum wallet address
     """
     if type(message) is not str:
-      print('encode_defunct, case primitive')
       encoded_message = encode_defunct(message)
     elif message[:2] != '0x':
-      print('encode_defunct, case text')
       encoded_message = encode_defunct(text=message)
     else:
-      print('encode_defunct, case hexstr')
       encoded_message = encode_defunct(hexstr=message)
     return w3.eth.account.recover_message(encoded_message, signature=signature)
 
 
 def read_text_file(filename: str) -> str:
-    with open(filename) as opened:
-        text = opened.read()
+    try:
+        with open(filename) as opened:
+            text = opened.read()
+    except Exception as e:
+        print(e)
+        text = None
     return text
 
 
 def read_json_file(filename: str) -> Union[dict, list]:
-    with open(filename) as opened:
-        data = json.load(opened)
+    try:
+        with open(filename) as opened:
+            data = json.load(opened)
+    except Exception as e:
+        print(e)
+        data = None
     return data
 
 
