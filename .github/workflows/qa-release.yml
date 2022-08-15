@@ -1,5 +1,9 @@
 name: qa-release
-on: workflow_dispatch
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
   github-release:
