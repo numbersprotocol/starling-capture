@@ -16,13 +16,13 @@ jobs:
         run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
 
       - name: Set up JDK
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
 
       - name: Test and build master-qa and debug apps
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         run: |
           ./gradlew testMasterQaUnitTest
           ./gradlew assembleMasterQa
@@ -35,14 +35,14 @@ jobs:
 
       - name: Extract app version
         id: extract_version
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         run: |
           echo "::set-output name=versionCode::$(./gradlew -q printVersionCode)"
           echo "::set-output name=versionName::$(./gradlew -q printVersionName)"
 
       - name: Create GitHub QA prerelease
         id: create_release
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -53,7 +53,7 @@ jobs:
           prerelease: true
 
       - name: Upload master-qa APK to release assets
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,7 +64,7 @@ jobs:
           asset_content_type: application/vnd.android.package-archive
 
       - name: Upload master-qa metadata.json to release assets
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,7 +75,7 @@ jobs:
           asset_content_type: application/json
 
       - name: Upload master-debug APK to release assets
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -86,7 +86,7 @@ jobs:
           asset_content_type: application/vnd.android.package-archive
 
       - name: Upload master-debug metadata.json to release assets
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -97,7 +97,7 @@ jobs:
           asset_content_type: application/json
 
       - name: Upload starling-qa APK to release assets
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -108,7 +108,7 @@ jobs:
           asset_content_type: application/vnd.android.package-archive
 
       - name: Upload starling-qa metadata.json to release assets
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -119,7 +119,7 @@ jobs:
           asset_content_type: application/json
 
       - name: Upload starling-debug APK to release assets
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -130,7 +130,7 @@ jobs:
           asset_content_type: application/vnd.android.package-archive
 
       - name: Upload starling-debug metadata.json to release assets
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -141,7 +141,7 @@ jobs:
           asset_content_type: application/json
 
       - name: Send Slack notification
-        if: steps.extract_branch.outputs.branch == 'develop'
+        #if: steps.extract_branch.outputs.branch == 'develop'
         uses: rtCamp/action-slack-notify@master
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -165,113 +165,113 @@ jobs:
           SLACK_TITLE: Starling Capture QA Release
           SLACK_USERNAME: GitHub Action
 
-  google-play-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+  #google-play-deploy:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
 
-      - name: Extract branch name
-        id: extract_branch
-        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+  #    - name: Extract branch name
+  #      id: extract_branch
+  #      run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
 
-      - name: Set up JDK
-        if: steps.extract_branch.outputs.branch == 'develop'
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
+  #    - name: Set up JDK
+  #      if: steps.extract_branch.outputs.branch == 'develop'
+  #      uses: actions/setup-java@v1
+  #      with:
+  #        java-version: 1.8
 
-      - name: Test and build internal-release bundle (AAB)
-        if: steps.extract_branch.outputs.branch == 'develop'
-        env:
-          NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
-        run: |
-          ./gradlew testInternalRelease
-          ./gradlew bundleInternalRelease
+  #    - name: Test and build internal-release bundle (AAB)
+  #      if: steps.extract_branch.outputs.branch == 'develop'
+  #      env:
+  #        NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
+  #      run: |
+  #        ./gradlew testInternalRelease
+  #        ./gradlew bundleInternalRelease
 
-      - name: Sign internal-release AAB
-        if: steps.extract_branch.outputs.branch == 'develop'
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: ./app/build/outputs/bundle/internalRelease
-          signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
-          alias: ${{ secrets.KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+  #    - name: Sign internal-release AAB
+  #      if: steps.extract_branch.outputs.branch == 'develop'
+  #      uses: r0adkll/sign-android-release@v1
+  #      with:
+  #        releaseDirectory: ./app/build/outputs/bundle/internalRelease
+  #        signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
+  #        alias: ${{ secrets.KEY_ALIAS }}
+  #        keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+  #        keyPassword: ${{ secrets.KEY_PASSWORD }}
 
-      - name: Create service_account.json
-        if: steps.extract_branch.outputs.branch == 'develop'
-        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
+  #    - name: Create service_account.json
+  #      if: steps.extract_branch.outputs.branch == 'develop'
+  #      run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
 
-      - name: Deploy to Play Store (closed alpha track)
-        if: steps.extract_branch.outputs.branch == 'develop'
-        uses: r0adkll/upload-google-play@v1.0.15
-        with:
-          serviceAccountJson: service_account.json
-          packageName: io.numbersprotocol.starlingcapture
-          releaseFile: ./app/build/outputs/bundle/internalRelease/app-internal-release.aab
-          track: alpha
+  #    - name: Deploy to Play Store (closed alpha track)
+  #      if: steps.extract_branch.outputs.branch == 'develop'
+  #      uses: r0adkll/upload-google-play@v1.0.15
+  #      with:
+  #        serviceAccountJson: service_account.json
+  #        packageName: io.numbersprotocol.starlingcapture
+  #        releaseFile: ./app/build/outputs/bundle/internalRelease/app-internal-release.aab
+  #        track: alpha
 
-  google-drive-upload:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+  #google-drive-upload:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
 
-      - name: Extract branch name
-        id: extract_branch
-        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+  #    - name: Extract branch name
+  #      id: extract_branch
+  #      run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
 
-      - name: Set up JDK
-        if: steps.extract_branch.outputs.branch == 'develop'
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
+  #    - name: Set up JDK
+  #      if: steps.extract_branch.outputs.branch == 'develop'
+  #      uses: actions/setup-java@v1
+  #      with:
+  #        java-version: 1.8
 
-      - name: Build APKs
-        if: steps.extract_branch.outputs.branch == 'develop'
-        env:
-          NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
-        run: |
-          ./gradlew assembleMasterDebug
-          ./gradlew assembleMasterQa
-          ./gradlew assembleInternalDebug
-          ./gradlew assembleInternalQa
+  #    - name: Build APKs
+  #      if: steps.extract_branch.outputs.branch == 'develop'
+  #      env:
+  #        NUMBERS_STORAGE_BASE_URL: ${{ secrets.NUMBERS_STORAGE_BASE_URL }}
+  #      run: |
+  #        ./gradlew assembleMasterDebug
+  #        ./gradlew assembleMasterQa
+  #        ./gradlew assembleInternalDebug
+  #        ./gradlew assembleInternalQa
 
-      - name: Upload master-debug outputs to Google Drive
-        if: steps.extract_branch.outputs.branch == 'develop'
-        uses: satackey/action-google-drive@v1
-        with:
-          skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
-          google-client-id: ${{ secrets.SKICKA_GOOGLE_CLIENT_ID }}
-          google-client-secret: ${{ secrets.SKICKA_GOOGLE_CLIENT_SECRET }}
-          upload-from: ./app/build/outputs/apk/master/debug/
-          upload-to: /starling-capture/apk/master/debug/
+  #    - name: Upload master-debug outputs to Google Drive
+  #      if: steps.extract_branch.outputs.branch == 'develop'
+  #      uses: satackey/action-google-drive@v1
+  #      with:
+  #        skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
+  #        google-client-id: ${{ secrets.SKICKA_GOOGLE_CLIENT_ID }}
+  #        google-client-secret: ${{ secrets.SKICKA_GOOGLE_CLIENT_SECRET }}
+  #        upload-from: ./app/build/outputs/apk/master/debug/
+  #        upload-to: /starling-capture/apk/master/debug/
 
-      - name: Upload master-qa outputs to Google Drive
-        if: steps.extract_branch.outputs.branch == 'develop'
-        uses: satackey/action-google-drive@v1
-        with:
-          skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
-          google-client-id: ${{ secrets.SKICKA_GOOGLE_CLIENT_ID }}
-          google-client-secret: ${{ secrets.SKICKA_GOOGLE_CLIENT_SECRET }}
-          upload-from: ./app/build/outputs/apk/master/qa/
-          upload-to: /starling-capture/apk/master/qa/
+  #    - name: Upload master-qa outputs to Google Drive
+  #      if: steps.extract_branch.outputs.branch == 'develop'
+  #      uses: satackey/action-google-drive@v1
+  #      with:
+  #        skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
+  #        google-client-id: ${{ secrets.SKICKA_GOOGLE_CLIENT_ID }}
+  #        google-client-secret: ${{ secrets.SKICKA_GOOGLE_CLIENT_SECRET }}
+  #        upload-from: ./app/build/outputs/apk/master/qa/
+  #        upload-to: /starling-capture/apk/master/qa/
 
-      - name: Upload internal-debug outputs to Google Drive
-        if: steps.extract_branch.outputs.branch == 'develop'
-        uses: satackey/action-google-drive@v1
-        with:
-          skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
-          google-client-id: ${{ secrets.SKICKA_GOOGLE_CLIENT_ID }}
-          google-client-secret: ${{ secrets.SKICKA_GOOGLE_CLIENT_SECRET }}
-          upload-from: ./app/build/outputs/apk/internal/debug/
-          upload-to: /starling-capture/apk/internal/debug/
+  #    - name: Upload internal-debug outputs to Google Drive
+  #      if: steps.extract_branch.outputs.branch == 'develop'
+  #      uses: satackey/action-google-drive@v1
+  #      with:
+  #        skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
+  #        google-client-id: ${{ secrets.SKICKA_GOOGLE_CLIENT_ID }}
+  #        google-client-secret: ${{ secrets.SKICKA_GOOGLE_CLIENT_SECRET }}
+  #        upload-from: ./app/build/outputs/apk/internal/debug/
+  #        upload-to: /starling-capture/apk/internal/debug/
 
-      - name: Upload internal-qa outputs to Google Drive
-        if: steps.extract_branch.outputs.branch == 'develop'
-        uses: satackey/action-google-drive@v1
-        with:
-          skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
-          google-client-id: ${{ secrets.SKICKA_GOOGLE_CLIENT_ID }}
-          google-client-secret: ${{ secrets.SKICKA_GOOGLE_CLIENT_SECRET }}
-          upload-from: ./app/build/outputs/apk/internal/qa/
-          upload-to: /starling-capture/apk/internal/qa/
+  #    - name: Upload internal-qa outputs to Google Drive
+  #      if: steps.extract_branch.outputs.branch == 'develop'
+  #      uses: satackey/action-google-drive@v1
+  #      with:
+  #        skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
+  #        google-client-id: ${{ secrets.SKICKA_GOOGLE_CLIENT_ID }}
+  #        google-client-secret: ${{ secrets.SKICKA_GOOGLE_CLIENT_SECRET }}
+  #        upload-from: ./app/build/outputs/apk/internal/qa/
+  #        upload-to: /starling-capture/apk/internal/qa/
