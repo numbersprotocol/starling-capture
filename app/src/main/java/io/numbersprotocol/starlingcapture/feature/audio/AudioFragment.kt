@@ -50,7 +50,7 @@ class AudioFragment : Fragment() {
             try {
                 mediaRecorder.stop()
                 mediaRecorder.release()
-                audioViewModel.storeMedia(audioFile, MimeType.MP3)
+                audioViewModel.storeMedia(audioFile, MimeType.M4A)
                 Toast.makeText(context, "Audio Recording Stopped", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -60,12 +60,14 @@ class AudioFragment : Fragment() {
             }
         } else {
             try {
-                audioFile = createCachedMediaFile(MimeType.MP3)
+                audioFile = createCachedMediaFile(MimeType.M4A)
                 mediaRecorder = MediaRecorder().apply {
                     setAudioSource(MediaRecorder.AudioSource.MIC)
-                    setOutputFormat(MediaRecorder.OutputFormat.AMR_NB)
+                    setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
                     setOutputFile(audioFile)
-                    setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+                    setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                    setAudioSamplingRate(44100)
+                    setAudioEncodingBitRate(384000)
                     prepare()
                     start()
                 }
