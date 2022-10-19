@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.9.3 - 2022-10-19
+
+### Changed
+
+1. Improve audio file quality from AMR to AAC. (#194)
+2. Add 3 debug varients targeting Starling Integrity Backends. (#195)
+
 ## 1.9.0 - 2021-10-30
 
 ### Added
