@@ -17,8 +17,8 @@ android {
         applicationId "io.numbersprotocol.starlingcapture"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 11
-        versionName "1.9.2"
+        versionCode 12
+        versionName "1.9.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -39,17 +39,33 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
-
         debug {
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
             debuggable true
         }
-
         qa {
             initWith debug
             applicationIdSuffix ".qa"
             versionNameSuffix "-qa"
+        }
+        prodStarlingIntegrity {
+            initWith debug
+            applicationIdSuffix ".prod"
+            versionNameSuffix "-prod"
+            buildConfigField("String", "STARLING_INTEGRITY_BASE_URL", "\"https://api.integrity.prod.starlinglab.org\"")
+        }
+        stgStarlingIntegrity {
+            initWith debug
+            applicationIdSuffix ".stg"
+            versionNameSuffix "-stg"
+            buildConfigField("String", "STARLING_INTEGRITY_BASE_URL", "\"https://api.integrity.stg.starlinglab.org\"")
+        }
+        legacyStarlingIntegrity {
+            initWith debug
+            applicationIdSuffix ".legacy"
+            versionNameSuffix "-legacy"
+            buildConfigField("String", "STARLING_INTEGRITY_BASE_URL", "\"https://integrity-api-2.starlinglab.org\"")
         }
     }
 
@@ -65,7 +81,6 @@ android {
         starling {
             dimension "mode"
             applicationId "org.starlinglab.starlingcapture"
-            buildConfigField("String", "STARLING_INTEGRITY_BASE_URL", "\"https://api.integrity.stg.starlinglab.org\"")
         }
     }
 
